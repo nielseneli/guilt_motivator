@@ -36,9 +36,9 @@ public class SettingsFragment extends Fragment {
         Button green = (Button) view.findViewById(R.id.green);
 
         //set up the onclick shiz with buttonSetup method
-        buttonSetup(red, 0xffff0000);
-        buttonSetup(blue, 0xff0000ff);
-        buttonSetup(green, 0xff00ff00);
+        buttonSetup(red, 0xffff4040);
+        buttonSetup(blue, 0xff3399ff);
+        buttonSetup(green, 0xff6dc066);
 
         return view;
     }
