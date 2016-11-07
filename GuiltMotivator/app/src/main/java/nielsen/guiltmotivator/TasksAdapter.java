@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 alertDialogBuilder.setTitle("Edit the text, or delete an item.");
                 final EditText edittext = new EditText(context);
+                edittext.setText(task.getText());
                 alertDialogBuilder.setView(edittext);
 
                 //sets the text from the eddittext to the textview.
