@@ -84,6 +84,16 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
         return super.onOptionsItemSelected(item);
     }
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager manager;                                            //initializes manager as FragmentManager
+        FragmentTransaction transaction;                                    //initializes transaction as FragmentTransaction
+
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+
+        transaction.replace(R.id.fragmentcontainer, fragment);
+        transaction.addToBackStack(null).commit();
+    }
 
     public void onMainFragmentInteraction(Uri uri){
 
