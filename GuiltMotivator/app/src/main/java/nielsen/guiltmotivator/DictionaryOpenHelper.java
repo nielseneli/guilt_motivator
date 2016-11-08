@@ -19,7 +19,8 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DictionaryOpenContract.FeedEntry.TABLE_NAME + " (" +
                     DictionaryOpenContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + TEXT_TYPE + " )";
+                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + TEXT_TYPE + COMMA_SEP +
+                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
@@ -31,15 +32,18 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
     public DictionaryOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
+
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
@@ -62,6 +66,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                 do {
                     Task newTask = new Task();
                     newTask.setText(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK)));
+                    newTask.setText(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED)));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry._ID)));
 
                     tasks.add(newTask);
@@ -89,6 +94,14 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         ContentValues args = new ContentValues();
         args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, editstring);
+        return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
+    }
+
+    public boolean checkTask(Task task, String boolAsString) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues args = new ContentValues();
+        args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, boolAsString);
         return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 }

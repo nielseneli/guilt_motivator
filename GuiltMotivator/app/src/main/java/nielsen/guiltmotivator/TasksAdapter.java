@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 
 public class TasksAdapter extends ArrayAdapter<Task> {
     @BindView(R.id.tvText) TextView tvText;
+    @BindView(R.id.checkBox) CheckBox checkBox;
     private ArrayList<Task> tasks;
 
     DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
@@ -51,6 +52,19 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         tvText.setText(task.getText());
 
         final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+
+        // set an onclick listener to the checkbox
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getContext();
+                if (checkBox.isChecked()) {
+                    mDbHelper.checkTask(task, "true");
+                } else {
+                    mDbHelper.checkTask(task, "false");
+                }
+            }
+        });
 
         //set an onclick listener to the textview.
         tvText.setOnClickListener(new View.OnClickListener() {
