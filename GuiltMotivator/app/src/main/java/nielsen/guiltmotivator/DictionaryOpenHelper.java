@@ -66,7 +66,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                 do {
                     Task newTask = new Task();
                     newTask.setText(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK)));
-                    newTask.setText(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED)));
+                    newTask.setChecked(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED))));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry._ID)));
 
                     tasks.add(newTask);
@@ -88,12 +88,13 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                 + "=" + task.getId(), null) > 0;
     }
 
-    public boolean editTask(Task task, String editstring) {
+    public boolean editTask(Task task) {
         //http://stackoverflow.com/questions/9798473/sqlite-in-android-how-to-update-a-specific-row
         SQLiteDatabase db = getWritableDatabase();
         ContentValues args = new ContentValues();
         args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
-        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, editstring);
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, Boolean.toString(task.isChecked()));
         return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 

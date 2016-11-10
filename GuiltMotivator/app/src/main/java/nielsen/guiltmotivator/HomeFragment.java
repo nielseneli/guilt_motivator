@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
 
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
-        final TasksAdapter tasksAdapter = new TasksAdapter(getActivity(), list);
+        final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
 
         String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
@@ -75,6 +75,7 @@ public class HomeFragment extends Fragment {
                         // Create a new map of values, where column names are the keys
                         ContentValues values = new ContentValues();
                         values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, textInput);
+                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
 
                         // Insert the new row, returning the primary key value of the new row
                         long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);

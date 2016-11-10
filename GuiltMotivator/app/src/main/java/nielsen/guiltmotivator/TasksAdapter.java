@@ -31,7 +31,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     // Gets the data repository in write mode
     final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-    public TasksAdapter(Context context, ArrayList<Task> tasks) {
+    public TasksAdapter(ArrayList<Task> tasks, Context context) {
         super(context, 0, tasks);
         this.tasks = tasks;
     }
@@ -40,6 +40,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         final Task task = getItem(position);
+
+//        final Task task = tasks.get(position);
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_task, parent, false);
@@ -50,6 +53,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
         // Populate the data into the template view using the data object
         tvText.setText(task.getText());
+        checkBox.setChecked(task.isChecked());
 
         final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
 
@@ -58,11 +62,8 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             @Override
             public void onClick(View v) {
                 Context context = getContext();
-                if (checkBox.isChecked()) {
-                    mDbHelper.checkTask(task, "true");
-                } else {
-                    mDbHelper.checkTask(task, "false");
-                }
+                task.toggleChecked();
+                mDbHelper.editTask(task);
             }
         });
 
@@ -80,9 +81,10 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 alertDialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String textInput = edittext.getText().toString();
-                        mDbHelper.editTask(task, textInput);
                         task.setText(textInput);
+//                        tvText.setText(textInput);
                         notifyDataSetChanged();
+                        mDbHelper.editTask(task);
                     }
                 });
 
