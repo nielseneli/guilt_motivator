@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-
-            scheduleNotification(getNotification("10 second delay"), 10000);
         }
 
         return super.onOptionsItemSelected(item);
@@ -112,29 +110,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     public void onStop() {
         super.onStop();
-    }
-
-    //Helper functions for notifications:
-    //https://gist.github.com/BrandonSmith/6679223
-
-    private void scheduleNotification(Notification notification, int delay) {
-
-        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification(String content) {
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle("Scheduled Notification");
-        builder.setContentText(content);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        return builder.build();
     }
 
 

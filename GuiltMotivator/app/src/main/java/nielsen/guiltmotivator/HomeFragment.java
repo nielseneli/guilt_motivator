@@ -1,12 +1,17 @@
 package nielsen.guiltmotivator;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -16,7 +21,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,6 +96,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
+//        long timeDiff = getTimeDiff("2016-11-10 18:34:00");
+
+        scheduleNotification(getNotification("Scheduled Notification"), 10000);
+
         return view;
     }
 
@@ -104,5 +116,42 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
         public void onMainFragmentInteraction(Uri uri);
+    }
+
+    //Helper functions for notifications:
+    //https://gist.github.com/BrandonSmith/6679223
+
+    private void scheduleNotification(Notification notification, int delay) {
+
+        Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        Notification.Builder builder = new Notification.Builder(getContext());
+        builder.setContentTitle("Scheduled Notification");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        return builder.build();
+    }
+
+    public static long getTimeDiff(String inputTime) {
+        // http://stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-yyyy-mm-dd-hhmisec-millisecond-format-in-java
+        // the input date must be in yyyy-MM-dd HH:mm:ss format. Then we subtract and put that into scheduleNotification.
+
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US"));
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+
+        Date dueDate = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", new Locale("US")).parse((inputTime));
+
+        long diff = Math.abs(now.getTime() - dueDate.getTime());
+        return diff;
     }
 }
