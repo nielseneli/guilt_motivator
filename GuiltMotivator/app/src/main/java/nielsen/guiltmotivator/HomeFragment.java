@@ -9,11 +9,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.DateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,10 +98,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-//        long timeDiff = getTimeDiff("2016-11-10 18:34:00");
-
-        scheduleNotification(getNotification("Scheduled Notification"), 10000);
-
+        long timeDiff = getTimeDiff("2016-11-12 13:09:00");
+        scheduleNotification(getNotification("Scheduled Notification"), (int) timeDiff);
         return view;
     }
 
@@ -145,13 +145,17 @@ public class HomeFragment extends Fragment {
         // http://stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-yyyy-mm-dd-hhmisec-millisecond-format-in-java
         // the input date must be in yyyy-MM-dd HH:mm:ss format. Then we subtract and put that into scheduleNotification.
 
+        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US"));
         Date now = new Date();
-        String strDate = sdfDate.format(now);
 
-        Date dueDate = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", new Locale("US")).parse((inputTime));
-
-        long diff = Math.abs(now.getTime() - dueDate.getTime());
-        return diff;
+        try {
+            Date dueDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US")).parse((inputTime));
+            return Math.abs(now.getTime() - dueDate.getTime());
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return 10000;
+        }
     }
 }
