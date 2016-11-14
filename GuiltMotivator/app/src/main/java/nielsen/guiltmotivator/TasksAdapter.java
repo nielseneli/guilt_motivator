@@ -23,8 +23,7 @@ import butterknife.ButterKnife;
  * */
 
 public class TasksAdapter extends ArrayAdapter<Task> {
-    @BindView(R.id.tvText) TextView tvText;
-    @BindView(R.id.checkBox) CheckBox checkBox;
+
     private ArrayList<Task> tasks;
 
     DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
@@ -44,21 +43,26 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 //        final Task task = tasks.get(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
+        ViewHolder holder;
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_task, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }
 
         ButterKnife.bind(this, convertView);
         // Lookup view for data population
 
         // Populate the data into the template view using the data object
-        tvText.setText(task.getText());
-        checkBox.setChecked(task.isChecked());
+        holder.tvText.setText(task.getText());
+        holder.checkBox.setChecked(task.isChecked());
 
         final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
 
         // set an onclick listener to the checkbox
-        checkBox.setOnClickListener(new View.OnClickListener() {
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = getContext();
@@ -68,7 +72,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         });
 
         //set an onclick listener to the textview.
-        tvText.setOnClickListener(new View.OnClickListener() {
+        holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context context = getContext();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
@@ -104,6 +108,15 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    static class ViewHolder {
+        @BindView(R.id.tvText) TextView tvText;
+        @BindView(R.id.checkBox) CheckBox checkBox;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
 }
