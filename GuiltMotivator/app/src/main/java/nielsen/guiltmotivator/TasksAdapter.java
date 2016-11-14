@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
     private ArrayList<Task> tasks;
 
-    DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+    private DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
     // Gets the data repository in write mode
     final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -40,10 +41,8 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         // Get the data item for this position
         final Task task = getItem(position);
 
-//        final Task task = tasks.get(position);
-
         // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
@@ -68,6 +67,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 Context context = getContext();
                 task.toggleChecked();
                 mDbHelper.editTask(task);
+                notifyDataSetChanged();
             }
         });
 
@@ -86,9 +86,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                     public void onClick(DialogInterface dialog, int which) {
                         String textInput = edittext.getText().toString();
                         task.setText(textInput);
-//                        tvText.setText(textInput);
-                        notifyDataSetChanged();
                         mDbHelper.editTask(task);
+                        notifyDataSetChanged();
+
                     }
                 });
 

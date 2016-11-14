@@ -9,18 +9,18 @@
     tools:context="nielsen.guiltmotivator.HomeFragment"
     android:weightSum="1">
 
-<ListView
-    android:id="@+id/tasklist"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"/>
+    <ListView
+        android:id="@+id/tasklist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
-<Button
-    android:id="@+id/buttonbutton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Add an Item!"
-    android:layout_weight="1"/>
+    <Button
+        android:id="@+id/buttonbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add an Item!"
+        android:layout_weight="1"/>
 
 
 </LinearLayout>

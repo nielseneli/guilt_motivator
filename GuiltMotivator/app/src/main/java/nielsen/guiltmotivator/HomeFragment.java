@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends Fragment {
     //preparing to butter...
     @BindView(R.id.tasklist) ListView listView;
-    @BindView(R.id.buttonbutton) Button buttonbutton;
+    @BindView(R.id.buttonbutton) Button addButton;
 
 
     public HomeFragment() {
@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
 
         //setting an onclick for the button that adds items.
-        buttonbutton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 //building the alertdialog, which pulls up an edittext and sets the value in the ArrayList.
