@@ -7,18 +7,16 @@ package nielsen.guiltmotivator;
 public class Task {
     private String text;
     private long id;
+    private boolean isChecked;
 
     public Task() {
 
     }
 
+
     public Task(String text) {
         this.text = text;
-    }
-
-    public Task(String text, long id) {
-        this.text = text;
-        this.id = id;
+        this.isChecked = false;
     }
 
     public void setText(String text) {
@@ -35,5 +33,18 @@ public class Task {
 
     public long getId() {
         return id;
+    }
+
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void toggleChecked() {
+        this.isChecked = !isChecked;
+    }
+
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
     }
 }

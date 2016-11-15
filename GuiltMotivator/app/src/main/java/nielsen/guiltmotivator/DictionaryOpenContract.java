@@ -11,5 +11,6 @@ public final class DictionaryOpenContract {
     public static class FeedEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
         public static final String COLUMN_NAME_TASK = "task";
+        public static final String COLUMN_NAME_ISCHECKED = "isChecked";
     }
 }
