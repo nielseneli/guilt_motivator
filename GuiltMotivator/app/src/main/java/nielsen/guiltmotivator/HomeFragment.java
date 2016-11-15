@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends Fragment {
     //preparing to butter...
     @BindView(R.id.tasklist) ListView listView;
-    @BindView(R.id.buttonbutton) Button buttonbutton;
+    @BindView(R.id.buttonbutton) Button addButton;
 
 
     public HomeFragment() {
@@ -57,13 +57,13 @@ public class HomeFragment extends Fragment {
 
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
-        final TasksAdapter tasksAdapter = new TasksAdapter(getActivity(), list);
+        final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
 
         String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
 
         //setting an onclick for the button that adds items.
-        buttonbutton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 //building the alertdialog, which pulls up an edittext and sets the value in the ArrayList.
@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment {
                         // Create a new map of values, where column names are the keys
                         ContentValues values = new ContentValues();
                         values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, textInput);
+                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
 
                         // Insert the new row, returning the primary key value of the new row
                         long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
