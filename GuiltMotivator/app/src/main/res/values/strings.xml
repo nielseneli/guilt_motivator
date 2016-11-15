@@ -4,4 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="saved_background_default">FFFFFF</string>
+    <string name="due_date_nov_12th_23_20">Due Date: Nov 12th 23:20</string>
+    <string name="contact">Contact:</string>
 </resources>

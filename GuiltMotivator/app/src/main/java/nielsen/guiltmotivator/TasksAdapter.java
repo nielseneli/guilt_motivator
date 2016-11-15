@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,35 +75,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         //set an onclick listener to the textview.
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Context context = getContext();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setTitle("Edit the text, or delete an item.");
-                final EditText edittext = new EditText(context);
-                edittext.setText(task.getText());
-                alertDialogBuilder.setView(edittext);
-
-                //sets the text from the eddittext to the textview.
-                alertDialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String textInput = edittext.getText().toString();
-                        task.setText(textInput);
-                        mDbHelper.editTask(task);
-                        notifyDataSetChanged();
-
-                    }
-                });
-
-                //deletes the current task.
-                alertDialogBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        mDbHelper.deleteTask(getItem(position));
-                        tasks.remove(position);
-                        notifyDataSetChanged();
-                    }
-                });
-
-                AlertDialog alert = alertDialogBuilder.create();
-                alert.show();
+                Fragment newFragment = new Edit_Task_Fragment();
+                if (newFragment != null)
+                    switchFragment(newFragment);
             }
         });
 
@@ -111,11 +86,22 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     }
 
     static class ViewHolder {
-        @BindView(R.id.tvText) TextView tvText;
-        @BindView(R.id.checkBox) CheckBox checkBox;
+        @BindView(R.id.tvText)
+        TextView tvText;
+        @BindView(R.id.checkBox)
+        CheckBox checkBox;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
+        }
+    }
+
+    public void switchFragment(Fragment newFragment) {
+        if (this.getContext() == null)
+            return;
+        if (this.getContext() instanceof MainActivity) {
+            MainActivity feeds = (MainActivity) this.getContext();
+            feeds.replaceFragment(newFragment);
         }
     }
 
