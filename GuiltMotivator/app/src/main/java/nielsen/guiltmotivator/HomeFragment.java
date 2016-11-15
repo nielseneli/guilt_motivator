@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        long timeDiff = getTimeDiff("2016-11-12 13:09:00");
+        long timeDiff = getTimeDiff("2016-11-14 17:12:00");
         scheduleNotification(getNotification("Scheduled Notification"), (int) timeDiff);
         return view;
     }
