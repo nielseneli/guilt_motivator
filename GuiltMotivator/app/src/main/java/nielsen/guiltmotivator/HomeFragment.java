@@ -1,6 +1,7 @@
 package nielsen.guiltmotivator;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -9,23 +10,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.text.DateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -66,51 +68,50 @@ public class HomeFragment extends Fragment {
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.create_todo_dialog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //get the EditText and Pickers
+                                EditText tnEditText = (EditText) dialogView.findViewById(R.id.tnEditText);
+                                TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.timePicker1);
+                                DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.datePicker1);
 
-                //building the alertdialog, which pulls up an edittext and sets the value in the ArrayList.
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setTitle("Enter a task to do");
-                final EditText tasknameEditText = new EditText(getActivity());
-                tasknameEditText.setHint("task name");
-                final EditText dateTimeEditText = new EditText(getActivity());
-                dateTimeEditText.setHint("due date (yyyy-mm-dd hh:mm:ss");
+                                //get the string from the edittext and put that task in the tasksAdapter
+                                String taskNameTextInput = tnEditText.getText().toString();
+                                Task taskInput = new Task(taskNameTextInput);
+                                tasksAdapter.add(taskInput);
 
-                LinearLayout lay = new LinearLayout(getContext());
-                lay.setOrientation(LinearLayout.VERTICAL);
-                lay.addView(tasknameEditText);
-                lay.addView(dateTimeEditText);
-                alertDialogBuilder.setView(lay);
+                                //get values from the picker and make a calendar instance with them.
+                                Calendar inputDate = Calendar.getInstance();
+                                inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
+                                //make a calendar of the current date
+                                Calendar currentDate = Calendar.getInstance();
 
-                //positive button- enter to change the things.
-                alertDialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //get the eddittext text input and put it in the textview
-                        String taskNameTextInput = tasknameEditText.getText().toString();
-                        Task taskInput = new Task(taskNameTextInput);
-                        tasksAdapter.add(taskInput);
+                                int diff = Math.abs(inputDate.compareTo(currentDate));
+                                scheduleNotification(getNotification("You didn't do " + taskNameTextInput + ". You've failed us and everyone you know."), diff);
 
-                        //schedule a notification.
-                        String dateTimeTextInput = dateTimeEditText.getText().toString();
-                        long timeDiff = getTimeDiff(dateTimeTextInput);
-                        scheduleNotification(getNotification("You didn't do " + taskNameTextInput + ". You've failed us and everyone you know."), (int) timeDiff);
+                                //create content values to prepare for SQL.
+                                ContentValues values = new ContentValues();
+                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
+                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
 
-                        //put that shit into SQL
-                        // Create a new map of values, where column names are the keys
-                        ContentValues values = new ContentValues();
-                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
-                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                                // Insert the new row, returning the primary key value of the new row
+                                long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
+                                taskInput.setId(newRowId);
+                            }})
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                        // Insert the new row, returning the primary key value of the new row
-                        long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
-                        taskInput.setId(newRowId);
-                    }
-                });
+                            }});
 
-                //calling the alert dialog.
-                AlertDialog alert = alertDialogBuilder.create();
-                alert.show();
+                builder.show();
             }
         });
 
@@ -159,13 +160,11 @@ public class HomeFragment extends Fragment {
         // http://stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-yyyy-mm-dd-hhmisec-millisecond-format-in-java
         // the input date must be in yyyy-MM-dd HH:mm:ss format. Then we subtract and put that into scheduleNotification.
 
-        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
-
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US"));
         Date now = new Date();
 
         try {
-            Date dueDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US")).parse((inputTime));
+            Date dueDate = sdfDate.parse((inputTime));
             return Math.abs(now.getTime() - dueDate.getTime());
         } catch (java.text.ParseException e) {
             e.printStackTrace();
