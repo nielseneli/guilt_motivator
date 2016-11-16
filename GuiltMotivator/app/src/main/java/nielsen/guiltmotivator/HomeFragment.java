@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
@@ -68,23 +69,37 @@ public class HomeFragment extends Fragment {
 
                 //building the alertdialog, which pulls up an edittext and sets the value in the ArrayList.
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setTitle("Enter an task to do");
-                final EditText edittext = new EditText(getActivity());
-                alertDialogBuilder.setView(edittext);
+                alertDialogBuilder.setTitle("Enter a task to do");
+                final EditText tasknameEditText = new EditText(getActivity());
+                tasknameEditText.setHint("task name");
+                final EditText dateTimeEditText = new EditText(getActivity());
+                dateTimeEditText.setHint("due date (yyyy-mm-dd hh:mm:ss");
+
+                LinearLayout lay = new LinearLayout(getContext());
+                lay.setOrientation(LinearLayout.VERTICAL);
+                lay.addView(tasknameEditText);
+                lay.addView(dateTimeEditText);
+                alertDialogBuilder.setView(lay);
+
 
                 //positive button- enter to change the things.
                 alertDialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //get the eddittext text input and put it in the textview
-                        String textInput = edittext.getText().toString();
-                        Task taskInput = new Task(textInput);
+                        String taskNameTextInput = tasknameEditText.getText().toString();
+                        Task taskInput = new Task(taskNameTextInput);
                         tasksAdapter.add(taskInput);
+
+                        //schedule a notification.
+                        String dateTimeTextInput = dateTimeEditText.getText().toString();
+                        long timeDiff = getTimeDiff(dateTimeTextInput);
+                        scheduleNotification(getNotification("You didn't do " + taskNameTextInput + ". You've failed us and everyone you know."), (int) timeDiff);
 
                         //put that shit into SQL
                         // Create a new map of values, where column names are the keys
                         ContentValues values = new ContentValues();
-                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, textInput);
+                        values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
                         values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
 
                         // Insert the new row, returning the primary key value of the new row
@@ -99,8 +114,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        long timeDiff = getTimeDiff("2016-11-14 17:12:00");
-        scheduleNotification(getNotification("Scheduled Notification"), (int) timeDiff);
         return view;
     }
 
@@ -136,7 +149,7 @@ public class HomeFragment extends Fragment {
 
     private Notification getNotification(String content) {
         Notification.Builder builder = new Notification.Builder(getContext());
-        builder.setContentTitle("Scheduled Notification");
+        builder.setContentTitle("You're a waste of space.");
         builder.setContentText(content);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         return builder.build();

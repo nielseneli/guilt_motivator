@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /** Sets up the database columns. **/
 
 public class DictionaryOpenHelper extends SQLiteOpenHelper {
-    private static final String TAG = "MyActivity";
+    private static final String TAG = "DictionaryOpenHelper";
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
