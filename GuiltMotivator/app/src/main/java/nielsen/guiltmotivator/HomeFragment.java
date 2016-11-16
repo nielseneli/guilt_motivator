@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment {
         //get helper and get db in write mode
         DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        mDbHelper.onCreate(db);
 
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
@@ -68,7 +70,7 @@ public class HomeFragment extends Fragment {
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                
+
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.create_todo_dialog, null);
@@ -89,6 +91,9 @@ public class HomeFragment extends Fragment {
                                 //get values from the picker and make a calendar instance with them.
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                                taskInput.setDueDate(inputDate);
+
+                                String dueDateString = inputDate.getTime().toString();
 
                                 //make a calendar of the current date
                                 Calendar currentDate = Calendar.getInstance();
@@ -100,6 +105,7 @@ public class HomeFragment extends Fragment {
                                 ContentValues values = new ContentValues();
                                 values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
                                 values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE, dueDateString);
 
                                 // Insert the new row, returning the primary key value of the new row
                                 long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
