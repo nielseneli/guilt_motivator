@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 public class Edit_Task_Fragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
+    @BindView(R.id.editText) EditText editText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +29,10 @@ public class Edit_Task_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
+
+        Bundle b = getArguments();
+        Long id = b.getLong("ID");
+        editText.setText(id.toString());
         ArrayList<Contact> contacts = new ArrayList<>();
         final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);
         contactList.setAdapter(adapter);

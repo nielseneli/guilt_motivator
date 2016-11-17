@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -76,6 +77,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment newFragment = new Edit_Task_Fragment();
+                Bundle args = new Bundle();
+                args.putLong("ID", task.getId());
+                newFragment.setArguments(args);
                 if (newFragment != null)
                     switchFragment(newFragment);
             }
