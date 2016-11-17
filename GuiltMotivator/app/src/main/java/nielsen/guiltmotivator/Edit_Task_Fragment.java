@@ -29,10 +29,11 @@ public class Edit_Task_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
-
+        // get the id from the bundle from the HomeFragment
         Bundle b = getArguments();
         Long id = b.getLong("ID");
         editText.setText(id.toString());
+        // set up contacts thingy
         ArrayList<Contact> contacts = new ArrayList<>();
         final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);
         contactList.setAdapter(adapter);
@@ -45,6 +46,4 @@ public class Edit_Task_Fragment extends Fragment {
         });
         return v;
     }
-
-
 }
