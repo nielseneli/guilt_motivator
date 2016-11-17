@@ -1,11 +1,16 @@
 package nielsen.guiltmotivator;
 
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -106,5 +111,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     public void onStop() {
         super.onStop();
     }
+
 
 }

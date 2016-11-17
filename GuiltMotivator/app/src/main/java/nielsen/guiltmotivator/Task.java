@@ -1,6 +1,8 @@
 package nielsen.guiltmotivator;
 
 
+import java.util.Calendar;
+
 /**
  *A task class. It includes a string of the thing you have to do and a row id.
  */
@@ -8,6 +10,7 @@ public class Task {
     private String text;
     private long id;
     private boolean isChecked;
+    private Calendar dueDate;
 
     public Task() {
 
@@ -46,5 +49,13 @@ public class Task {
 
     public void setChecked(boolean isChecked) {
         this.isChecked = isChecked;
+    }
+
+    public Calendar getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Calendar dueDate) {
+        this.dueDate = dueDate;
     }
 }

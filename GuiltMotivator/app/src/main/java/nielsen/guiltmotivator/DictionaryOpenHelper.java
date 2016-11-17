@@ -7,12 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /** Sets up the database columns. **/
 
 public class DictionaryOpenHelper extends SQLiteOpenHelper {
-    private static final String TAG = "MyActivity";
+    private static final String TAG = "DictionaryOpenHelper";
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -20,7 +23,8 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + DictionaryOpenContract.FeedEntry.TABLE_NAME + " (" +
                     DictionaryOpenContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
                     DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + TEXT_TYPE + COMMA_SEP +
-                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED + TEXT_TYPE + " )";
+                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED + TEXT_TYPE + COMMA_SEP +
+                    DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
@@ -34,6 +38,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
@@ -69,6 +74,13 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                     newTask.setChecked(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED))));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry._ID)));
 
+                    String dueDateString = cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE));
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+                    Date dueDateDate = sdf.parse(dueDateString);
+                    Calendar dueDateCalendar = Calendar.getInstance();
+                    dueDateCalendar.setTime(dueDateDate);
+                    newTask.setDueDate(dueDateCalendar);
+
                     tasks.add(newTask);
                 } while(cursor.moveToNext());
             }
@@ -95,6 +107,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, Boolean.toString(task.isChecked()));
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
         return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 
