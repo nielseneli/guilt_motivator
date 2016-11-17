@@ -75,8 +75,9 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry._ID)));
 
                     String dueDateString = cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE));
-                    SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d HH:mm z yyyy");
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
                     Date dueDateDate = sdf.parse(dueDateString);
+                    Log.d(TAG, dueDateDate.toString());
                     Calendar dueDate = Calendar.getInstance();
                     dueDate.setTime(dueDateDate);
                     newTask.setDueDate(dueDate);

@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.tasklist) ListView listView;
     @BindView(R.id.buttonbutton) Button addButton;
 
-
     public HomeFragment() {
     }
 
@@ -58,7 +57,6 @@ public class HomeFragment extends Fragment {
         //get helper and get db in write mode
         DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        mDbHelper.onCreate(db);
 
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
@@ -94,6 +92,7 @@ public class HomeFragment extends Fragment {
                                 taskInput.setDueDate(inputDate);
 
                                 String dueDateString = inputDate.getTime().toString();
+                                Log.d("home", dueDateString);
 
                                 //make a calendar of the current date
                                 Calendar currentDate = Calendar.getInstance();
