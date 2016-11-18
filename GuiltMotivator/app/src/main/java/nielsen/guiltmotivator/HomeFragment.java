@@ -43,6 +43,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.tasklist) ListView listView;
     @BindView(R.id.buttonbutton) Button addButton;
 
+    private String name;
+
     public HomeFragment() {
     }
 
@@ -66,8 +68,30 @@ public class HomeFragment extends Fragment {
 
         String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+        name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+
+        if (name.equals("none")) {
+            //user doesn't have a name saved. Open an alertDialog.
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setTitle("Welcome to Guilt Motivator!");
+            alertDialogBuilder.setMessage("Please enter your name.");
+            final EditText edittext = new EditText(getActivity());
+            alertDialogBuilder.setView(edittext);
+            alertDialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String textInput = edittext.getText().toString();
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(MainActivity.SAVED_NAME, textInput);
+                    editor.apply();
+                }
+            });
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+        }
+
 
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -165,25 +189,9 @@ public class HomeFragment extends Fragment {
 
     private Notification getNotification(String content) {
         Notification.Builder builder = new Notification.Builder(getContext());
-        builder.setContentTitle("You're a waste of space.");
+        builder.setContentTitle("Hey " + name + ". ");
         builder.setContentText(content);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         return builder.build();
-    }
-
-    public static long getTimeDiff(String inputTime) {
-        // http://stackoverflow.com/questions/1459656/how-to-get-the-current-time-in-yyyy-mm-dd-hhmisec-millisecond-format-in-java
-        // the input date must be in yyyy-MM-dd HH:mm:ss format. Then we subtract and put that into scheduleNotification.
-
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("US"));
-        Date now = new Date();
-
-        try {
-            Date dueDate = sdfDate.parse((inputTime));
-            return Math.abs(now.getTime() - dueDate.getTime());
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-            return 10000;
-        }
     }
 }

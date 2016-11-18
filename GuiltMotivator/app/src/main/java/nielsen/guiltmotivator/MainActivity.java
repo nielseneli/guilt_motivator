@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
     public static final String SAVED_COLOR = "saved_color";
     public static final String SAVED_TONE = "saved_tone";
+    public static final String SAVED_NAME = "saved_name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
