@@ -78,7 +78,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             public void onClick(View v) {
                 Fragment newFragment = new Edit_Task_Fragment();
                 Bundle args = new Bundle();
-                args.putLong("ID", task.getId());
+                args.putLong("id", task.getId());
                 newFragment.setArguments(args);
                 if (newFragment != null)
                     switchFragment(newFragment);
