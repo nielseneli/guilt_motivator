@@ -1,10 +1,12 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,8 @@ import butterknife.ButterKnife;
 public class Edit_Task_Fragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
-    @BindView(R.id.editText) EditText editText;
+    @BindView(R.id.taskName) TextView taskName;
+    @BindView(R.id.editButton) ImageButton editButton;
 
     String TAG = "asdf";
 
@@ -41,11 +45,11 @@ public class Edit_Task_Fragment extends Fragment {
         Bundle b = getArguments();
         Long id = b.getLong("id");
         // get the task information from the database
-        DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+        final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         tasks = mDbHelper.getAllTasks();
-        Task task = getTaskById(tasks, id);
-        editText.setText(task.getText());
+        final Task task = getTaskById(tasks, id);
+        taskName.setText(task.getText());
         // set up contacts thingy
         ArrayList<Contact> contacts = new ArrayList<>();
         final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);
@@ -57,6 +61,28 @@ public class Edit_Task_Fragment extends Fragment {
                 adapter.add(contact);
             }
         });
+        // edit that task's name
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Edit the task name");
+                final EditText editText = new EditText(getActivity());
+                editText.setText(task.getText());
+                builder.setView(editText);
+                builder.setPositiveButton("enter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String inputText = editText.getText().toString();
+                                task.setText(inputText);
+                                taskName.setText(inputText);
+                                mDbHelper.editTask(task);
+                            }
+                        })
+                        .show();
+            }
+        });
+
         return v;
     }
 

@@ -10,16 +10,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
+                android:id="@+id/taskName"
                 android:hint="task content"
                 android:layout_weight="0.54" />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit"/>
+                android:src="@drawable/ic_edit"
+                android:id="@+id/editButton"
+                />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
