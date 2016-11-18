@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -73,6 +74,16 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             }
         });
 
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getContext();
+                tasks.remove(position);
+                mDbHelper.deleteTask(task);
+                notifyDataSetChanged();
+            }
+        });
+
         //set an onclick listener to the textview.
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -90,10 +101,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     }
 
     static class ViewHolder {
-        @BindView(R.id.tvText)
-        TextView tvText;
-        @BindView(R.id.checkBox)
-        CheckBox checkBox;
+        @BindView(R.id.tvText) TextView tvText;
+        @BindView(R.id.checkBox) CheckBox checkBox;
+        @BindView(R.id.deleteButton) ImageButton deleteButton;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

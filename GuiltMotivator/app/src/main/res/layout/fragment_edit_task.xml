@@ -11,10 +11,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
                 android:id="@+id/taskName"
                 android:hint="task content"
+                android:textSize="@dimen/text_large"
                 android:layout_weight="0.54" />
             <ImageButton
                 android:layout_width="wrap_content"
@@ -22,23 +24,19 @@
                 android:src="@drawable/ic_edit"
                 android:id="@+id/editButton"
                 />
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"/>
         </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Due date: Nov 11th 13:00"
         android:id="@+id/textView"
-        android:textSize="30dp"/>
+        android:textSize="@dimen/text_large"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contact"
         android:id="@+id/Contact"
-        android:textSize="30dp"/>
+        android:textSize="@dimen/text_large"/>
 
     <ListView
         android:layout_width="match_parent"
@@ -48,7 +46,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:src="@drawable/ic_add"
-    android:layout_gravity="right"
+    android:layout_gravity="end"
     android:id="@+id/addContact"/>
 
 </LinearLayout>
