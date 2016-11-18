@@ -22,12 +22,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.Toast;
+
+import static java.security.AccessController.getContext;
 
 /** The main activity, its got 2 whole fragments.
  *  */
 public class MainActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
 
     public static final String SAVED_COLOR = "saved_color";
+    public static final String SAVED_TONE = "saved_tone";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,26 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
 
         transaction.replace(R.id.fragmentcontainer, fragment);
         transaction.addToBackStack(null).commit();
+    }
+
+    public void onRadioButtonClicked(View v) {
+        boolean checked = ((RadioButton) v).isChecked();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        switch(v.getId()) {
+            case R.id.polite:
+                    Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "polite");
+                    editor.apply();
+
+            case R.id.profane:
+
+                    Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "profane");
+                    editor.apply();
+
+        }
+
     }
 
     public void onMainFragmentInteraction(Uri uri){

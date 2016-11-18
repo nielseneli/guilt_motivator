@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
 
         //get helper and get db in write mode
         DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //grab arraylist of tasks from the database
@@ -64,6 +65,10 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(tasksAdapter);
 
         String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+        Log.d("HomeFragment", tone);
 
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +97,19 @@ public class HomeFragment extends Fragment {
                                 taskInput.setDueDate(inputDate);
 
                                 String dueDateString = inputDate.getTime().toString();
-                                Log.d("home", dueDateString);
 
                                 //make a calendar of the current date
                                 Calendar currentDate = Calendar.getInstance();
 
                                 int diff = Math.abs(inputDate.compareTo(currentDate));
-                                scheduleNotification(getNotification("You didn't do " + taskNameTextInput + ". You've failed us and everyone you know."), diff);
+                                String inputString;
+                                if (tone.equals("profane")) {
+                                    inputString = "You didn't do \"" + taskNameTextInput + " \" and you're a worthless piece of shit.";
+                                } else {
+                                    inputString = "Shame on you. You didn't do \"" + taskNameTextInput + ".\" You should consider being less awful.";
+                                }
+
+                                scheduleNotification(getNotification(inputString), diff);
 
                                 //create content values to prepare for SQL.
                                 ContentValues values = new ContentValues();
