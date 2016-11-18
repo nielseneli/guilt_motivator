@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-        Log.d("HomeFragment", tone);
 
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {

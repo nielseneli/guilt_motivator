@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -111,15 +112,18 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         SharedPreferences.Editor editor = sharedPref.edit();
         switch(v.getId()) {
             case R.id.polite:
-                    Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
-                    editor.putString(MainActivity.SAVED_TONE, "polite");
-                    editor.apply();
+                    if (v.getId() == R.id.polite) {
+                        Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
+                        editor.putString(MainActivity.SAVED_TONE, "polite");
+                        editor.apply();
+                    }
 
             case R.id.profane:
-
-                    Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
-                    editor.putString(MainActivity.SAVED_TONE, "profane");
-                    editor.apply();
+                    if (v.getId() == R.id.profane) {
+                        Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
+                        editor.putString(MainActivity.SAVED_TONE, "profane");
+                        editor.apply();
+                    }
 
         }
 
