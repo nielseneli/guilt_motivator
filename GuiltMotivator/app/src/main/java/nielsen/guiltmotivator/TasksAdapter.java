@@ -67,7 +67,6 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getContext();
                 task.toggleChecked();
                 mDbHelper.editTask(task);
                 notifyDataSetChanged();
@@ -77,7 +76,6 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getContext();
                 tasks.remove(position);
                 mDbHelper.deleteTask(task);
                 notifyDataSetChanged();
@@ -105,12 +103,12 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         @BindView(R.id.checkBox) CheckBox checkBox;
         @BindView(R.id.deleteButton) ImageButton deleteButton;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
-    public void switchFragment(Fragment newFragment) {
+    private void switchFragment(Fragment newFragment) {
         if (this.getContext() == null)
             return;
         if (this.getContext() instanceof MainActivity) {
