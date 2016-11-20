@@ -5,21 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="@dimen/fab_margin"
-    tools:context="nielsen.guiltmotivator.Edit_Task_Fragment">
+    tools:context="nielsen.guiltmotivator.Edit_Task_Fragment"
+    >
 
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:orientation="horizontal">
+         android:orientation="horizontal"
+         >
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:id="@+id/taskName"
             android:hint="task content"
             android:textSize="@dimen/text_large"
-            android:layout_weight="0.54" />
+            android:layout_weight="0.54"
+            />
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,16 +31,29 @@
             android:background="@null"
             />
         </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Due by: "
+        android:textSize="@dimen/text_large"
+        android:id="@+id/tvDueBy"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Due by: Nov 11th 13:00"
-            android:textSize="@dimen/text_large"
-            android:id="@+id/textView"/>
+            android:text="@string/due_date_nov_12th_23_20"
+            android:textSize="@dimen/text_size"
+            android:id="@+id/tvDueDate"
+            android:layout_weight="1"
+            />
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,26 +61,35 @@
             android:id="@+id/editDueDate"
             android:background="@null"
             />
-    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contact"
-        android:id="@+id/Contact"
-        android:textSize="@dimen/text_large"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact"
+            android:id="@+id/Contact"
+            android:textSize="@dimen/text_large"
+            android:layout_weight="1"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"
+            android:layout_gravity="end"
+            android:id="@+id/addContact"
+            android:background="@null"
+            />
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="231dp"
-        android:id="@+id/contactlist" />
-<ImageButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_add"
-    android:layout_gravity="end"
-    android:id="@+id/addContact"
-    android:background="@null"
-    />
+        android:id="@+id/contactlist"
+        />
+
+
 
 </LinearLayout>

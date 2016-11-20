@@ -40,8 +40,10 @@ import butterknife.ButterKnife;
  */
 public class HomeFragment extends Fragment {
     //preparing to butter...
-    @BindView(R.id.tasklist) ListView listView;
-    @BindView(R.id.buttonbutton) Button addButton;
+    @BindView(R.id.tasklist)
+    ListView listView;
+    @BindView(R.id.buttonbutton)
+    Button addButton;
 
     private String name;
 
@@ -124,7 +126,8 @@ public class HomeFragment extends Fragment {
                                 //make a calendar of the current date
                                 Calendar currentDate = Calendar.getInstance();
 
-                                int diff = Math.abs(inputDate.compareTo(currentDate));
+                                int diff = (int) Math.abs(inputDate.getTimeInMillis() - currentDate.getTimeInMillis());
+
                                 String inputString;
                                 if (tone.equals("profane")) {
                                     inputString = "You didn't do \"" + taskNameTextInput + " \" and you're a worthless piece of shit.";
@@ -132,7 +135,7 @@ public class HomeFragment extends Fragment {
                                     inputString = "Shame on you. You didn't do \"" + taskNameTextInput + ".\" You should consider being less awful.";
                                 }
 
-                                scheduleNotification(getNotification(inputString), diff);
+                                scheduleNotification(inputString, (int) taskInput.getId(), diff);
 
                                 //create content values to prepare for SQL.
                                 ContentValues values = new ContentValues();
@@ -143,12 +146,14 @@ public class HomeFragment extends Fragment {
                                 // Insert the new row, returning the primary key value of the new row
                                 long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
                                 taskInput.setId(newRowId);
-                            }})
+                            }
+                        })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }});
+                            }
+                        });
 
                 builder.show();
             }
@@ -175,23 +180,20 @@ public class HomeFragment extends Fragment {
     //Helper functions for notifications:
     //https://gist.github.com/BrandonSmith/6679223
 
-    private void scheduleNotification(Notification notification, int delay) {
-
-        Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification(String content) {
+    private void scheduleNotification(String content, int id, int delay) {
         Notification.Builder builder = new Notification.Builder(getContext());
         builder.setContentTitle("Hey " + name + ". ");
         builder.setContentText(content);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        return builder.build();
+        Notification notification = builder.build();
+
+        Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 }
