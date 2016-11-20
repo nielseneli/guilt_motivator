@@ -5,7 +5,7 @@
     tools:context="nielsen.guiltmotivator.SettingsFragment">
 
     <TextView
-        android:text="Choose Color"
+        android:text="@string/chooseColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
@@ -21,32 +21,30 @@
         android:layout_below="@+id/chooseColorTitle">
 
     <RadioButton
-        android:text="Red"
+        android:text="@string/red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/red"
         />
 
     <RadioButton
-        android:text="Blue"
+        android:text="@string/blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/blue"
-        android:layout_below="@+id/red"
         />
 
     <RadioButton
-        android:text="Green"
+        android:text="@string/green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/green"
-        android:layout_below="@+id/blue"
         />
 
     </RadioGroup>
 
     <TextView
-        android:text="Choose Tone"
+        android:text="@string/chooseTone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
@@ -64,14 +62,14 @@
 
 
         <RadioButton
-            android:text="Polite"
+            android:text="@string/polite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/polite"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
-            android:text="Profane"
+            android:text="@string/profane"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/profane"

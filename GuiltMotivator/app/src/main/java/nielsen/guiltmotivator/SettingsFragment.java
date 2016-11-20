@@ -44,9 +44,6 @@ public class SettingsFragment extends Fragment {
         buttonSetup(blue, 0xff3399ff);
         buttonSetup(green, 0xff6dc066);
 
-        Button polite = (Button) view.findViewById(R.id.polite);
-        Button profane = (Button) view.findViewById(R.id.profane);
-
         return view;
     }
     public void onCreate() {

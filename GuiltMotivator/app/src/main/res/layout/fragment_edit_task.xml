@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="nielsen.guiltmotivator.Edit_Task_Fragment">
+        tools:context="nielsen.guiltmotivator.EditTaskFragment">
 
      <LinearLayout
             android:layout_width="match_parent"
@@ -28,13 +28,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Due date: Nov 11th 13:00"
+        android:text="@string/due_date_nov_12th_23_20"
         android:id="@+id/tvDueDate"
         android:textSize="@dimen/text_large"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact"
+        android:text="@string/contact"
         android:id="@+id/Contact"
         android:textSize="@dimen/text_large"/>
 
