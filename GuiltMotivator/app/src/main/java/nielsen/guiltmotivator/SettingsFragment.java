@@ -9,15 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 
 /**
  Choose between Blue Screen of Death, Monster Green and... red. Red is probably the least bad.
  */
 public class SettingsFragment extends Fragment {
+    View view;
 
     private OnFragmentInteractionListener mListener;
     private int currentBackground;
+    private String currentTone;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -28,7 +32,7 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //get the buttons
         Button red = (Button) view.findViewById(R.id.red);
@@ -40,6 +44,9 @@ public class SettingsFragment extends Fragment {
         buttonSetup(blue, 0xff3399ff);
         buttonSetup(green, 0xff6dc066);
 
+        Button polite = (Button) view.findViewById(R.id.polite);
+        Button profane = (Button) view.findViewById(R.id.profane);
+
         return view;
     }
     public void onCreate() {
@@ -47,7 +54,7 @@ public class SettingsFragment extends Fragment {
 
         int defaultValue = getResources().getColor(R.color.white);
         int background = sharedPref.getInt(MainActivity.SAVED_COLOR, defaultValue);
-
+        String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
 
         getView().setBackgroundColor(background);
     }
@@ -57,6 +64,7 @@ public class SettingsFragment extends Fragment {
         name.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //getView().setBackgroundColor(color);
+
                 getActivity().getWindow().getDecorView().setBackgroundColor(color);
                 currentBackground = color;
 
@@ -67,6 +75,7 @@ public class SettingsFragment extends Fragment {
             }
         });
     }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onSettingsFragmentInteraction(uri);
