@@ -99,6 +99,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(DictionaryOpenContract.FeedEntry.TABLE_NAME , DictionaryOpenContract.FeedEntry._ID
                 + "=" + task.getId(), null) > 0;
+
     }
 
     public boolean editTask(Task task) {

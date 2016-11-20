@@ -124,7 +124,10 @@ public class HomeFragment extends Fragment {
                                 //make a calendar of the current date
                                 Calendar currentDate = Calendar.getInstance();
 
-                                int diff = Math.abs(inputDate.compareTo(currentDate));
+                                int diff = (int) Math.abs(currentDate.getTimeInMillis() - inputDate.getTimeInMillis());
+                                Log.d("HomeFragment", inputDate.getTime().toString());
+                                Log.d("HomeFragment", currentDate.getTime().toString());
+                                Log.d("HomeFragment", "" + diff);
                                 String inputString;
                                 if (tone.equals("profane")) {
                                     inputString = "You didn't do \"" + taskNameTextInput + " \" and you're a worthless piece of shit.";
