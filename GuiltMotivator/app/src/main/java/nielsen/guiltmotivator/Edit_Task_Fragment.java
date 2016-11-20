@@ -27,6 +27,7 @@ public class Edit_Task_Fragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
     @BindView(R.id.taskName) TextView taskName;
+    @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editButton) ImageButton editButton;
 
     String TAG = "asdf";
@@ -50,6 +51,7 @@ public class Edit_Task_Fragment extends Fragment {
         tasks = mDbHelper.getAllTasks();
         final Task task = getTaskById(tasks, id);
         taskName.setText(task.getText());
+        tvDueDate.setText(task.getDueDate().getTime().toString());
         // set up contacts thingy
         ArrayList<Contact> contacts = new ArrayList<>();
         final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);

@@ -64,11 +64,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.commit();
         }
-
-
-
-
-
     }
 
     @Override
