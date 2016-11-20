@@ -188,9 +188,10 @@ public class HomeFragment extends Fragment {
         Notification notification = builder.build();
 
         Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
+        notificationIntent.setData(Uri.parse("timer:" + id));
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
