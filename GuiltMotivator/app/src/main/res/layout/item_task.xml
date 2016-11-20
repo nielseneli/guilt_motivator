@@ -28,6 +28,7 @@
         android:src="@drawable/ic_delete"
         android:layout_gravity="end"
         android:id="@+id/deleteButton"
+        android:background="@null"
         />
 
 </LinearLayout>
