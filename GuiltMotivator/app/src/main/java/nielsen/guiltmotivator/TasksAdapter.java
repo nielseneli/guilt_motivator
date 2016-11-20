@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,9 +67,17 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getContext();
                 task.toggleChecked();
                 mDbHelper.editTask(task);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tasks.remove(position);
+                mDbHelper.deleteTask(task);
                 notifyDataSetChanged();
             }
         });
@@ -76,6 +86,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment newFragment = new Edit_Task_Fragment();
+                Bundle args = new Bundle();
+                args.putLong("id", task.getId());
+                newFragment.setArguments(args);
                 if (newFragment != null)
                     switchFragment(newFragment);
             }
@@ -86,17 +99,16 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     }
 
     static class ViewHolder {
-        @BindView(R.id.tvText)
-        TextView tvText;
-        @BindView(R.id.checkBox)
-        CheckBox checkBox;
+        @BindView(R.id.tvText) TextView tvText;
+        @BindView(R.id.checkBox) CheckBox checkBox;
+        @BindView(R.id.deleteButton) ImageButton deleteButton;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
-    public void switchFragment(Fragment newFragment) {
+    private void switchFragment(Fragment newFragment) {
         if (this.getContext() == null)
             return;
         if (this.getContext() instanceof MainActivity) {

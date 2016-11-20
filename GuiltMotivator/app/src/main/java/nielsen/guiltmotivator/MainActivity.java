@@ -43,20 +43,31 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Fragment defaultFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (findViewById(R.id.fragmentcontainer) != null) {
 
-        //set the default to be the list view
-        fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
-        fragmentTransaction.commit();
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            int defaultValue = getResources().getColor(R.color.white);
+            int background = sharedPref.getInt(SAVED_COLOR, defaultValue);
 
-        int defaultValue = getResources().getColor(R.color.white);
-        int background = sharedPref.getInt(SAVED_COLOR, defaultValue);
+            getWindow().getDecorView().setBackgroundColor(background);
 
-        getWindow().getDecorView().setBackgroundColor(background);
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            Fragment defaultFragment = new HomeFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            //set the default to be the list view
+            fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
+            fragmentTransaction.commit();
+        }
+
+
+
+
 
     }
 

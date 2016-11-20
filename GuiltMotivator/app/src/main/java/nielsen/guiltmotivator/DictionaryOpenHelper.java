@@ -1,5 +1,6 @@
 package nielsen.guiltmotivator;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -108,14 +109,6 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, Boolean.toString(task.isChecked()));
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
-        return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
-    }
-
-    public boolean checkTask(Task task, String boolAsString) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues args = new ContentValues();
-        args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
-        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, boolAsString);
         return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 }
