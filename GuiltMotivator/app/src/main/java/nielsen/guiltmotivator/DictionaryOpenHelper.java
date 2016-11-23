@@ -112,9 +112,4 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 
-//    @Override
-//    protected void finalize() throws Throwable {
-//        this.close();
-//        super.finalize();
-//    }
 }

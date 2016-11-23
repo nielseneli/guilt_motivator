@@ -76,6 +76,7 @@ public class EditTaskFragment extends Fragment {
                                 task.setText(inputText);
                                 taskName.setText(inputText);
                                 mDbHelper.editTask(task);
+                                mDbHelper.close();
                             }
                         })
                         .show();
