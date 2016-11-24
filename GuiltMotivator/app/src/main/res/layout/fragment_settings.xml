@@ -20,28 +20,35 @@
         android:orientation="vertical"
         android:layout_below="@+id/chooseColorTitle">
 
-    <RadioButton
-        android:text="Red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/red"
-        />
+        <RadioButton
+            android:text="Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/default_color"
+            />
 
-    <RadioButton
-        android:text="Blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/blue"
-        android:layout_below="@+id/red"
-        />
+        <RadioButton
+            android:text="Red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/red"
+            />
 
-    <RadioButton
-        android:text="Green"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/green"
-        android:layout_below="@+id/blue"
-        />
+        <RadioButton
+            android:text="Blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blue"
+            android:layout_below="@+id/red"
+            />
+
+        <RadioButton
+            android:text="Green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/green"
+            android:layout_below="@+id/blue"
+            />
 
     </RadioGroup>
 

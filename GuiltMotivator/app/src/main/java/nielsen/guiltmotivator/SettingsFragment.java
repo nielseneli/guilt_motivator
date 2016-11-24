@@ -38,11 +38,13 @@ public class SettingsFragment extends Fragment {
         Button red = (Button) view.findViewById(R.id.red);
         Button blue = (Button) view.findViewById(R.id.blue);
         Button green = (Button) view.findViewById(R.id.green);
+        Button default_color = (Button) view.findViewById(R.id.default_color);
 
         //set up the onclick shiz with buttonSetup method
         buttonSetup(red, 0xffff4040);
         buttonSetup(blue, 0xff3399ff);
         buttonSetup(green, 0xff6dc066);
+        buttonSetup(default_color, 0xffffffff);
 
         Button polite = (Button) view.findViewById(R.id.polite);
         Button profane = (Button) view.findViewById(R.id.profane);
