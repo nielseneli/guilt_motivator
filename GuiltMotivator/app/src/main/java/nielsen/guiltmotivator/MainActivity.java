@@ -16,15 +16,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import static java.security.AccessController.getContext;
 
@@ -64,6 +70,13 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.commit();
         }
+        // thanks https://developer.android.com/training/implementing-navigation/nav-drawer.html#ListItemClicks
+        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+        mDrawerList.setOnClickListener((View.OnClickListener) new DrawerItemClickListener());
     }
 
     @Override
@@ -72,6 +85,36 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+    class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+
+    private void selectItem(int position) {
+        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (mDrawerItems[position] == "Settings") {
+            Fragment settingsFragment = new SettingsFragment();
+
+            fragmentTransaction.replace(R.id.fragmentcontainer, settingsFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+        if (mDrawerItems[position] == "Home") {
+            Fragment defaultFragment = new HomeFragment();
+
+            fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
