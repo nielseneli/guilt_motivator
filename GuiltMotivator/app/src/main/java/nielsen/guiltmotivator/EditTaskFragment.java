@@ -101,7 +101,11 @@ public class EditTaskFragment extends Fragment {
                                 DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+
                                 task.setDueDate(inputDate);
+                                tvDueDate.setText(inputDate.getTime().toString());
+                                mDbHelper.editTask(task);
+                                mDbHelper.close();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

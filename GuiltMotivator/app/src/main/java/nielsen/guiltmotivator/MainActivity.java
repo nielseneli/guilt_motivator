@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             fragmentTransaction.commit();
         }
         // thanks https://developer.android.com/training/implementing-navigation/nav-drawer.html#ListItemClicks
-        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
-        mDrawerList.setOnClickListener((View.OnClickListener) new DrawerItemClickListener());
+//        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
+//        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+//
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+//        mDrawerList.setOnClickListener((View.OnClickListener) new DrawerItemClickListener());
     }
 
     @Override
