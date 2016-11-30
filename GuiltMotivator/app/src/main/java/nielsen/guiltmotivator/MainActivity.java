@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         if (findViewById(R.id.fragmentcontainer) != null) {
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
-            //int defaultValue = getResources().getColor(R.color.white);
+            
             int background = sharedPref.getInt(SAVED_COLOR, Color.WHITE);
 
             getWindow().getDecorView().setBackgroundColor(background);
