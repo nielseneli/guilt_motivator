@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +29,7 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.taskName) TextView taskName;
     @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editButton) ImageButton editButton;
+    @BindView(R.id.editDueDate) ImageButton editDueDateButton;
 
     String TAG = "asdf";
 
@@ -80,6 +84,34 @@ public class EditTaskFragment extends Fragment {
                             }
                         })
                         .show();
+            }
+        });
+
+        editDueDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.edit_todo_dialog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
+                                DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
+                                Calendar inputDate = Calendar.getInstance();
+                                inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                                task.setDueDate(inputDate);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                builder.show();
+
             }
         });
 

@@ -48,7 +48,6 @@ public class SettingsFragment extends Fragment {
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         int bg = sharedPref.getInt(MainActivity.SAVED_COLOR, Color.WHITE);
-        
 
         return view;
     }
