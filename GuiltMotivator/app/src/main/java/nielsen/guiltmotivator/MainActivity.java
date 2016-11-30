@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        startService();
         if (findViewById(R.id.fragmentcontainer) != null) {
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -153,5 +153,7 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         super.onStop();
     }
 
-
+    public void startService() {
+        NotificationEventReceiver.setupAlarm(getApplicationContext());
+    }
 }
