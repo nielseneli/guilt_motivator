@@ -38,11 +38,13 @@ public class SettingsFragment extends Fragment {
         Button red = (Button) view.findViewById(R.id.red);
         Button blue = (Button) view.findViewById(R.id.blue);
         Button green = (Button) view.findViewById(R.id.green);
+        Button default_color = (Button) view.findViewById(R.id.default_color);
 
         //set up the onclick shiz with buttonSetup method
         buttonSetup(red, 0xffff4040);
         buttonSetup(blue, 0xff3399ff);
         buttonSetup(green, 0xff6dc066);
+        buttonSetup(default_color, 0xffffffff);
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         int bg = sharedPref.getInt(MainActivity.SAVED_COLOR, Color.WHITE);
