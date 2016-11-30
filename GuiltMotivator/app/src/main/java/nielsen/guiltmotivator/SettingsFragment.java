@@ -2,6 +2,7 @@ package nielsen.guiltmotivator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,6 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //get the buttons
@@ -46,8 +46,8 @@ public class SettingsFragment extends Fragment {
         buttonSetup(green, 0xff6dc066);
         buttonSetup(default_color, 0xffffffff);
 
-        Button polite = (Button) view.findViewById(R.id.polite);
-        Button profane = (Button) view.findViewById(R.id.profane);
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        int bg = sharedPref.getInt(MainActivity.SAVED_COLOR, Color.WHITE);
 
         return view;
     }

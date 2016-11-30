@@ -1,7 +1,6 @@
 package nielsen.guiltmotivator;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -22,15 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -188,9 +183,10 @@ public class HomeFragment extends Fragment {
         Notification notification = builder.build();
 
         Intent notificationIntent = new Intent(getActivity(), NotificationPublisher.class);
+//        notificationIntent.setData(Uri.parse("timer:" + id));
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, id);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);

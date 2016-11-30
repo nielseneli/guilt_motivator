@@ -6,6 +6,15 @@
     <string name="saved_background_default">FFFFFF</string>
     <string name="due_date_nov_12th_23_20">Due Date: Nov 12th 23:20</string>
     <string name="contact">Contact:</string>
+    <string name="taskNameHint">Task Name</string>
+    <string name="addItem">Add an Item!</string>
+    <string name="chooseTone">Choose Tone</string>
+    <string name="chooseColor">Choose Color</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="polite">Polite</string>
+    <string name="profane">Profane</string>
     <string-array name="menu_options">
         <item>Home</item>
         <item>Settings</item>

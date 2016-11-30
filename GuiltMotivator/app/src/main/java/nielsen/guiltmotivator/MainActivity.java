@@ -1,18 +1,11 @@
 package nielsen.guiltmotivator;
 
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -52,9 +45,8 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         if (findViewById(R.id.fragmentcontainer) != null) {
 
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
-            int defaultValue = getResources().getColor(R.color.white);
-            int background = sharedPref.getInt(SAVED_COLOR, defaultValue);
+            
+            int background = sharedPref.getInt(SAVED_COLOR, Color.WHITE);
 
             getWindow().getDecorView().setBackgroundColor(background);
 
@@ -71,12 +63,12 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             fragmentTransaction.commit();
         }
         // thanks https://developer.android.com/training/implementing-navigation/nav-drawer.html#ListItemClicks
-        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
-        mDrawerList.setOnClickListener((View.OnClickListener) new DrawerItemClickListener());
+//        String[] mDrawerItems = getResources().getStringArray(R.array.menu_options);
+//        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+//
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+//        mDrawerList.setOnClickListener((View.OnClickListener) new DrawerItemClickListener());
     }
 
     @Override
