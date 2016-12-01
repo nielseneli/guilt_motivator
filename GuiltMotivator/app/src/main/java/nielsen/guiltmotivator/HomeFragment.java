@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class HomeFragment extends Fragment {
     //preparing to butter...
     @BindView(R.id.tasklist)
     ListView listView;
-    @BindView(R.id.buttonbutton)
+    @BindView(R.id.add_button)
     Button addButton;
 
     private String name;
