@@ -1,6 +1,7 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
@@ -102,6 +103,12 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+        }
+
+        if (id == R.id.nav_help) {
+            Uri uri = Uri.parse("https://github.com/nielsenlouise/guilt_motivator/blob/master/README.md");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

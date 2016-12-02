@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.tasklist)
     ListView listView;
     @BindView(R.id.add_button)
-    Button addButton;
+    FloatingActionButton addButton;
 
     private String name;
 
