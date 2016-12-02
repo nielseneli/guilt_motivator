@@ -1,6 +1,5 @@
 package nielsen.guiltmotivator;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,20 +14,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import static java.security.AccessController.getContext;
 
 /** The main activity, its got 2 whole fragments.
  *  */
@@ -150,11 +140,9 @@ public class MainActivity extends AppCompatActivity
                         editor.apply();
                     }
         }
-
     }
 
     public void onSettingsFragmentInteraction(Uri uri){
-
     }
 
     public void onStop() {
