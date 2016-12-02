@@ -88,13 +88,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -127,37 +120,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Fragment settingsFragment = new SettingsFragment();
-
-            fragmentTransaction.replace(R.id.fragmentcontainer, settingsFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
-
-        if (id == R.id.home) {
-            Fragment defaultFragment = new HomeFragment();
-
-            fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     public void replaceFragment(Fragment fragment) {
         FragmentManager manager;                                            //initializes manager as FragmentManager
         FragmentTransaction transaction;                                    //initializes transaction as FragmentTransaction
@@ -187,12 +149,7 @@ public class MainActivity extends AppCompatActivity
                         editor.putString(MainActivity.SAVED_TONE, "profane");
                         editor.apply();
                     }
-
         }
-
-    }
-
-    public void onMainFragmentInteraction(Uri uri){
 
     }
 
@@ -203,6 +160,4 @@ public class MainActivity extends AppCompatActivity
     public void onStop() {
         super.onStop();
     }
-
-
 }
