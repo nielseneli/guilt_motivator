@@ -140,7 +140,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
         + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
 
-        Log.d("Id", Integer.toString(taskId));
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_CONTACTS_QUERY, null);
 

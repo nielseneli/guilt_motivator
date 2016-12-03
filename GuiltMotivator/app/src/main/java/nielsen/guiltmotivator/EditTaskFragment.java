@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -61,20 +63,27 @@ public class EditTaskFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
+                //set up the spinner
+                final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
+                ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(), R.array.contact_methods_array,
+                        android.R.layout.simple_spinner_item);
+                methodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                methodSpinner.setAdapter(methodAdapter);
+                //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
+                        .setTitle("Add A Contact!")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
-                                EditText methodEditText = (EditText) dialogView.findViewById(R.id.editTextContactMethod);
                                 EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
 
                                 String name = nameEditText.getText().toString();
-                                String method = methodEditText.getText().toString();
                                 String address = addressEditText.getText().toString();
+                                String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition()).toString();
 
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
@@ -93,6 +102,7 @@ public class EditTaskFragment extends Fragment {
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
 
                             }
                         });

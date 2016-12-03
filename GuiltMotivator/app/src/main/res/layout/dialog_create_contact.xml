@@ -4,7 +4,7 @@
     android:layout_height="fill_parent">
 
     <TextView
-        android:text="Name: "
+        android:text="@string/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvContactName" />
@@ -16,18 +16,20 @@
         />
 
     <TextView
-        android:text="Method"
+        android:text="@string/method"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvContactMethod" />
 
-    <EditText
+    <Spinner
+        android:id="@+id/contactMethodSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextContactMethod"/>
+        android:layout_height="wrap_content">
+
+    </Spinner>
 
     <TextView
-        android:text="Address"
+        android:text="@string/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvContactAddress" />
@@ -35,6 +37,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextContactAddress"/>
+        android:id="@+id/editTextContactAddress" />
 
 </LinearLayout>
