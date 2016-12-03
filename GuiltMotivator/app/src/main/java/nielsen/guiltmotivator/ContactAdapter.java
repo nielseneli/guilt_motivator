@@ -46,7 +46,6 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         }
 
         holder.contact = getItem(position);
-        Log.d("Contact name", holder.contact.getName());
 
         // I didn't figure out how to implement ButterKnife here.
         // Because all elements here is a property of the holder class
@@ -55,8 +54,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.method = (TextView) convertView.findViewById(R.id.itemMethod);
         holder.delete = (ImageButton) convertView.findViewById(R.id.delete);
 
-        // create onClickListener to edit the contact info
+        holder.name.setText(holder.contact.getName());
+        holder.method.setText(holder.contact.getMethod());
 
+        // create onClickListener to edit the contact info
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,8 +69,9 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(holder.contact); //remove the item from the adapter
-
+                Contact deleted = holder.contact;
+                remove(deleted); //remove the item from the adapter
+                mDbHelper.deleteContact(deleted);
                 notifyDataSetChanged();
             }
         });

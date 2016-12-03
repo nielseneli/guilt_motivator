@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class EditTaskFragment extends Fragment {
 
         // set up contacts thingy
         ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -81,9 +83,11 @@ public class EditTaskFragment extends Fragment {
                                 values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
                                 values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
                                 values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
+                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
 
                                 long newRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, values);
-                                contact.setId(newRowId);
+                                contact.setTaskId(task.getId());
+                                contact.setLocalId(newRowId);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

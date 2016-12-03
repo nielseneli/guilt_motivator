@@ -137,9 +137,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         int taskId = (int) task.getId();
-        String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME + " WHERE " +
-                ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId;
+        String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
+        + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
 
+        Log.d("Id", Integer.toString(taskId));
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_CONTACTS_QUERY, null);
 
@@ -151,6 +152,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String address = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS));
 
                     Contact newContact = new Contact(contactName, method, address);
+                    newContact.setTaskId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID)));
+                    newContact.setLocalId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry._ID)));
                     contacts.add(newContact);
 
                 } while(cursor.moveToNext());
@@ -163,6 +166,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return contacts;
+    }
+
+    public boolean editContact(Contact contact) {
+        return true;
+    }
+
+
+    public boolean deleteContact(Contact contact) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete(ContactDbContract.FeedEntry.TABLE_NAME,
+                ContactDbContract.FeedEntry._ID + "=" + contact.getLocalId(), null) > 0;
     }
 
 }

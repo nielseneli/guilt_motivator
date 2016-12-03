@@ -8,7 +8,8 @@ public class Contact {
     private String name;
     private String method;
     private String address;
-    private long id;
+    private long taskId;
+    private long localId;
 
     public Contact(String name, String method, String address){
         this.name = name;
@@ -40,12 +41,20 @@ public class Contact {
         this.address = address;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTaskId(long id) {
+        this.taskId = id;
     }
 
-    public long getId() {
-        return id;
+    public long getTaskId() {
+        return taskId;
+    }
+
+    public void setLocalId(long id) {
+        this.localId = id;
+    }
+
+    public long getLocalId() {
+        return localId;
     }
 
 
