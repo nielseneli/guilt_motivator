@@ -50,7 +50,7 @@ public class NotificationIntentService extends IntentService {
     }
 
     private void processDeleteNotification(Intent intent) {
-        // Log something?
+
     }
 
     private void processStartNotification() {

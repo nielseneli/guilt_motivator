@@ -14,16 +14,17 @@ import java.util.Date;
  * Created by DHZ_Bill on 11/29/16.
  */
 public class NotificationEventReceiver extends WakefulBroadcastReceiver{
+
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
-    private static final int NOTIFICATIONS_INTERVAL_IN_MINUTES = 1;
+    private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 2;
 
     public static void setupAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(context);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                 getTriggerAt(new Date()),
-                NOTIFICATIONS_INTERVAL_IN_MINUTES * AlarmManager.INTERVAL_HOUR,
+                NOTIFICATIONS_INTERVAL_IN_HOURS * AlarmManager.INTERVAL_HOUR,
                 alarmIntent);
     }
 
@@ -47,7 +48,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
     private static long getTriggerAt(Date now) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        calendar.add(Calendar.MINUTE, NOTIFICATIONS_INTERVAL_IN_MINUTES);
+        calendar.add(Calendar.MINUTE, NOTIFICATIONS_INTERVAL_IN_HOURS);
         return calendar.getTimeInMillis();
     }
 
