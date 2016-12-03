@@ -2,16 +2,21 @@ package nielsen.guiltmotivator;
 
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static nielsen.guiltmotivator.R.string.contact;
 
 /**
  * Created by zlan on 11/7/16.
@@ -61,9 +66,46 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //later.
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
+                alertDialogBuilder.setView(dialogView)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
+                                EditText methodEditText = (EditText) dialogView.findViewById(R.id.editTextContactMethod);
+                                EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+
+                                nameEditText.setHint(holder.contact.getName());
+                                methodEditText.setHint(holder.contact.getMethod());
+                                addressEditText.setHint(holder.contact.getAddress());
+
+                                String name = nameEditText.getText().toString();
+                                String method = methodEditText.getText().toString();
+                                String address = addressEditText.getText().toString();
+
+                                if (!name.equals("")) {
+                                    holder.name.setText(name);
+                                    holder.contact.setName(name);
+                                }
+                                if (!method.equals("")) {
+                                    holder.method.setText(method);
+                                    holder.contact.setMethod(method);
+                                }
+                                if (!address.equals("")) {
+                                    holder.contact.setAddress(address);
+                                }
+
+                                mDbHelper.editContact(holder.contact);
+                                notifyDataSetChanged();
+
+                            }
+                        });
+                alertDialogBuilder.show();
             }
         });
+
         
         // Create onClickListener for delete Button
         holder.delete.setOnClickListener(new View.OnClickListener() {

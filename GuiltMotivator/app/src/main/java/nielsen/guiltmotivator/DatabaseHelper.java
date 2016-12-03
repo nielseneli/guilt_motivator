@@ -169,9 +169,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean editContact(Contact contact) {
-        return true;
-    }
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues args = new ContentValues();
+        args.put(ContactDbContract.FeedEntry._ID, contact.getLocalId());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, contact.getTaskId());
 
+        return db.update(ContactDbContract.FeedEntry.TABLE_NAME, args,
+                ContactDbContract.FeedEntry._ID + "=" + contact.getLocalId(), null) > 0;
+    }
 
     public boolean deleteContact(Contact contact) {
         SQLiteDatabase db = getWritableDatabase();
