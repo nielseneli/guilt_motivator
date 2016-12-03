@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".NotificationIntentService"
             android:enabled="true"
@@ -27,6 +28,13 @@
         <receiver android:name=".NotificationEventReceiver" />
         <receiver android:name=".NotificationServiceStarterReceiver"/>
         <receiver android:name=".NotificationPublisher" />
+        <!--This shit doesn't work. It will break things, but it might be necessary for scheduling
+        multiple notifications at once, so I'll fix it later. -->
+        <!--<receiver android:name=".NotificationPublisher" android:process=":remote">-->
+            <!--<intent-filter>-->
+                <!--<data android:scheme="timer:" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

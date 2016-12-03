@@ -1,7 +1,6 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
-import nielsen.guiltmotivator.Contact;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.contact = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.contactitem, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_item, parent, false);
         }
         // I didn't figure out how to implement ButterKnife here.
         // Because all elements here is a property of the holder class

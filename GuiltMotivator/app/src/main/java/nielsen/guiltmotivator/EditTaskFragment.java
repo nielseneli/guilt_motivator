@@ -1,38 +1,36 @@
 package nielsen.guiltmotivator;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class Edit_Task_Fragment extends Fragment {
+public class EditTaskFragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
     @BindView(R.id.taskName) TextView taskName;
+    @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editButton) ImageButton editButton;
-
-    String TAG = "asdf";
+    @BindView(R.id.editDueDate) ImageButton editDueDateButton;
 
     private ArrayList<Task> tasks;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +48,7 @@ public class Edit_Task_Fragment extends Fragment {
         tasks = mDbHelper.getAllTasks();
         final Task task = getTaskById(tasks, id);
         taskName.setText(task.getText());
+        tvDueDate.setText(task.getDueDate().getTime().toString());
         // set up contacts thingy
         ArrayList<Contact> contacts = new ArrayList<>();
         final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);
@@ -77,9 +76,42 @@ public class Edit_Task_Fragment extends Fragment {
                                 task.setText(inputText);
                                 taskName.setText(inputText);
                                 mDbHelper.editTask(task);
+                                mDbHelper.close();
                             }
                         })
                         .show();
+            }
+        });
+
+        editDueDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.edit_todo_dialog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
+                                DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
+                                Calendar inputDate = Calendar.getInstance();
+                                inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+
+                                task.setDueDate(inputDate);
+                                tvDueDate.setText(inputDate.getTime().toString());
+                                mDbHelper.editTask(task);
+                                mDbHelper.close();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                builder.show();
+
             }
         });
 
