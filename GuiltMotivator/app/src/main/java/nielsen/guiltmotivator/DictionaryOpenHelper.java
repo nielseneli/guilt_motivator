@@ -1,6 +1,5 @@
 package nielsen.guiltmotivator;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,14 +66,17 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
 
+        // get information and turn it into the things we want
         try {
             if (cursor.moveToFirst()) {
                 do {
                     Task newTask = new Task();
+                    // set text, whether it's checked, and id from SQL to task
                     newTask.setText(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK)));
                     newTask.setChecked(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED))));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry._ID)));
 
+                    // set due date from SQL to task
                     String dueDateString = cursor.getString(cursor.getColumnIndex(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE));
                     SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
                     Date dueDateDate = sdf.parse(dueDateString);
@@ -82,6 +84,7 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
                     dueDateCalendar.setTime(dueDateDate);
                     newTask.setDueDate(dueDateCalendar);
 
+                    // add task to arraylist tasks
                     tasks.add(newTask);
                 } while(cursor.moveToNext());
             }
@@ -97,18 +100,22 @@ public class DictionaryOpenHelper extends SQLiteOpenHelper {
 
     public boolean deleteTask(Task task) {
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete(DictionaryOpenContract.FeedEntry.TABLE_NAME , DictionaryOpenContract.FeedEntry._ID
-                + "=" + task.getId(), null) > 0;
+        return db.delete(DictionaryOpenContract.FeedEntry.TABLE_NAME,
+                DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
 
     public boolean editTask(Task task) {
-        //http://stackoverflow.com/questions/9798473/sqlite-in-android-how-to-update-a-specific-row
+        // http://stackoverflow.com/questions/9798473/sqlite-in-android-how-to-update-a-specific-row
         SQLiteDatabase db = getWritableDatabase();
         ContentValues args = new ContentValues();
         args.put(DictionaryOpenContract.FeedEntry._ID, task.getId());
         args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
-        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, Boolean.toString(task.isChecked()));
-        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
-        return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args, DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED,
+                Boolean.toString(task.isChecked()));
+        args.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE,
+                task.getDueDate().getTime().toString());
+        return db.update(DictionaryOpenContract.FeedEntry.TABLE_NAME, args,
+                DictionaryOpenContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
+
 }
