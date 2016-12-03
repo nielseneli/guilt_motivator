@@ -4,9 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,14 +19,25 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
-    private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 2;
+    private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 60;
 
     public static void setupAlarm(Context context) {
+        //get helper and get db in write mode
+        DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(context);
+
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        //grab arraylist of tasks from the database
+        ArrayList<Task> list = mDbHelper.getAllTasks();
+
+        Task task = list.get(0);
+
+        Log.d("TASK", task.getDueDate().getTime().toString());
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(context);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                getTriggerAt(new Date()),
-                NOTIFICATIONS_INTERVAL_IN_HOURS * AlarmManager.INTERVAL_HOUR,
+                getTriggerAt(task.getDueDate().getTime()),
+                NOTIFICATIONS_INTERVAL_IN_HOURS,
                 alarmIntent);
     }
 
@@ -45,10 +58,10 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         }
     }
 
-    private static long getTriggerAt(Date now) {
+    private static long getTriggerAt(Date dueDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.add(Calendar.MINUTE, NOTIFICATIONS_INTERVAL_IN_HOURS);
+        calendar.setTime(dueDate);
+        //calendar.add(Calendar.MINUTE, NOTIFICATIONS_INTERVAL_IN_HOURS);
         return calendar.getTimeInMillis();
     }
 
@@ -63,4 +76,5 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         intent.setAction(ACTION_DELETE_NOTIFICATION);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
 }

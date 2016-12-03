@@ -1,5 +1,6 @@
 package nielsen.guiltmotivator;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -22,6 +23,7 @@ public class NotificationIntentService extends IntentService {
     }
 
     public static Intent createIntentStartNotificationService(Context context) {
+        
         Intent intent = new Intent(context, NotificationIntentService.class);
         intent.setAction(ACTION_START);
         return intent;
@@ -50,6 +52,13 @@ public class NotificationIntentService extends IntentService {
     }
 
     private void processDeleteNotification(Intent intent) {
+//        intent = new Intent(this, NotificationIntentService.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(),
+//                eventId, intent, 0);
+//        AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+//        am.cancel(pendingIntent);
+//// Cancel the `PendingIntent` after you've canceled the alarm
+//        pendingIntent.cancel();
 
     }
 
