@@ -76,17 +76,19 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                         android.R.layout.simple_spinner_item);
                 methodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 methodSpinner.setAdapter(methodAdapter);
+
+                final EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
+                final EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+
+                nameEditText.setText(holder.contact.getName());
+                addressEditText.setText(holder.contact.getAddress());
+
                 //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Edit Contact!")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
-                                EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
-
-                                nameEditText.setHint(holder.contact.getName());
-                                addressEditText.setHint(holder.contact.getAddress());
 
                                 String name = nameEditText.getText().toString();
                                 String address = addressEditText.getText().toString();

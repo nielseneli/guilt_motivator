@@ -68,10 +68,11 @@ public class EditTaskFragment extends Fragment {
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
                 //set up the spinner
                 final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
-                ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(), R.array.contact_methods_array,
-                        android.R.layout.simple_spinner_item);
+                ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(),
+                        R.array.contact_methods_array, android.R.layout.simple_spinner_item);
                 methodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 methodSpinner.setAdapter(methodAdapter);
+
                 //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Add A Contact!")
@@ -83,7 +84,8 @@ public class EditTaskFragment extends Fragment {
 
                                 String name = nameEditText.getText().toString();
                                 String address = addressEditText.getText().toString();
-                                String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition()).toString();
+                                String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition())
+                                        .toString();
 
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
