@@ -1,87 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/fab_margin"
-    tools:context="nielsen.guiltmotivator.EditTaskFragment"
-    >
-
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal"
-         >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskName"
-            android:hint="task content"
-            android:textSize="@dimen/text_large"
-            android:layout_weight="0.54"
-            />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            android:id="@+id/editButton"
-            android:background="@null"
-            />
-        </LinearLayout>
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-
-        <TextView
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/due_date_nov_12th_23_20"
-            android:textSize="@dimen/text_size"
-            android:id="@+id/tvDueDate"
+            android:src="@drawable/task"
+            android:id="@+id/taskIcon"
             android:layout_weight="1"
-            />
-
-        <ImageButton
-            android:layout_width="wrap_content"
+            android:contentDescription="taskIcon" />
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            android:id="@+id/editDueDate"
-            android:background="@null"
-            />
-
+            android:id="@+id/taskName"
+            android:hint="what's the task?"
+            android:layout_weight="4" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/time"
+            android:id="@+id/timeIcon"
+            android:layout_marginLeft="5dp"
+            android:contentDescription="timeIcon" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contact"
-            android:id="@+id/Contact"
-            android:textSize="@dimen/text_large"
-            android:layout_weight="1"
-            />
-        <ImageButton
+            android:text="   Due:"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add"
-            android:layout_gravity="end"
-            android:id="@+id/addContact"
-            android:background="@null"
-            />
+            android:text="Nov 30th 8am"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:id="@+id/tvDueDate"
+            android:layout_weight="3"/>
+
+        <ImageButton
+            android:id="@+id/editDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/contact"
+            android:id="@+id/contactIcon"
+            android:contentDescription="contactIcon" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contacts:"
+            android:layout_marginLeft="15dp"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="231dp"
+        android:layout_height="104dp"
         android:id="@+id/contactlist"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.14" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add"
+        android:id="@+id/addContact"
+        android:background="@android:color/transparent"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_horizontal_margin">
+
+        <Button
+            android:text="@string/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:elevation="0dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--tools:context="nielsen.guiltmotivator.EditTaskFragment"-->
+    <!--&gt;-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--&gt;-->
+
+    <!--<TextView-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/taskName"-->
+    <!--android:hint="task content"-->
+    <!--android:textSize="@dimen/text_large"-->
+    <!--android:layout_weight="0.54"-->
+    <!--/>-->
+
+    <!--<ImageButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_edit"-->
+    <!--android:id="@+id/editButton"-->
+    <!--android:background="@null"-->
+    <!--/>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--&gt;-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/due_date_nov_12th_23_20"-->
+    <!--android:textSize="@dimen/text_size"-->
+    <!--android:id="@+id/tvDueDate"-->
+    <!--android:layout_weight="1"-->
+    <!--/>-->
+
+    <!--<ImageButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_edit"-->
+    <!--android:id="@+id/editDueDate"-->
+    <!--android:background="@null"-->
+    <!--/>-->
+
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/contact"-->
+    <!--android:id="@+id/Contact"-->
+    <!--android:textSize="@dimen/text_large"-->
+    <!--android:layout_weight="1"-->
+    <!--/>-->
+    <!--<ImageButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/ic_add"-->
+    <!--android:layout_gravity="end"-->
+    <!--android:id="@+id/addContact"-->
+    <!--android:background="@null"-->
+    <!--/>-->
+    <!--</LinearLayout>-->
+
+    <!--<ListView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="231dp"-->
+    <!--android:id="@+id/contactlist"-->
+    <!--/>-->
+
+
+
+    <!--</LinearLayout>-->

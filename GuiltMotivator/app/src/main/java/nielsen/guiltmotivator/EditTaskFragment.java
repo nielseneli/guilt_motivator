@@ -30,7 +30,7 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.contactlist) ListView contactList;
     @BindView(R.id.taskName) TextView taskName;
     @BindView(R.id.tvDueDate) TextView tvDueDate;
-    @BindView(R.id.editButton) ImageButton editButton;
+    //@BindView(R.id.editButton) ImageButton editButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
     private Task task;
 
@@ -117,28 +117,29 @@ public class EditTaskFragment extends Fragment {
                 alertDialogBuilder.show();
             }
         });
-        // edit that task's name
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Edit the task name");
-                final EditText editText = new EditText(getActivity());
-                editText.setText(task.getText());
-                builder.setView(editText);
-                builder.setPositiveButton("enter", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String inputText = editText.getText().toString();
-                                task.setText(inputText);
-                                taskName.setText(inputText);
-                                mDbHelper.editTask(task);
-                                mDbHelper.close();
-                            }
-                        })
-                        .show();
-            }
-        });
+        // edit that task's
+
+//        editButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setTitle("Edit the task name");
+//                final EditText editText = new EditText(getActivity());
+//                editText.setText(task.getText());
+//                builder.setView(editText);
+//                builder.setPositiveButton("enter", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String inputText = editText.getText().toString();
+//                                task.setText(inputText);
+//                                taskName.setText(inputText);
+//                                mDbHelper.editTask(task);
+//                                mDbHelper.close();
+//                            }
+//                        })
+//                        .show();
+//            }
+//        });
 
         editDueDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
