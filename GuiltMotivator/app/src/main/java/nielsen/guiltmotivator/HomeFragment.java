@@ -157,13 +157,13 @@ public class HomeFragment extends Fragment {
     }
 
     public void onCreate() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-        int defaultValue = getResources().getColor(R.color.white);
-        int background = sharedPref.getInt(MainActivity.SAVED_COLOR, defaultValue);
-
-
-        getView().setBackgroundColor(background);
+//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//
+//        int defaultValue = getResources().getColor(R.color.white);
+//        int background = sharedPref.getInt(MainActivity.SAVED_COLOR, defaultValue);
+//
+//
+//        getView().setBackgroundColor(background);
     }
 
     public interface OnFragmentInteractionListener {

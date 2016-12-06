@@ -3,7 +3,6 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 
@@ -48,12 +46,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (findViewById(R.id.fragmentcontainer) != null) {
-
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
-            int background = sharedPref.getInt(SAVED_COLOR, Color.WHITE);
-
-            getWindow().getDecorView().setBackgroundColor(background);
 
             if (savedInstanceState != null) {
                 return;
@@ -129,7 +121,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onRadioButtonClicked(View v) {
-        boolean checked = ((RadioButton) v).isChecked();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         switch(v.getId()) {
