@@ -40,7 +40,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/due_date_nov_12th_23_20"
             android:textSize="@dimen/text_size"
             android:id="@+id/tvDueDate"
             android:layout_weight="1"

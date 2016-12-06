@@ -72,6 +72,7 @@ public class HomeFragment extends Fragment {
 
         if (name.equals("none")) {
             //user doesn't have a name saved. Open an alertDialog.
+            // TODO: comment this shit
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Welcome to Guilt Motivator!")
                     .setMessage("Please enter your name.");
