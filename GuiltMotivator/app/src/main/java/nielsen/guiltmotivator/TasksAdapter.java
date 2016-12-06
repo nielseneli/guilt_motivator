@@ -24,7 +24,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
     private ArrayList<Task> tasks;
 
-    private DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+    private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
     // Gets the data repository in write mode
     final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -55,7 +55,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.tvText.setText(task.getText());
         holder.checkBox.setChecked(task.isChecked());
 
-        final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+        final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
         // set an onclick listener to the checkbox
         holder.checkBox.setOnClickListener(new View.OnClickListener() {

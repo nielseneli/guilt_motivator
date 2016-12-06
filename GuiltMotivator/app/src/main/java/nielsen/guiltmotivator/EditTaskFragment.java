@@ -1,17 +1,21 @@
 package nielsen.guiltmotivator;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -42,22 +46,69 @@ public class EditTaskFragment extends Fragment {
         // get the id from the bundle from the HomeFragment
         Bundle b = getArguments();
         Long id = b.getLong("id");
+
         // get the task information from the database
-        final DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+        final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         tasks = mDbHelper.getAllTasks();
         final Task task = getTaskById(tasks, id);
         taskName.setText(task.getText());
         tvDueDate.setText(task.getDueDate().getTime().toString());
+
         // set up contacts thingy
-        ArrayList<Contact> contacts = new ArrayList<>();
-        final ContactAdapter adapter = new ContactAdapter(this.getContext(),contacts);
+        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+
+        final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Contact contact = new Contact("Test","SMS");
-                adapter.add(contact);
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
+                //set up the spinner
+                final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
+                ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(),
+                        R.array.contact_methods_array, android.R.layout.simple_spinner_item);
+                methodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                methodSpinner.setAdapter(methodAdapter);
+
+                //set up the alert dialog actions
+                alertDialogBuilder.setView(dialogView)
+                        .setTitle("Add A Contact!")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
+                                EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+
+                                String name = nameEditText.getText().toString();
+                                String address = addressEditText.getText().toString();
+                                String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition())
+                                        .toString();
+
+                                Contact contact = new Contact(name, method, address);
+                                adapter.add(contact);
+
+                                ContentValues values = new ContentValues();
+                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
+                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
+                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
+                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+
+                                long newRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, values);
+                                contact.setTaskId(task.getId());
+                                contact.setLocalId(newRowId);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                            }
+                        });
+                alertDialogBuilder.show();
             }
         });
         // edit that task's name
