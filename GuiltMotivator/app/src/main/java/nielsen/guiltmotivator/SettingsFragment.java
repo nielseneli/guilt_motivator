@@ -1,15 +1,19 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,16 +49,38 @@ public class SettingsFragment extends Fragment {
         RadioButton she = (RadioButton) view.findViewById(R.id.she);
         RadioButton they = (RadioButton) view.findViewById(R.id.they);
 
-        // get user name thing
-        // TODO: make this editable.
-        TextView userName = (TextView) view.findViewById(R.id.userName);
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
-        String username = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+        final String username = sharedPref.getString(MainActivity.SAVED_NAME, "none");
 
+        // get user name thing
+        // TODO: make this editable.
+        final TextView userName = (TextView) view.findViewById(R.id.userName);
         userName.setText(username);
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText editText = new EditText(getActivity());
+                editText.setText(username);
+                Log.d("asdf", username);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(editText)
+                        .setPositiveButton("enter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String inputText = editText.getText().toString();
+                                userName.setText(inputText);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(MainActivity.SAVED_NAME, inputText);
+                                editor.apply();
+                            }
+                        })
+                        .show();
+            }
+        });
+
 
         if (tone.equals("polite")) {
             radio_group_tone.check(polite.getId());
