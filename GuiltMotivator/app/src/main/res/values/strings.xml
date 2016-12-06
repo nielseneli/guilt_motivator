@@ -29,5 +29,6 @@
     <string-array name="contact_methods_array">
         <item>SMS</item>
         <item>Splitwise</item>
+        <item>Email</item>
     </string-array>
 </resources>

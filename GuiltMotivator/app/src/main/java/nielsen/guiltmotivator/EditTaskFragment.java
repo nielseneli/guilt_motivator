@@ -25,7 +25,6 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class EditTaskFragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
@@ -33,6 +32,7 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editButton) ImageButton editButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
+    private Task task;
 
     private ArrayList<Task> tasks;
 
@@ -45,18 +45,24 @@ public class EditTaskFragment extends Fragment {
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
         Bundle b = getArguments();
-        Long id = b.getLong("id");
+        ArrayList<Contact> contacts;
 
-        // get the task information from the database
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         tasks = mDbHelper.getAllTasks();
-        final Task task = getTaskById(tasks, id);
-        taskName.setText(task.getText());
-        tvDueDate.setText(task.getDueDate().getTime().toString());
 
-        // set up contacts thingy
-        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+        if (b != null) { //if this came with a bundle
+            Long id = b.getLong("id");
+            task = getTaskById(tasks, id);
+            taskName.setText(task.getText());
+            tvDueDate.setText(task.getDueDate().getTime().toString());
+        } else {
+            task = new Task();
+        }
+
+            // set up contacts thingy
+            contacts = mDbHelper.getContacts(task);
+
 
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
