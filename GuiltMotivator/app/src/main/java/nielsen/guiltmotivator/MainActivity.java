@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity
         implements SettingsFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener{
 
-    public static final String SAVED_COLOR = "saved_color";
     public static final String SAVED_TONE = "saved_tone";
     public static final String SAVED_NAME = "saved_name";
+    public static final String SAVED_PRONOUNS = "saved_pronouns";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,18 +125,33 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPref.edit();
         switch(v.getId()) {
             case R.id.polite:
-                    if (v.getId() == R.id.polite) {
-                        Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
-                        editor.putString(MainActivity.SAVED_TONE, "polite");
-                        editor.apply();
-                    }
+                if (v.getId() == R.id.polite) {
+                    Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "polite");
+                    editor.apply();
+                }
 
             case R.id.profane:
-                    if (v.getId() == R.id.profane) {
-                        Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
-                        editor.putString(MainActivity.SAVED_TONE, "profane");
-                        editor.apply();
-                    }
+                if (v.getId() == R.id.profane) {
+                    Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "profane");
+                    editor.apply();
+                }
+            case R.id.he:
+                if (v.getId() == R.id.he) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "he");
+                    editor.apply();
+                }
+            case R.id.she:
+                if (v.getId() == R.id.she) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "she");
+                    editor.apply();
+                }
+            case R.id.they:
+                if (v.getId() == R.id.they) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "they");
+                    editor.apply();
+                }
         }
     }
 

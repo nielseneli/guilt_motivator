@@ -21,6 +21,9 @@
     <string name="method">Method: </string>
     <string name="name">Name: </string>
     <string name="address">Address: </string>
+    <string name="he">he/him/his</string>
+    <string name="she">she/her/hers</string>
+    <string name="they">they/them/theirs</string>
     <string-array name="menu_options">
         <item>Home</item>
         <item>Settings</item>
