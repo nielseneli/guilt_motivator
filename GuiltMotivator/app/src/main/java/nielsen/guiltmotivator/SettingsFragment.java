@@ -46,6 +46,7 @@ public class SettingsFragment extends Fragment {
         RadioButton they = (RadioButton) view.findViewById(R.id.they);
 
         // get user name thing
+        // TODO: make this editable.
         TextView userName = (TextView) view.findViewById(R.id.userName);
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);

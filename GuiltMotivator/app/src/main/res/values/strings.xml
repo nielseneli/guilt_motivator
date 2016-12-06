@@ -18,6 +18,7 @@
     <string name="profane">Profane</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="pronouns">Pronouns: </string>
     <string name="method">Method: </string>
     <string name="name">Name: </string>
     <string name="address">Address: </string>
@@ -32,5 +33,10 @@
     <string-array name="contact_methods_array">
         <item>SMS</item>
         <item>Splitwise</item>
+    </string-array>
+    <string-array name="pronouns_array">
+        <item>He/him/his</item>
+        <item>She/her/hers</item>
+        <item>They/them/theirs</item>
     </string-array>
 </resources>
