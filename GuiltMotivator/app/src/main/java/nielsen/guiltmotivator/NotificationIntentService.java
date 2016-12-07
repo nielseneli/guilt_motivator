@@ -81,5 +81,10 @@ public class NotificationIntentService extends IntentService {
 
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(this, "haozheng.du@students.olin.edu", "sb", "mdzz");
+        //Executing sendmail to send email
+        sm.execute();
     }
 }

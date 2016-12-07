@@ -29,7 +29,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
-
+//        if (list.size() == 0) return;
         Task task = list.get(0);
 
         Log.d("TASK", task.getDueDate().getTime().toString());
