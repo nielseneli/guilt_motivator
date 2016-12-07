@@ -155,6 +155,7 @@ public class EditTaskFragment extends Fragment {
             //save a thing.
             @Override
             public void onClick(View view) {
+
                 if (task.getDueDate() == null){
                     //you havent set a due date! Fix that!
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -194,7 +195,7 @@ public class EditTaskFragment extends Fragment {
                         mDbHelper.editTask(task);
 
 
-                    } else { //youre making a new task. Make the task first...
+                    } else { //you're making a new task. Make the task first...
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
