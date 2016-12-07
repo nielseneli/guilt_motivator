@@ -38,7 +38,7 @@
     <TextView
         style="@style/TitleFont"
         android:layout_below="@+id/userName"
-        android:text="Choose Pronouns"
+        android:text="@string/choosePronouns"
         android:id="@+id/choosePronounTitle" />
 
     <RadioGroup
