@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -54,7 +53,7 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         //get helper and get db in write mode
-        DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(getContext());
+        DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 //        mDbHelper.onCreate(db);
@@ -63,7 +62,7 @@ public class HomeFragment extends Fragment {
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
 
-        String sql = "SELECT " + DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + DictionaryOpenContract.FeedEntry.TABLE_NAME;
+        String sql = "SELECT " + TaskDbContract.FeedEntry.COLUMN_NAME_TASK + "FROM " + TaskDbContract.FeedEntry.TABLE_NAME;
 
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
@@ -96,7 +95,7 @@ public class HomeFragment extends Fragment {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.create_todo_dialog, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_create_todo, null);
                 builder.setView(dialogView)
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
@@ -134,12 +133,12 @@ public class HomeFragment extends Fragment {
 
                                 //create content values to prepare for SQL.
                                 ContentValues values = new ContentValues();
-                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
-                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
-                                values.put(DictionaryOpenContract.FeedEntry.COLUMN_NAME_DUEDATE, dueDateString);
+                                values.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskNameTextInput);
+                                values.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                                values.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, dueDateString);
 
                                 // Insert the new row, returning the primary key value of the new row
-                                long newRowId = db.insert(DictionaryOpenContract.FeedEntry.TABLE_NAME, null, values);
+                                long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, values);
                                 taskInput.setId(newRowId);
                             }
                         })

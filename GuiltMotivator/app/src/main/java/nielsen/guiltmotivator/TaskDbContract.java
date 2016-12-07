@@ -2,10 +2,11 @@ package nielsen.guiltmotivator;
 
 import android.provider.BaseColumns;
 
-public final class DictionaryOpenContract {
+public final class TaskDbContract {
+    // This is the contract that contains information for the table of tasks
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
-    private DictionaryOpenContract() {}
+    private TaskDbContract() {}
 
     /* Inner class that defines the table contents */
     public static class FeedEntry implements BaseColumns {

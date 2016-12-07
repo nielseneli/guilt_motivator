@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:text="@string/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvContactName" />
+
+    <EditText
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextContactName"
+        />
+
+    <TextView
+        android:text="@string/method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvContactMethod" />
+
+    <Spinner
+        android:id="@+id/contactMethodSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+
+    <TextView
+        android:text="@string/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvContactAddress" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextContactAddress" />
+
+</LinearLayout>
