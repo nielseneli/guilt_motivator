@@ -1,16 +1,22 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -21,8 +27,6 @@ public class SettingsFragment extends Fragment {
     View view;
 
     private OnFragmentInteractionListener mListener;
-    private int currentBackground;
-    private String currentTone;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -34,48 +38,69 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        //get the buttons
-        Button red = (Button) view.findViewById(R.id.red);
-        Button blue = (Button) view.findViewById(R.id.blue);
-        Button green = (Button) view.findViewById(R.id.green);
-        Button default_color = (Button) view.findViewById(R.id.default_color);
+        // get radiogroup/buttons about tone
+        RadioGroup radio_group_tone = (RadioGroup) view.findViewById(R.id.radio_group_tone);
+        RadioButton polite = (RadioButton) view.findViewById(R.id.polite);
+        RadioButton profane = (RadioButton) view.findViewById(R.id.profane);
 
-        //set up the onclick shiz with buttonSetup method
-        buttonSetup(red, 0xffff4040);
-        buttonSetup(blue, 0xff3399ff);
-        buttonSetup(green, 0xff6dc066);
-        buttonSetup(default_color, 0xffffffff);
+        // get radiogroup/buttons about pronouns
+        RadioGroup radio_group_pronouns = (RadioGroup) view.findViewById(R.id.radio_group_pronouns);
+        RadioButton he = (RadioButton) view.findViewById(R.id.he);
+        RadioButton she = (RadioButton) view.findViewById(R.id.she);
+        RadioButton they = (RadioButton) view.findViewById(R.id.they);
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        int bg = sharedPref.getInt(MainActivity.SAVED_COLOR, Color.WHITE);
+
+        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+        String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
+        final String username = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+
+        // get user name thing
+        // TODO: make this editable.
+        final TextView userName = (TextView) view.findViewById(R.id.userName);
+        userName.setText(username);
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText editText = new EditText(getActivity());
+                editText.setText(username);
+                Log.d("asdf", username);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(editText)
+                        .setPositiveButton("enter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String inputText = editText.getText().toString();
+                                userName.setText(inputText);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(MainActivity.SAVED_NAME, inputText);
+                                editor.apply();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+
+        if (tone.equals("polite")) {
+            radio_group_tone.check(polite.getId());
+        } else if (tone.equals("profane")) {
+            radio_group_tone.check(profane.getId());
+        }
+
+        if (pronouns.equals("he")) {
+            radio_group_pronouns.check(he.getId());
+        } else if (pronouns.equals("she")) {
+            radio_group_pronouns.check(she.getId());
+        } else if (pronouns.equals("they")) {
+            radio_group_pronouns.check(they.getId());
+        }
 
         return view;
     }
     public void onCreate() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-        int defaultValue = getResources().getColor(R.color.white);
-        int background = sharedPref.getInt(MainActivity.SAVED_COLOR, defaultValue);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-
-        getView().setBackgroundColor(background);
-    }
-
-    public void buttonSetup(Button name, final int color) {
-        //change the background color on click
-        name.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //getView().setBackgroundColor(color);
-
-                getActivity().getWindow().getDecorView().setBackgroundColor(color);
-                currentBackground = color;
-
-                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt(MainActivity.SAVED_COLOR, currentBackground);
-                editor.apply();
-            }
-        });
     }
 
     public void onButtonPressed(Uri uri) {
@@ -111,9 +136,5 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(MainActivity.SAVED_COLOR, currentBackground);
-        editor.commit();
     }
 }

@@ -3,7 +3,6 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.MenuItem;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 
@@ -27,9 +25,9 @@ public class MainActivity extends AppCompatActivity
         implements SettingsFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener{
 
-    public static final String SAVED_COLOR = "saved_color";
     public static final String SAVED_TONE = "saved_tone";
     public static final String SAVED_NAME = "saved_name";
+    public static final String SAVED_PRONOUNS = "saved_pronouns";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +46,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (findViewById(R.id.fragmentcontainer) != null) {
-
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
-            int background = sharedPref.getInt(SAVED_COLOR, Color.WHITE);
-
-            getWindow().getDecorView().setBackgroundColor(background);
 
             if (savedInstanceState != null) {
                 return;
@@ -129,23 +121,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onRadioButtonClicked(View v) {
-        boolean checked = ((RadioButton) v).isChecked();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         switch(v.getId()) {
             case R.id.polite:
-                    if (v.getId() == R.id.polite) {
-                        Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
-                        editor.putString(MainActivity.SAVED_TONE, "polite");
-                        editor.apply();
-                    }
+                if (v.getId() == R.id.polite) {
+                    Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "polite");
+                    editor.apply();
+                }
 
             case R.id.profane:
-                    if (v.getId() == R.id.profane) {
-                        Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
-                        editor.putString(MainActivity.SAVED_TONE, "profane");
-                        editor.apply();
-                    }
+                if (v.getId() == R.id.profane) {
+                    Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "profane");
+                    editor.apply();
+                }
+            case R.id.he:
+                if (v.getId() == R.id.he) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "he");
+                    editor.apply();
+                }
+            case R.id.she:
+                if (v.getId() == R.id.she) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "she");
+                    editor.apply();
+                }
+            case R.id.they:
+                if (v.getId() == R.id.they) {
+                    editor.putString(MainActivity.SAVED_PRONOUNS, "they");
+                    editor.apply();
+                }
         }
     }
 
