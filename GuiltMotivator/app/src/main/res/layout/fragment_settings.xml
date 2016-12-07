@@ -6,12 +6,8 @@
 
     <TextView
         android:text="@string/chooseColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:id="@+id/chooseColorTitle"
-        android:textSize="30sp"
-        android:textColor="@android:color/black" />
+        style="@style/TitleFont"
+        android:id="@+id/chooseColorTitle" />
 
     <RadioGroup
         android:id="@+id/radio_group_color"
@@ -22,30 +18,26 @@
 
         <RadioButton
             android:text="Default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/default_color"
             />
 
         <RadioButton
             android:text="Red"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/red"
             />
 
         <RadioButton
             android:text="Blue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/blue"
             android:layout_below="@+id/red"
             />
 
         <RadioButton
             android:text="Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/green"
             android:layout_below="@+id/blue"
             />
@@ -54,12 +46,8 @@
 
     <TextView
         android:text="@string/chooseTone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        style="@style/TitleFont"
         android:id="@+id/choosePolitenessTitle"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"
         android:layout_below="@id/radio_group_color"/>
 
     <RadioGroup
@@ -68,19 +56,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/choosePolitenessTitle">
-
-
+        
         <RadioButton
             android:text="@string/polite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/polite"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:text="@string/profane"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/NormalFont"
             android:id="@+id/profane"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
