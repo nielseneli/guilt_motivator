@@ -6,9 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by DHZ_Bill on 11/29/16.
@@ -82,9 +86,29 @@ public class NotificationIntentService extends IntentService {
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
 
-        //Creating SendMail object
-        SendMail sm = new SendMail(this, "haozheng.du@students.olin.edu", "sb", "mdzz");
-        //Executing sendmail to send email
-        sm.execute();
+        sendEmail();
+    }
+
+    private void sendEmail(){
+        //get helper and get db in write mode
+        DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ArrayList<Task> list = mDbHelper.getAllTasks();
+        Task task = list.get(0);
+        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+        final SharedPreferences sharedPref = getContext().getPreferences(Context.MODE_PRIVATE);
+        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+        final String politeMsg = "polite";
+        final String profaneMsg = "profane";
+        String msg = tone == "polite"? politeMsg : profaneMsg;
+
+        for (int i = 0; i < contacts.size();i++){
+            //Creating SendMail object
+            SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
+            //Executing sendmail to send email
+            sm.execute();
+        }
+
     }
 }

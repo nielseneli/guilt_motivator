@@ -23,7 +23,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
     public static void setupAlarm(Context context) {
         //get helper and get db in write mode
-        DictionaryOpenHelper mDbHelper = new DictionaryOpenHelper(context);
+        DatabaseHelper mDbHelper = new DatabaseHelper(context);
 
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
