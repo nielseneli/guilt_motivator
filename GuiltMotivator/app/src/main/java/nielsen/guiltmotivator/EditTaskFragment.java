@@ -45,7 +45,7 @@ public class EditTaskFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
-        Bundle b = getArguments();
+        final Bundle b = getArguments();
 
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -62,9 +62,9 @@ public class EditTaskFragment extends Fragment {
 
         // set up contacts thingy
         final ArrayList<Contact> contacts = mDbHelper.getContacts(task);
-
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,15 +95,17 @@ public class EditTaskFragment extends Fragment {
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
 
-                                ContentValues values = new ContentValues();
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+                                if (b != null) {
+                                    ContentValues contactValues = new ContentValues();
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
 
-                                long newRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, values);
-                                contact.setTaskId(task.getId());
-                                contact.setLocalId(newRowId);
+                                    long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
+                                    contact.setTaskId(task.getId());
+                                    contact.setLocalId(newContactRowId);
+                                }
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -150,6 +152,7 @@ public class EditTaskFragment extends Fragment {
         });
 
         editTaskSaveButton.setOnClickListener(new View.OnClickListener() {
+            //save a thing.
             @Override
             public void onClick(View view) {
                 if (task.getDueDate() == null){
@@ -164,6 +167,7 @@ public class EditTaskFragment extends Fragment {
                             });
                     builder.show();
                 } else if (task.getText() == null && taskName.getText().toString().equals("")) {
+                    //you haven't set a task name. Stop being bad.
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("You haven't selected a task name!")
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -174,6 +178,7 @@ public class EditTaskFragment extends Fragment {
                             });
                     builder.show();
                 } else if (contacts.size() == 0) {
+                    //add a contact that's the whole point of the app
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("You must add at least one contact!")
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -185,7 +190,36 @@ public class EditTaskFragment extends Fragment {
                     builder.show();
                 } else {
                     task.setText(taskName.getText().toString());
-                    mDbHelper.editTask(task);
+                    if (b != null) { //if you're editing an existing task
+                        mDbHelper.editTask(task);
+
+
+                    } else { //youre making a new task. Make the task first...
+                        ContentValues taskValues = new ContentValues();
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
+
+                        // Insert the new row, returning the primary key value of the new row
+                        long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
+                        task.setId(newRowId);
+
+                        //Then make the contacts...
+                        for (int i=0; i<contacts.size(); i++) {
+                            Contact contact = contacts.get(i);
+                            ContentValues contactValues = new ContentValues();
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+
+                            long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
+                            contact.setTaskId(task.getId());
+                            contact.setLocalId(newContactRowId);
+                        }
+
+                    }
+
                     editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccentLight));
                 }
             }
@@ -193,8 +227,6 @@ public class EditTaskFragment extends Fragment {
 
         return v;
     }
-
-
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
         Task task = new Task();

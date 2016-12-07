@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nov 30th 8am"
+            android:text="When is it due?"
             android:layout_marginTop="10dp"
             android:textSize="20dp"
             android:id="@+id/tvDueDate"
@@ -120,91 +120,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--tools:context="nielsen.guiltmotivator.EditTaskFragment"-->
-    <!--&gt;-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal"-->
-    <!--&gt;-->
-
-    <!--<TextView-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/taskName"-->
-    <!--android:hint="task content"-->
-    <!--android:textSize="@dimen/text_large"-->
-    <!--android:layout_weight="0.54"-->
-    <!--/>-->
-
-    <!--<ImageButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_edit"-->
-    <!--android:id="@+id/editButton"-->
-    <!--android:background="@null"-->
-    <!--/>-->
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--&gt;-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/due_date_nov_12th_23_20"-->
-    <!--android:textSize="@dimen/text_size"-->
-    <!--android:id="@+id/tvDueDate"-->
-    <!--android:layout_weight="1"-->
-    <!--/>-->
-
-    <!--<ImageButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_edit"-->
-    <!--android:id="@+id/editDueDate"-->
-    <!--android:background="@null"-->
-    <!--/>-->
-
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/contact"-->
-    <!--android:id="@+id/Contact"-->
-    <!--android:textSize="@dimen/text_large"-->
-    <!--android:layout_weight="1"-->
-    <!--/>-->
-    <!--<ImageButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_add"-->
-    <!--android:layout_gravity="end"-->
-    <!--android:id="@+id/addContact"-->
-    <!--android:background="@null"-->
-    <!--/>-->
-    <!--</LinearLayout>-->
-
-    <!--<ListView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="231dp"-->
-    <!--android:id="@+id/contactlist"-->
-    <!--/>-->
-
-
-
-    <!--</LinearLayout>-->

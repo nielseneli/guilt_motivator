@@ -137,6 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         int taskId = (int) task.getId();
+        Log.d("TaskId", taskId + "");
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
         + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
 

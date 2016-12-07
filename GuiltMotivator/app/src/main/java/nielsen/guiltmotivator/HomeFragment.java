@@ -88,7 +88,6 @@ public class HomeFragment extends Fragment {
             alert.show();
         }
 
-
         //setting an onclick for the button that adds items.
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
