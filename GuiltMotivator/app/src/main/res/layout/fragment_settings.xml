@@ -6,7 +6,7 @@
 
     <TextView
         android:text="@string/chooseColor"
-        style="@style/TitleFont"
+        style="@style/BareFont"
         android:id="@+id/chooseColorTitle" />
 
     <RadioGroup
@@ -18,26 +18,26 @@
 
         <RadioButton
             android:text="Default"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/default_color"
             />
 
         <RadioButton
             android:text="Red"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/red"
             />
 
         <RadioButton
             android:text="Blue"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/blue"
             android:layout_below="@+id/red"
             />
 
         <RadioButton
             android:text="Green"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/green"
             android:layout_below="@+id/blue"
             />
@@ -56,16 +56,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/choosePolitenessTitle">
-        
+
         <RadioButton
             android:text="@string/polite"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/polite"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:text="@string/profane"
-            style="@style/NormalFont"
+            style="@style/BareFont"
             android:id="@+id/profane"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>

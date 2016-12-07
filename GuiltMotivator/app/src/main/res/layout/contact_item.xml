@@ -6,18 +6,12 @@
     android:weightSum="1">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="New Text"
+        style="@style/NormalFont"
         android:layout_weight=".5"
-        android:textSize="20dp"
         android:id="@+id/itemName" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="New Text"
-        android:textSize="20dp"
+        style="@style/NormalFont"
         android:id="@+id/itemMethod"
         android:layout_weight=".5"/>
 

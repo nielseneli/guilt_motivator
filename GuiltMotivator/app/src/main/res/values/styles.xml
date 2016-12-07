@@ -16,9 +16,13 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--Text styles-->
-    <style name="NormalFont" parent="@android:style/TextAppearance.DeviceDefault">
+    <style name="BareFont" parent="@android:style/TextAppearance.DeviceDefault">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="NormalFont" parent="BareFont">
+        <item name="android:padding">@dimen/text_margin</item>
+        <item name="android:textSize">@dimen/text_size</item>
     </style>
     <style name="TitleFont" parent="NormalFont">
         <item name="android:layout_height">wrap_content</item>
