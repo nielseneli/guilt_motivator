@@ -60,10 +60,12 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
         holder.name = (TextView) convertView.findViewById(R.id.itemName);
         holder.method = (TextView) convertView.findViewById(R.id.itemMethod);
+        holder.address = (TextView) convertView.findViewById(R.id.itemAddress);
         holder.delete = (ImageButton) convertView.findViewById(R.id.delete);
 
         holder.name.setText(holder.contact.getName());
         holder.method.setText(holder.contact.getMethod());
+        holder.address.setText(holder.contact.getAddress());
 
         // create onClickListener to edit the contact info
         holder.name.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +157,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     public static class ContactHolder {
         TextView name;
         TextView method;
+        TextView address;
         ImageButton delete;
         Contact contact;
     }

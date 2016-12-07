@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="When is it due?"
             android:layout_marginTop="10dp"
-            android:textSize="20dp"
+            android:textSize="@dimen/text_size"
             android:id="@+id/tvDueDate"
             android:layout_weight="3"/>
 
