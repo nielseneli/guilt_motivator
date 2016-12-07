@@ -108,13 +108,13 @@ public class NotificationIntentService extends IntentService {
         final String profaneMsg = "profane";
 //        String msg = tone == "polite"? politeMsg : profaneMsg;
         String msg = "test";
-
-        for (int i = 0; i < contacts.size();i++){
-            //Creating SendMail object
-            SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
-            //Executing sendmail to send email
-            sm.execute();
+        if (!task.isChecked()){
+            for (int i = 0; i < contacts.size();i++){
+                //Creating SendMail object
+                SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
+                //Executing sendmail to send email
+                sm.execute();
+            }
         }
-
     }
 }
