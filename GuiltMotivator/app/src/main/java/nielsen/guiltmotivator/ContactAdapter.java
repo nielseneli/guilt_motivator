@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static nielsen.guiltmotivator.R.id.editTaskSaveButton;
 import static nielsen.guiltmotivator.R.string.contact;
 
 /**
@@ -68,7 +70,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = LayoutInflater.from(getContext());
+                final LayoutInflater inflater = LayoutInflater.from(getContext());
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
                 //set up the spinner
                 final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
@@ -109,6 +111,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                 mDbHelper.editContact(holder.contact);
                                 notifyDataSetChanged();
 
+                                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
+                                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -125,10 +131,14 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
                 Contact deleted = holder.contact;
                 remove(deleted); //remove the item from the adapter
                 mDbHelper.deleteContact(deleted);
                 notifyDataSetChanged();
+                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
             }
         });
         convertView.setTag(holder);

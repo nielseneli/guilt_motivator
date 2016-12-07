@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +31,7 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.contactlist) ListView contactList;
     @BindView(R.id.taskName) TextView taskName;
     @BindView(R.id.tvDueDate) TextView tvDueDate;
-    //@BindView(R.id.editButton) ImageButton editButton;
+    @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
     private Task task;
 
@@ -45,7 +46,6 @@ public class EditTaskFragment extends Fragment {
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
         Bundle b = getArguments();
-        ArrayList<Contact> contacts;
 
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -60,9 +60,8 @@ public class EditTaskFragment extends Fragment {
             task = new Task();
         }
 
-            // set up contacts thingy
-            contacts = mDbHelper.getContacts(task);
-
+        // set up contacts thingy
+        final ArrayList<Contact> contacts = mDbHelper.getContacts(task);
 
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
@@ -115,31 +114,9 @@ public class EditTaskFragment extends Fragment {
                             }
                         });
                 alertDialogBuilder.show();
+                editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             }
         });
-        // edit that task's
-
-//        editButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setTitle("Edit the task name");
-//                final EditText editText = new EditText(getActivity());
-//                editText.setText(task.getText());
-//                builder.setView(editText);
-//                builder.setPositiveButton("enter", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String inputText = editText.getText().toString();
-//                                task.setText(inputText);
-//                                taskName.setText(inputText);
-//                                mDbHelper.editTask(task);
-//                                mDbHelper.close();
-//                            }
-//                        })
-//                        .show();
-//            }
-//        });
 
         editDueDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,8 +135,7 @@ public class EditTaskFragment extends Fragment {
 
                                 task.setDueDate(inputDate);
                                 tvDueDate.setText(inputDate.getTime().toString());
-                                mDbHelper.editTask(task);
-                                mDbHelper.close();
+                                editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -173,8 +149,52 @@ public class EditTaskFragment extends Fragment {
             }
         });
 
+        editTaskSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (task.getDueDate() == null){
+                    //you havent set a due date! Fix that!
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("You haven't selected a due date!")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.show();
+                } else if (task.getText() == null && taskName.getText().toString().equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("You haven't selected a task name!")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.show();
+                } else if (contacts.size() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("You must add at least one contact!")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.show();
+                } else {
+                    task.setText(taskName.getText().toString());
+                    mDbHelper.editTask(task);
+                    editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccentLight));
+                }
+            }
+        });
+
         return v;
     }
+
+
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
         Task task = new Task();
