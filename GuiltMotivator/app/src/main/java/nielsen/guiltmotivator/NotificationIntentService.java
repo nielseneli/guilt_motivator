@@ -1,5 +1,6 @@
 package nielsen.guiltmotivator;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -21,6 +22,7 @@ public class NotificationIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
     private static final String ACTION_START = "ACTION_START";
     private static final String ACTION_DELETE = "ACTION_DELETE";
+    private boolean isEmailSent = false;
 
     public NotificationIntentService() {
         super(NotificationIntentService.class.getSimpleName());
@@ -110,5 +112,36 @@ public class NotificationIntentService extends IntentService {
 //            sm.execute();
 //        }
 //
+//    }
+////
+////        if (!isEmailSent){
+////            sendEmail();
+////            isEmailSent = true;
+////        }
+//    }
+//
+//    private void sendEmail(){
+////        Activity activity = (Activity) context;
+//        //get helper and get db in write mode
+//        DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
+//        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//        ArrayList<Task> list = mDbHelper.getAllTasks();
+//        Task task = list.get(0);
+//        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+////        final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+////        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+////        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+//        final String politeMsg = "polite";
+//        final String profaneMsg = "profane";
+////        String msg = tone == "polite"? politeMsg : profaneMsg;
+//        String msg = "test";
+//        if (!task.isChecked()){
+//            for (int i = 0; i < contacts.size();i++){
+//                //Creating SendMail object
+//                SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
+//                //Executing sendmail to send email
+//                sm.execute();
+//            }
+//        }
 //    }
 }

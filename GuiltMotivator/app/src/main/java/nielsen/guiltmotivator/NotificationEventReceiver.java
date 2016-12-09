@@ -29,7 +29,13 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //grab arraylist of tasks from the database
+<<<<<<< HEAD
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
+=======
+        ArrayList<Task> list = mDbHelper.getAllTasks();
+        if (list.size() == 0) return;
+        Task task = list.get(0);
+>>>>>>> 98c7ad65d7a900a57f215a0d38e7b09bd4f354bd
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
