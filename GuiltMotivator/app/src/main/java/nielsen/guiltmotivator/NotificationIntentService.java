@@ -14,6 +14,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by DHZ_Bill on 11/29/16.
@@ -70,6 +71,7 @@ public class NotificationIntentService extends IntentService {
 
     private void processStartNotification() {
         // Do something. For example, fetch fresh data from backend to create a rich notification?
+        int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle("Scheduled Notification")
@@ -86,7 +88,7 @@ public class NotificationIntentService extends IntentService {
         builder.setDeleteIntent(NotificationEventReceiver.getDeleteIntent(this));
 
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(NOTIFICATION_ID, builder.build());
+        manager.notify(m, builder.build());
 
         //sendEmail();
     }
