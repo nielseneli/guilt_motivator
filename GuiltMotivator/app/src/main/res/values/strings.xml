@@ -16,10 +16,20 @@
     <string name="blue">Blue</string>
     <string name="green">Green</string>
     <string name="polite">Polite</string>
+    <string name="rude">Rude</string>
     <string name="profane">Profane</string>
-    <string name="he">he/him/his</string>
-    <string name="she">she/her/hers</string>
-    <string name="they">they/them/theirs</string>
+
+    <!--Pronoun strings-->
+    <string name="pronouns_string">%1$s/%2$s/%3$s</string>
+    <string name="he">he</string>
+    <string name="him">him</string>
+    <string name="his">his</string>
+    <string name="she">she</string>
+    <string name="her">her</string>
+    <string name="hers">hers</string>
+    <string name="they">they</string>
+    <string name="them">them</string>
+    <string name="theirs">theirs</string>
 
     <!--Navigation drawer things-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -44,5 +54,8 @@
     <string name="cd_add">Add button</string>
     <string name="cd_delete">Delete button</string>
     <string name="cd_edit">Edit button</string>
+
+    <!--Formattable message strings-->
+    <string name="polite_message">We just wanted to let you know that %1$s is a waste of space and you should be disappointed in %2$s</string>
 
 </resources>

@@ -17,6 +17,7 @@
 
     <ImageButton
         style="@style/TypicalImageButton"
+        android:id="@+id/delete"
         android:contentDescription="@string/cd_delete"
         android:src="@drawable/ic_delete" />
 </LinearLayout>

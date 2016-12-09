@@ -3,6 +3,7 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class SettingsFragment extends Fragment {
         // get radiogroup/buttons about tone
         RadioGroup radio_group_tone = (RadioGroup) view.findViewById(R.id.radio_group_tone);
         RadioButton polite = (RadioButton) view.findViewById(R.id.polite);
+        RadioButton rude = (RadioButton) view.findViewById(R.id.rude);
         RadioButton profane = (RadioButton) view.findViewById(R.id.profane);
 
         // get radiogroup/buttons about pronouns
@@ -49,6 +51,19 @@ public class SettingsFragment extends Fragment {
         RadioButton she = (RadioButton) view.findViewById(R.id.she);
         RadioButton they = (RadioButton) view.findViewById(R.id.they);
 
+        // get the text for the pronouns buttons
+        Resources res = getResources();
+        String he_pronouns = String.format(res.getString(R.string.pronouns_string),
+                res.getString(R.string.he), res.getString(R.string.him), res.getString(R.string.his));
+        String she_pronouns = String.format(res.getString(R.string.pronouns_string),
+                res.getString(R.string.she), res.getString(R.string.her), res.getString(R.string.hers));
+        String they_pronouns = String.format(res.getString(R.string.pronouns_string),
+                res.getString(R.string.they), res.getString(R.string.them), res.getString(R.string.theirs));
+
+        // set the text for the pronouns buttons
+        he.setText(he_pronouns);
+        she.setText(she_pronouns);
+        they.setText(they_pronouns);
 
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
@@ -81,9 +96,11 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-
+        // set the radio buttons to be appropriately checked!
         if (tone.equals("polite")) {
             radio_group_tone.check(polite.getId());
+        } else if (tone.equals("rude")) {
+            radio_group_tone.check(rude.getId());
         } else if (tone.equals("profane")) {
             radio_group_tone.check(profane.getId());
         }
@@ -95,6 +112,12 @@ public class SettingsFragment extends Fragment {
         } else if (pronouns.equals("they")) {
             radio_group_pronouns.check(they.getId());
         }
+
+        // set test text
+        //TODO: REMOVE THIS ONCE IT'S IMPLEMENTED ELSEWHERE PLEASE
+        String text = String.format(getResources().getString(R.string.test_message), username, "them");
+        TextView tv = (TextView) view.findViewById(R.id.test_writing);
+        tv.setText(text);
 
         return view;
     }
