@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        startService();
+        //startService();
 
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
-    public void startService() {
-        NotificationEventReceiver.setupAlarm(getApplicationContext());
-    }
+//    public void startService() {
+//        NotificationEventReceiver.setupAlarm(getApplicationContext());
+//    }
 }

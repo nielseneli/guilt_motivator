@@ -86,29 +86,29 @@ public class NotificationIntentService extends IntentService {
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
 
-        sendEmail();
+        //sendEmail();
     }
 
-    private void sendEmail(){
-        //get helper and get db in write mode
-        DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Task> list = mDbHelper.getAllTasks();
-        Task task = list.get(0);
-        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
-        final SharedPreferences sharedPref = getContext().getPreferences(Context.MODE_PRIVATE);
-        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        final String politeMsg = "polite";
-        final String profaneMsg = "profane";
-        String msg = tone == "polite"? politeMsg : profaneMsg;
-
-        for (int i = 0; i < contacts.size();i++){
-            //Creating SendMail object
-            SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
-            //Executing sendmail to send email
-            sm.execute();
-        }
-
-    }
+//    private void sendEmail(){
+//        //get helper and get db in write mode
+//        DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
+//        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//        ArrayList<Task> list = mDbHelper.getAllTasks();
+//        Task task = list.get(0);
+//        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
+//        final SharedPreferences sharedPref = getContext().getPreferences(Context.MODE_PRIVATE);
+//        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+//        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+//        final String politeMsg = "polite";
+//        final String profaneMsg = "profane";
+//        String msg = tone == "polite"? politeMsg : profaneMsg;
+//
+//        for (int i = 0; i < contacts.size();i++){
+//            //Creating SendMail object
+//            SendMail sm = new SendMail(this, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
+//            //Executing sendmail to send email
+//            sm.execute();
+//        }
+//
+//    }
 }
