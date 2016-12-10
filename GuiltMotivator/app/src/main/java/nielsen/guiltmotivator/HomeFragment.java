@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * The main fragment containing the list of tasks and a button to add tasks. Sends data 2 SQL 4 safekeeping.
+ * The main fragment containing the list of tasks and a button to add tasks.
  */
 public class HomeFragment extends Fragment {
     //preparing to butter...

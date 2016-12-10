@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Testing notifications. :)
+ * Testing notifications.
  */
 
 public class NotificationPublisher extends BroadcastReceiver{
