@@ -150,6 +150,7 @@ public class EditTaskFragment extends Fragment {
 
                             }
                         });
+                startService();
                 builder.show();
 
             }
@@ -221,6 +222,16 @@ public class EditTaskFragment extends Fragment {
         });
 
         return v;
+    }
+
+    public void startService() {
+//        DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
+//
+//        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//
+//        //grab arraylist of tasks from the database
+//        ArrayList<Task> list = mDbHelper.getAllTasks();
+        NotificationEventReceiver.setupAlarm(getContext());
     }
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {

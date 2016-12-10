@@ -1,5 +1,6 @@
 package nielsen.guiltmotivator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,8 +34,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        NotificationEventReceiver.updateActivity(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //startService();
 
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,7 +88,6 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.nav_settings) {
             Fragment settingsFragment = new SettingsFragment();
-
             fragmentTransaction.replace(R.id.fragmentcontainer, settingsFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -91,7 +95,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             Fragment defaultFragment = new HomeFragment();
-
             fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -154,6 +157,12 @@ public class MainActivity extends AppCompatActivity
                 }
         }
     }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
 
     public void onSettingsFragmentInteraction(Uri uri){
     }
@@ -161,4 +170,8 @@ public class MainActivity extends AppCompatActivity
     public void onStop() {
         super.onStop();
     }
+
+//    public void startService() {
+//        NotificationEventReceiver.setupAlarm(getApplicationContext());
+//    }
 }

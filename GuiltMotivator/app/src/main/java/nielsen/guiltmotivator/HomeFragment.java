@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
+//        mDbHelper.onCreate(db);
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
