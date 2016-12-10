@@ -1,7 +1,7 @@
 package nielsen.guiltmotivator;
 
 /**
- * Created by zlan on 11/7/16.
+ * Contains name, method, address, id of the task it's associated with, and it's own row id from sql.
  *
  */
 public class Contact {

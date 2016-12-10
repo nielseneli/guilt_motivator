@@ -26,6 +26,10 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * This is the fragment where tasks are edited and added.
+ */
+
 public class EditTaskFragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
@@ -155,33 +159,25 @@ public class EditTaskFragment extends Fragment {
             //save a thing.
             @Override
             public void onClick(View view) {
+                Boolean showAlertDialog = false;
 
+                String missingInfo;
                 if (task.getDueDate() == null){
-                    //you havent set a due date! Fix that!
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("You haven't selected a due date!")
-                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                    builder.show();
+                    missingInfo = "a due date!";
+                    showAlertDialog = true;
                 } else if (task.getText() == null && taskName.getText().toString().equals("")) {
-                    //you haven't set a task name. Stop being bad.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("You haven't selected a task name!")
-                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                    builder.show();
+                    missingInfo = "a task name!";
+                    showAlertDialog = true;
                 } else if (contacts.size() == 0) {
-                    //add a contact that's the whole point of the app
+                    missingInfo = "any contacts!";
+                    showAlertDialog = true;
+                } else {
+                    missingInfo = "";
+                }
+
+                if (showAlertDialog) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("You must add at least one contact!")
+                    builder.setMessage("You haven't selected " + missingInfo)
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -220,8 +216,6 @@ public class EditTaskFragment extends Fragment {
                         }
 
                     }
-
-                    editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccentLight));
                 }
             }
         });

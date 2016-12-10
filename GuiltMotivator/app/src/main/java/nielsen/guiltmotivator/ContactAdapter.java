@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static nielsen.guiltmotivator.R.id.editTaskSaveButton;
-import static nielsen.guiltmotivator.R.string.contact;
-
 /**
  * This is the adapter for contacts. It lives in the EditTaskFragment and contains the name, contact method and address of each contact.
  *
