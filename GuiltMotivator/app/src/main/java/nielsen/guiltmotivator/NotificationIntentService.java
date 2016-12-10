@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -23,9 +24,14 @@ public class NotificationIntentService extends IntentService {
     private static final String ACTION_START = "ACTION_START";
     private static final String ACTION_DELETE = "ACTION_DELETE";
     private boolean isEmailSent = false;
+    private static WeakReference<Activity> mActivityRef;
 
     public NotificationIntentService() {
         super(NotificationIntentService.class.getSimpleName());
+    }
+
+    public static void updateActivity(Activity activity) {
+        mActivityRef = new WeakReference<>(activity);
     }
 
     public static Intent createIntentStartNotificationService(Context context) {
@@ -101,13 +107,16 @@ public class NotificationIntentService extends IntentService {
         ArrayList<Task> list = mDbHelper.getAllTasks();
         Task task = list.get(0);
         ArrayList<Contact> contacts = mDbHelper.getContacts(task);
-//        final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-//        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-//        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
+
+        Activity activity = mActivityRef.get();
+
+        final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
+        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
         final String politeMsg = "polite";
         final String profaneMsg = "profane";
 //        String msg = tone == "polite"? politeMsg : profaneMsg;
-        String msg = "test";
+        String msg = name + tone;
         if (!task.isChecked()){
             for (int i = 0; i < contacts.size();i++){
                 //Creating SendMail object
