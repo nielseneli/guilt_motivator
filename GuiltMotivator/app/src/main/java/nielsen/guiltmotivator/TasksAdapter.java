@@ -17,16 +17,17 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/** This is my adapter. It works for an array of tasks and includes an onclick for each testview that opens up an alertdialog.
+/** This is the adapter for tasks. It works for an array of tasks and includes an onclick for each textView that opens up the EditTaskFragment, and a delete button.
  * */
 
 public class TasksAdapter extends ArrayAdapter<Task> {
 
     private ArrayList<Task> tasks;
 
-    private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
-    // Gets the data repository in write mode
-    final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+    //instantiate the database
+
+    //private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
+    //final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
     public TasksAdapter(ArrayList<Task> tasks, Context context) {
         super(context, 0, tasks);
@@ -47,9 +48,6 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-
-        ButterKnife.bind(this, convertView);
-        // Lookup view for data population
 
         // Populate the data into the template view using the data object
         holder.tvText.setText(task.getText());
