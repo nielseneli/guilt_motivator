@@ -115,7 +115,7 @@ public class SettingsFragment extends Fragment {
 
         // set test text
         //TODO: REMOVE THIS ONCE IT'S IMPLEMENTED ELSEWHERE PLEASE
-        String text = String.format(getResources().getString(R.string.test_message), username, "them");
+        String text = String.format(getResources().getString(R.string.polite_message), username, "them");
         TextView tv = (TextView) view.findViewById(R.id.test_writing);
         tv.setText(text);
 
