@@ -28,6 +28,8 @@ public class AlarmReceiver extends BroadcastReceiver{
             Calendar dueDate = task.getDueDate();
             if (!task.isChecked() && currentTime.compareTo(dueDate) <= 0) {
                 sendEmail(context, task);
+                task.toggleChecked();
+                mDbHelper.editTask(task);
             }
         }
 
@@ -47,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
-            SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
+            SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator AlarmReceiver", msg);
             //Executing sendmail to send email
             sm.execute();
         }

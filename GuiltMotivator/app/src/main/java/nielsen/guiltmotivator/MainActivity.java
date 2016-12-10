@@ -1,6 +1,8 @@
 package nielsen.guiltmotivator;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,6 +66,13 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.commit();
         }
+
+        //alarmreceiver setup to check every ten minutes
+        AlarmManager alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),600000,
+                pendingIntent);
     }
 
     @Override
