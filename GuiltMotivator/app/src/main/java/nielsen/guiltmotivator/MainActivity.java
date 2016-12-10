@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NotificationIntentService.updateActivity(this);
+        NotificationEventReceiver.updateActivity(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.nav_settings) {
             Fragment settingsFragment = new SettingsFragment();
-
             fragmentTransaction.replace(R.id.fragmentcontainer, settingsFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             Fragment defaultFragment = new HomeFragment();
-
             fragmentTransaction.replace(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
