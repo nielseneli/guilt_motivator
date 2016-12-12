@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/** Sets up the database columns. **/
+/** Database Helper. Gets, saves and deletes entries in both the contacts table and the tasks one. **/
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
@@ -75,8 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String POSTS_SELECT_QUERY =
                 "SELECT * FROM " + TaskDbContract.FeedEntry.TABLE_NAME;
 
-        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
-        // disk space scenarios)
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
 
@@ -137,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         int taskId = (int) task.getId();
+        Log.d("TaskId", taskId + "");
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
         + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
 

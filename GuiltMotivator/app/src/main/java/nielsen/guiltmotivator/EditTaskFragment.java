@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,14 +26,18 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * This is the fragment where tasks are edited and added.
+ */
 
 public class EditTaskFragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
     @BindView(R.id.taskName) TextView taskName;
     @BindView(R.id.tvDueDate) TextView tvDueDate;
-    @BindView(R.id.editButton) ImageButton editButton;
+    @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
+    private Task task;
 
     private ArrayList<Task> tasks;
 
@@ -44,22 +49,26 @@ public class EditTaskFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
-        Bundle b = getArguments();
-        Long id = b.getLong("id");
+        final Bundle b = getArguments();
 
-        // get the task information from the database
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         tasks = mDbHelper.getAllTasks();
-        final Task task = getTaskById(tasks, id);
-        taskName.setText(task.getText());
-        tvDueDate.setText(task.getDueDate().getTime().toString());
+
+        if (b != null) { //if this came with a bundle
+            Long id = b.getLong("id");
+            task = getTaskById(tasks, id);
+            taskName.setText(task.getText());
+            tvDueDate.setText(task.getDueDate().getTime().toString());
+        } else {
+            task = new Task();
+        }
 
         // set up contacts thingy
-        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
-
+        final ArrayList<Contact> contacts = mDbHelper.getContacts(task);
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,15 +99,17 @@ public class EditTaskFragment extends Fragment {
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
 
-                                ContentValues values = new ContentValues();
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
-                                values.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+                                if (b != null) {
+                                    ContentValues contactValues = new ContentValues();
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
+                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
 
-                                long newRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, values);
-                                contact.setTaskId(task.getId());
-                                contact.setLocalId(newRowId);
+                                    long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
+                                    contact.setTaskId(task.getId());
+                                    contact.setLocalId(newContactRowId);
+                                }
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -109,28 +120,7 @@ public class EditTaskFragment extends Fragment {
                             }
                         });
                 alertDialogBuilder.show();
-            }
-        });
-        // edit that task's name
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Edit the task name");
-                final EditText editText = new EditText(getActivity());
-                editText.setText(task.getText());
-                builder.setView(editText);
-                builder.setPositiveButton("enter", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String inputText = editText.getText().toString();
-                                task.setText(inputText);
-                                taskName.setText(inputText);
-                                mDbHelper.editTask(task);
-                                mDbHelper.close();
-                            }
-                        })
-                        .show();
+                editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             }
         });
 
@@ -151,8 +141,7 @@ public class EditTaskFragment extends Fragment {
 
                                 task.setDueDate(inputDate);
                                 tvDueDate.setText(inputDate.getTime().toString());
-                                mDbHelper.editTask(task);
-                                mDbHelper.close();
+                                editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -164,6 +153,71 @@ public class EditTaskFragment extends Fragment {
                 startService();
                 builder.show();
 
+            }
+        });
+
+        editTaskSaveButton.setOnClickListener(new View.OnClickListener() {
+            //save a thing.
+            @Override
+            public void onClick(View view) {
+                Boolean showAlertDialog = false;
+
+                String missingInfo;
+                if (task.getDueDate() == null){
+                    missingInfo = "a due date!";
+                    showAlertDialog = true;
+                } else if (task.getText() == null && taskName.getText().toString().equals("")) {
+                    missingInfo = "a task name!";
+                    showAlertDialog = true;
+                } else if (contacts.size() == 0) {
+                    missingInfo = "any contacts!";
+                    showAlertDialog = true;
+                } else {
+                    missingInfo = "";
+                }
+
+                if (showAlertDialog) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("You haven't selected " + missingInfo)
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.show();
+                } else {
+                    task.setText(taskName.getText().toString());
+                    if (b != null) { //if you're editing an existing task
+                        mDbHelper.editTask(task);
+
+
+                    } else { //you're making a new task. Make the task first...
+                        ContentValues taskValues = new ContentValues();
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
+
+                        // Insert the new row, returning the primary key value of the new row
+                        long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
+                        task.setId(newRowId);
+
+                        //Then make the contacts...
+                        for (int i=0; i<contacts.size(); i++) {
+                            Contact contact = contacts.get(i);
+                            ContentValues contactValues = new ContentValues();
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
+                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+
+                            long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
+                            contact.setTaskId(task.getId());
+                            contact.setLocalId(newContactRowId);
+                        }
+
+                    }
+                }
             }
         });
 

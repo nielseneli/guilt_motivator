@@ -3,7 +3,7 @@ package nielsen.guiltmotivator;
 import android.provider.BaseColumns;
 
 /**
- * Created by m on 12/2/16.
+ * Contract of the columns in the contact table.
  *
  */
 

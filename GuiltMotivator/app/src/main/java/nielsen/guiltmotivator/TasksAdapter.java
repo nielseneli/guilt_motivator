@@ -17,16 +17,15 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/** This is my adapter. It works for an array of tasks and includes an onclick for each testview that opens up an alertdialog.
+/** This is the adapter for tasks. It works for an array of tasks and includes an onclick for each textView that opens up the EditTaskFragment,
+ * and a delete button.
  * */
 
 public class TasksAdapter extends ArrayAdapter<Task> {
 
     private ArrayList<Task> tasks;
 
-    private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
-    // Gets the data repository in write mode
-    final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+    //instantiate the database
 
     public TasksAdapter(ArrayList<Task> tasks, Context context) {
         super(context, 0, tasks);
@@ -48,16 +47,13 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             convertView.setTag(holder);
         }
 
-        ButterKnife.bind(this, convertView);
-        // Lookup view for data population
-
         // Populate the data into the template view using the data object
         holder.tvText.setText(task.getText());
         holder.checkBox.setChecked(task.isChecked());
 
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
-        // set an onclick listener to the checkbox
+        // set onClickListeners. Edit or delete task, then go into sql.
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +72,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             }
         });
 
-        //set an onclick listener to the textview.
+        //set an onclick listener to the textview, which opens up the EditTaskFragment.
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment newFragment = new EditTaskFragment();
