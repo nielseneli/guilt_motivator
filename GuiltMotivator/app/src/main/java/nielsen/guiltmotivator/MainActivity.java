@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //startService();
 
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -110,20 +109,16 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
         return true;
     }
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager manager;                                            //initializes manager as FragmentManager
         FragmentTransaction transaction;                                    //initializes transaction as FragmentTransaction
-
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
-
         transaction.replace(R.id.fragmentcontainer, fragment);
         transaction.addToBackStack(null).commit();
     }
@@ -187,7 +182,4 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
-//    public void startService() {
-//        NotificationEventReceiver.setupAlarm(getApplicationContext());
-//    }
 }

@@ -35,7 +35,6 @@ public class EmailService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // TODO Auto-generated method stub
-        Log.d("lol","service is working");
         final Handler handler = new Handler();
         Timer timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
@@ -44,7 +43,6 @@ public class EmailService extends Service {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            Log.d("lollol","hahahaha");
                             checkAllTasks();
                         } catch (Exception e) {
                         }
@@ -84,7 +82,6 @@ public class EmailService extends Service {
     }
 
     public void checkAllTasks(){
-        Log.d("haha","got here");
         DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         //grab arraylist of tasks from the database
@@ -108,7 +105,6 @@ public class EmailService extends Service {
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
         final String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
-
         String right_pronoun = "";
         if (pronouns.equals("he")) {
             right_pronoun = getResources().getString(R.string.him);
@@ -117,7 +113,6 @@ public class EmailService extends Service {
         } else if (pronouns.equals("they")) {
             right_pronoun = getResources().getString(R.string.them);
         }
-
         String msg = getMessage(right_pronoun, tone, name);
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object

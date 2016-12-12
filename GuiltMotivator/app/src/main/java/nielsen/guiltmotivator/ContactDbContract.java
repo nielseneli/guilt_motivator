@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 
 public class ContactDbContract{
 
-    private ContactDbContract() {};
+    private ContactDbContract(){}
 
     public static class FeedEntry implements BaseColumns {
         public static final String TABLE_NAME = "contacts";
@@ -17,7 +17,5 @@ public class ContactDbContract{
         public static final String COLUMN_NAME_CONTACT_NAME = "contactName";
         public static final String COLUMN_NAME_CONTACT_ADDRESS = "contactAddress";
         public static final String COLUMN_NAME_CONTACT_METHOD = "contactMethod";
-
     }
-
 }
