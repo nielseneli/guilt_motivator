@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -50,6 +51,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         // Populate the data into the template view using the data object
         holder.tvText.setText(task.getText());
         holder.checkBox.setChecked(task.isChecked());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+        holder.dueDate.setText(sdf.format(task.getDueDate().getTime()));
 
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
@@ -92,6 +96,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         @BindView(R.id.tvText) TextView tvText;
         @BindView(R.id.checkBox) CheckBox checkBox;
         @BindView(R.id.deleteButton) ImageButton deleteButton;
+        @BindView(R.id.dueDateHome) TextView dueDate;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
