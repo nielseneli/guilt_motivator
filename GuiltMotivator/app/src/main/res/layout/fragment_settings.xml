@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,12 +7,8 @@
 
     <TextView
         android:text="@string/chooseTone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:id="@+id/choosePolitenessTitle"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"/>
+        style="@style/TitleFont"
+        android:id="@+id/choosePolitenessTitle" />
 
     <RadioGroup
         android:id="@+id/radio_group_tone"
@@ -22,37 +19,33 @@
 
         <RadioButton
             android:text="@string/polite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/BareFont"
             android:id="@+id/polite"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
+            android:text="@string/rude"
+            style="@style/BareFont"
+            android:id="@+id/rude"
+            android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton
             android:text="@string/profane"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/BareFont"
             android:id="@+id/profane"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        style="@style/TitleFont"
         android:id="@+id/userName"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"
         android:layout_below="@+id/radio_group_tone"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        style="@style/TitleFont"
         android:layout_below="@+id/userName"
-        android:text="Choose Pronouns"
-        android:id="@+id/choosePronounTitle"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"/>
+        android:text="@string/choosePronouns"
+        android:id="@+id/choosePronounTitle" />
 
     <RadioGroup
         android:id="@+id/radio_group_pronouns"
@@ -63,22 +56,19 @@
 
         <RadioButton
             android:text="@string/he"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/BareFont"
             android:id="@+id/he"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:text="@string/she"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/BareFont"
             android:id="@+id/she"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:text="@string/they"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/BareFont"
             android:id="@+id/they"
             android:onClick="onRadioButtonClicked"/>
 

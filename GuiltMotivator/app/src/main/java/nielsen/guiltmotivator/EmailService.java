@@ -107,10 +107,18 @@ public class EmailService extends Service {
         final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        final String politeMsg = "polite";
-        final String profaneMsg = "profane";
-//        String msg = tone == "polite"? politeMsg : profaneMsg;
-        String msg = name + tone;
+        final String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
+
+        String right_pronoun = "";
+        if (pronouns.equals("he")) {
+            right_pronoun = getResources().getString(R.string.him);
+        } else if (pronouns.equals("she")) {
+            right_pronoun = getResources().getString(R.string.her);
+        } else if (pronouns.equals("they")) {
+            right_pronoun = getResources().getString(R.string.them);
+        }
+
+        String msg = getMessage(right_pronoun, tone, name);
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
@@ -120,4 +128,21 @@ public class EmailService extends Service {
         task.toggleChecked();
         mDbHelper.editTask(task);
     }
+
+    public String getMessage(String pronoun, String tone, String username) {
+        // TODO: This disappears into a different file, delete it from here when it's moved
+        String text = "";
+        if (tone.equals("polite")) {
+            text = String.format(getResources().getString(R.string.polite_message),
+                    username, pronoun);
+        } else if (tone.equals("rude")) {
+            text = String.format(getResources().getString(R.string.rude_message),
+                    username);
+        } else if (tone.equals("profane")) {
+            text = String.format(getResources().getString(R.string.profane_message),
+                    username, pronoun);
+        }
+        return text;
+    }
+
 }
