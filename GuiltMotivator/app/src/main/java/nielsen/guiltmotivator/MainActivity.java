@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NotificationEventReceiver.updateActivity(this);
+        EmailService.updateActivity(this);
+        Intent mServiceIntent = new Intent(this, EmailService.class);
+        this.startService(mServiceIntent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

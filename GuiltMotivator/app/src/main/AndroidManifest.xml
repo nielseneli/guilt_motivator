@@ -25,6 +25,10 @@
             android:name=".NotificationIntentService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".EmailService"
+            android:enabled="true"
+            android:label="Email Service"/>
         <receiver android:name=".NotificationEventReceiver" />
         <receiver android:name=".NotificationServiceStarterReceiver"/>
         <receiver android:name=".NotificationPublisher" />
