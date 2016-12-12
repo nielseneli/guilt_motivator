@@ -52,17 +52,14 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
         //get all of the layout elements
         holder.name = (TextView) convertView.findViewById(R.id.itemName);
-        holder.method = (TextView) convertView.findViewById(R.id.itemMethod);
         holder.address = (TextView) convertView.findViewById(R.id.itemAddress);
         holder.delete = (ImageButton) convertView.findViewById(R.id.delete);
 
         //set the values for the layout attributes from the task's information
         holder.name.setText(holder.contact.getName());
-        holder.method.setText(holder.contact.getMethod());
         holder.address.setText(holder.contact.getAddress());
 
         //create the alert dialogs so when you click on any part of the contact you can edit.
-        createEditContactAlertDialog(holder.method, holder);
         createEditContactAlertDialog(holder.address, holder);
         createEditContactAlertDialog(holder.name, holder);
 
@@ -89,12 +86,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     // set the TextView
     private void setupItem(ContactHolder holder){
         holder.name.setText(holder.contact.getName());
-        holder.method.setText(holder.contact.getMethod());
     }
 
     public static class ContactHolder {
         TextView name;
-        TextView method;
         TextView address;
         ImageButton delete;
         Contact contact;
@@ -138,7 +133,6 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                     holder.contact.setName(name);
                                 }
                                 if (!method.equals("")) {
-                                    holder.method.setText(method);
                                     holder.contact.setMethod(method);
                                 }
                                 if (!address.equals("")) {
