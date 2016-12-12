@@ -46,7 +46,7 @@ public class EditTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        
+
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
@@ -133,15 +133,22 @@ public class EditTaskFragment extends Fragment {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.edit_todo_dialog, null);
+
+                final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
+                final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
+
+                if (b != null) {
+                    datePicker.updateDate(task.getDueDate().get(Calendar.YEAR), task.getDueDate().get(Calendar.MONTH), task.getDueDate().get(Calendar.DAY_OF_MONTH));
+                    timePicker.setCurrentHour(task.getDueDate().get(Calendar.HOUR));
+                    timePicker.setCurrentMinute(task.getDueDate().get(Calendar.MINUTE));
+                }
+
                 builder.setView(dialogView)
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
-                                DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-
                                 task.setDueDate(inputDate);
                                 SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
                                 tvDueDate.setText(sdf.format(inputDate.getTime()));
