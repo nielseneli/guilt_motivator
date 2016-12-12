@@ -150,7 +150,6 @@ public class EditTaskFragment extends Fragment {
 
                             }
                         });
-                startService();
                 builder.show();
 
             }
@@ -192,6 +191,7 @@ public class EditTaskFragment extends Fragment {
                         mDbHelper.editTask(task);
 
 
+
                     } else { //you're making a new task. Make the task first...
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
@@ -217,6 +217,16 @@ public class EditTaskFragment extends Fragment {
                         }
 
                     }
+                    startService();
+
+                    Fragment newFragment = new HomeFragment();
+                    MainActivity main = (MainActivity) getContext();
+
+                    if (getContext() == null)
+                        return;
+
+                    if (getContext() instanceof MainActivity)
+                        main.replaceFragment(newFragment);
                 }
             }
         });
