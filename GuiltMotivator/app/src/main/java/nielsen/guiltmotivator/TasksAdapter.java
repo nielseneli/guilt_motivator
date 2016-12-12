@@ -52,7 +52,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.tvText.setText(task.getText());
         holder.checkBox.setChecked(task.isChecked());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
         holder.dueDate.setText(sdf.format(task.getDueDate().getTime()));
 
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());

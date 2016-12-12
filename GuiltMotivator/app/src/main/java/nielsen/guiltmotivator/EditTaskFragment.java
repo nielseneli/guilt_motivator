@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -60,7 +61,9 @@ public class EditTaskFragment extends Fragment {
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
             taskName.setText(task.getText());
-            tvDueDate.setText(task.getDueDate().getTime().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+            tvDueDate.setText(sdf.format(task.getDueDate().getTime()));
+
         } else {
             task = new Task();
         }
@@ -141,7 +144,8 @@ public class EditTaskFragment extends Fragment {
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
                                 task.setDueDate(inputDate);
-                                tvDueDate.setText(inputDate.getTime().toString());
+                                SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+                                tvDueDate.setText(sdf.format(inputDate.getTime()));
                                 editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                         })
