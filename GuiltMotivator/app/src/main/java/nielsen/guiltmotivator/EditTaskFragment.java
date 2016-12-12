@@ -46,6 +46,7 @@ public class EditTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        startService();
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
@@ -150,7 +151,6 @@ public class EditTaskFragment extends Fragment {
 
                             }
                         });
-                startService();
                 builder.show();
 
             }

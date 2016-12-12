@@ -38,13 +38,15 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
-        Log.d("Number of tasks:", "" + tasks.size());
         for(int i = 0; i < tasks.size(); i++) {
             PendingIntent alarmIntent = getStartPendingIntent(context,i);
-            Log.d("current task id: ", ""+i);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+//            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+//                    getTriggerAt(tasks.get(i).getDueDate().getTime()),
+//                    // NOTIFICATIONS_INTERVAL_IN_HOURS,
+//                    alarmIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                     getTriggerAt(tasks.get(i).getDueDate().getTime()),
-                    // NOTIFICATIONS_INTERVAL_IN_HOURS,
+                    60000,
                     alarmIntent);
             intentArray.add(alarmIntent);
         }
@@ -58,9 +60,11 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         if (ACTION_START_NOTIFICATION_SERVICE.equals(action)) {
             Log.i(getClass().getSimpleName(), "onReceive from alarm, starting notification service");
             serviceIntent = NotificationIntentService.createIntentStartNotificationService(context);
+            checkAllTasks(context);
         } else if (ACTION_DELETE_NOTIFICATION.equals(action)) {
             Log.i(getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete");
             serviceIntent = NotificationIntentService.createIntentDeleteNotification(context);
+            checkAllTasks(context);
         }
 
         if (serviceIntent != null) {
@@ -79,8 +83,10 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
         Calendar cur = Calendar.getInstance();
         for (int i = 0; i < tasks.size(); i++){
-            if (tasks.get(i).getDueDate().compareTo(cur) >= 0 && !tasks.get(i).isChecked()){
+            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).isChecked()){
                 sendEmail(context,tasks.get(i));
+                tasks.get(i).toggleChecked();
+                mDbHelper.editTask(tasks.get(i));
             }
         }
     }
@@ -104,6 +110,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
             //Executing sendmail to send email
             sm.execute();
+            Log.d("sendEmail", "email sent?");
         }
     }
 

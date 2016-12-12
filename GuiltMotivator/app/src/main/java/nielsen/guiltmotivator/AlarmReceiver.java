@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 public class AlarmReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("AlarmReceiver", "received notification");
         DatabaseHelper mDbHelper = new DatabaseHelper(context);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
@@ -26,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver{
             Task task = tasks.get(j);
             Calendar currentTime = Calendar.getInstance();
             Calendar dueDate = task.getDueDate();
-            if (!task.isChecked() && currentTime.compareTo(dueDate) <= 0) {
+            if (!task.isChecked() && currentTime.compareTo(dueDate) >= 0) {
                 sendEmail(context, task);
                 task.toggleChecked();
                 mDbHelper.editTask(task);

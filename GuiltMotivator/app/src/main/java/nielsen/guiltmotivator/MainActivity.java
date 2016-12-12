@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -66,13 +67,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.add(R.id.fragmentcontainer, defaultFragment);
             fragmentTransaction.commit();
         }
-
-        //alarmreceiver setup to check every ten minutes
-        AlarmManager alarmManager=(AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),600000,
-                pendingIntent);
     }
 
     @Override

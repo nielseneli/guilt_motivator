@@ -29,8 +29,7 @@
         <receiver android:name=".NotificationServiceStarterReceiver"/>
         <receiver android:name=".NotificationPublisher" />
         <receiver
-            android:name=".AlarmReceiver"
-            android:exported="false">
+            android:name=".AlarmReceiver">
 
         </receiver>
 
