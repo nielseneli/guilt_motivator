@@ -115,7 +115,16 @@ public class SettingsFragment extends Fragment {
 
         // set test text
         //TODO: REMOVE THIS ONCE IT'S IMPLEMENTED ELSEWHERE PLEASE
-        String text = String.format(getResources().getString(R.string.polite_message), username, "them");
+        String right_pronoun = "";
+        if (pronouns.equals("he")) {
+            right_pronoun = getResources().getString(R.string.him);
+        } else if (pronouns.equals("she")) {
+            right_pronoun = getResources().getString(R.string.her);
+        } else if (pronouns.equals("they")) {
+            right_pronoun = getResources().getString(R.string.them);
+        }
+
+        String text = getMessage(right_pronoun, tone, username);
         TextView tv = (TextView) view.findViewById(R.id.test_writing);
         tv.setText(text);
 
@@ -125,6 +134,22 @@ public class SettingsFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
     }
+
+    public String getMessage(String pronoun, String tone, String username) {
+        // TODO: This disappears into a different file, delete it from here when it's moved
+        String text = "";
+        if (tone.equals("polite")) {
+            text = String.format(getResources().getString(R.string.polite_message),
+                    username, pronoun);
+        } else if (tone.equals("rude")) {
+            text = String.format(getResources().getString(R.string.rude_message),
+                    username);
+        } else if (tone.equals("profane")) {
+            text = String.format(getResources().getString(R.string.profane_message),
+                    username, pronoun);
+        }
+        return text;
+    };
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

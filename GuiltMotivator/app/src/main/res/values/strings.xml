@@ -56,6 +56,8 @@
     <string name="cd_edit">Edit button</string>
 
     <!--Formattable message strings-->
-    <string name="polite_message">We just wanted to let you know that %1$s is a waste of space and you should be disappointed in %2$s</string>
+    <string name="polite_message">We just wanted to let you know that %1$s didn\'t do something and you should be disappointed in %2$s</string>
+    <string name="rude_message">We wanted you to know that %1$s is a waste of space and doesn\'t deserve to live.</string>
+    <string name="profane_message">%1$s fucked up and didn\'t do something. Tell %2$s to do better.</string>
 
 </resources>

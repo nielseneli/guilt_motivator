@@ -131,22 +131,33 @@ public class MainActivity extends AppCompatActivity
                     editor.apply();
                 }
 
+            case R.id.rude:
+                if (v.getId() == R.id.rude) {
+                    //TODO: consider changing this toast
+                    Toast.makeText(this, "Eh", Toast.LENGTH_SHORT).show();
+                    editor.putString(MainActivity.SAVED_TONE, "rude");
+                    editor.apply();
+                }
+
             case R.id.profane:
                 if (v.getId() == R.id.profane) {
                     Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
                     editor.putString(MainActivity.SAVED_TONE, "profane");
                     editor.apply();
                 }
+
             case R.id.he:
                 if (v.getId() == R.id.he) {
                     editor.putString(MainActivity.SAVED_PRONOUNS, "he");
                     editor.apply();
                 }
+
             case R.id.she:
                 if (v.getId() == R.id.she) {
                     editor.putString(MainActivity.SAVED_PRONOUNS, "she");
                     editor.apply();
                 }
+
             case R.id.they:
                 if (v.getId() == R.id.they) {
                     editor.putString(MainActivity.SAVED_PRONOUNS, "they");
