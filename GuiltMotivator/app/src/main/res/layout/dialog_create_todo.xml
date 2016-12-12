@@ -8,10 +8,11 @@
 
     <EditText
         android:id="@+id/tnEditText"
-        android:paddingLeft="10dp"
+        android:paddingStart="@dimen/dialog_margin"
+        android:paddingLeft="@dimen/dialog_margin"
         android:layout_width="250dip"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         android:hint="@string/taskNameHint"
         android:layout_gravity="center_horizontal" />
 

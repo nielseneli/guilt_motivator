@@ -6,11 +6,10 @@
     android:weightSum="1">
 
     <TextView
+        style="@style/NormalFont"
         android:layout_width="0px"
-        android:layout_height="match_parent"
         android:text="New Text"
         android:layout_weight=".3"
-        android:textSize="20dp"
         android:id="@+id/itemName"
         android:scrollHorizontally="true"
         android:ellipsize="end"
@@ -27,22 +26,21 @@
         android:ellipsize="end"
         android:maxLines="1"/>
 
+
     <TextView
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:textSize="20dp"
         android:id="@+id/itemAddress"
         android:layout_weight=".4"
-        android:text="Address"
         android:scrollHorizontally="true"
         android:ellipsize="end"
         android:maxLines="1"/>
 
     <ImageButton
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
+        style="@style/TypicalImageButton"
         android:id="@+id/delete"
-        android:layout_weight=".1"
-        android:background="@android:color/transparent"/>
+        android:contentDescription="@string/cd_delete"
+        android:src="@drawable/ic_delete"
+        android:layout_width="0px"
+        android:layout_weight=".1"/>
 </LinearLayout>
