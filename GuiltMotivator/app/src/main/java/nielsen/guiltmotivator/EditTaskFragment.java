@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,7 +46,7 @@ public class EditTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        
         View v = inflater.inflate(R.layout.fragment_edit_task, container, false);
         ButterKnife.bind(this,v);
         // get the id from the bundle from the HomeFragment
@@ -59,7 +60,9 @@ public class EditTaskFragment extends Fragment {
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
             taskName.setText(task.getText());
-            tvDueDate.setText(task.getDueDate().getTime().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+            tvDueDate.setText(sdf.format(task.getDueDate().getTime()));
+
         } else {
             task = new Task();
         }
@@ -140,7 +143,8 @@ public class EditTaskFragment extends Fragment {
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
                                 task.setDueDate(inputDate);
-                                tvDueDate.setText(inputDate.getTime().toString());
+                                SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+                                tvDueDate.setText(sdf.format(inputDate.getTime()));
                                 editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                         })
@@ -150,7 +154,6 @@ public class EditTaskFragment extends Fragment {
 
                             }
                         });
-                startService();
                 builder.show();
 
             }

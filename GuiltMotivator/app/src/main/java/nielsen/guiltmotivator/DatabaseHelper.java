@@ -112,6 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean deleteTask(Task task) {
         SQLiteDatabase db = getWritableDatabase();
+        deleteContactsFromTask(task);
         return db.delete(TaskDbContract.FeedEntry.TABLE_NAME,
                 TaskDbContract.FeedEntry._ID + "=" + task.getId(), null) > 0;
     }
@@ -135,7 +136,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         int taskId = (int) task.getId();
-        Log.d("TaskId", taskId + "");
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
         + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
 
@@ -183,6 +183,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(ContactDbContract.FeedEntry.TABLE_NAME,
                 ContactDbContract.FeedEntry._ID + "=" + contact.getLocalId(), null) > 0;
+    }
+
+    public boolean deleteContactsFromTask(Task task) {
+        //when you delete a task, you should also delete all contacts associated with it in case
+        //that ID gets used again
+        SQLiteDatabase db = getWritableDatabase();
+        int taskId = (int) task.getId();
+        return db.delete(ContactDbContract.FeedEntry.TABLE_NAME, ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId, null) > 0;
     }
 
 }

@@ -38,14 +38,13 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
-        Log.d("Number of tasks:", "" + tasks.size());
         for(int i = 0; i < tasks.size(); i++) {
             PendingIntent alarmIntent = getStartPendingIntent(context,i);
-            Log.d("current task id: ", ""+i);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,
                     getTriggerAt(tasks.get(i).getDueDate().getTime()),
                     // NOTIFICATIONS_INTERVAL_IN_HOURS,
                     alarmIntent);
+
             intentArray.add(alarmIntent);
         }
     }
@@ -66,9 +65,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
             startWakefulService(context, serviceIntent);
         }
     }
-
-
-
 
     private static long getTriggerAt(Date dueDate) {
         Calendar calendar = Calendar.getInstance();
