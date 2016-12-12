@@ -11,8 +11,9 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/task"
             android:id="@+id/taskIcon"
             android:layout_weight="1"
@@ -31,11 +32,12 @@
         android:orientation="horizontal"
         >
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/time"
             android:id="@+id/timeIcon"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="timeIcon" />
         <TextView
             android:layout_width="wrap_content"
@@ -55,11 +57,11 @@
 
         <ImageButton
             android:id="@+id/editDueDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/edit"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="5dp"/>
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/edit"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -69,8 +71,9 @@
         android:layout_margin="5dp"
         >
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/contact"
             android:id="@+id/contactIcon"
             android:contentDescription="contactIcon" />
