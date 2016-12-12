@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Testing notifications. :)
+ * Testing notifications.
  */
 
 public class NotificationPublisher extends BroadcastReceiver{
@@ -23,4 +23,5 @@ public class NotificationPublisher extends BroadcastReceiver{
         notificationManager.notify(id, notification);
 
     }
+
 }

@@ -2,8 +2,11 @@ package nielsen.guiltmotivator;
 
 import android.provider.BaseColumns;
 
+/**
+ * This is the contract that contains information for the table of tasks.
+ */
 public final class TaskDbContract {
-    // This is the contract that contains information for the table of tasks
+
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
     private TaskDbContract() {}

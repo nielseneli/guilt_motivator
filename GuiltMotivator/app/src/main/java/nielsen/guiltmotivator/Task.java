@@ -4,7 +4,7 @@ package nielsen.guiltmotivator;
 import java.util.Calendar;
 
 /**
- *A task class. It includes a string of the thing you have to do and a row id.
+ *A task class. It includes a string of the thing you have to do, a row id, a due date and a boolean of whether it's done.
  */
 public class Task {
     private String text;
@@ -15,7 +15,6 @@ public class Task {
     public Task() {
 
     }
-
 
     public Task(String text) {
         this.text = text;

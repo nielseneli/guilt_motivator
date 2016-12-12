@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -17,22 +18,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static nielsen.guiltmotivator.R.string.contact;
-
 /**
- * Created by zlan on 11/7/16.
+ * This is the adapter for contacts. It lives in the EditTaskFragment and contains the name, contact method and address of each contact.
  *
  */
 public class ContactAdapter extends ArrayAdapter<Contact> {
-    public static int pos;
-    private ArrayList<Contact> contacts;
+
     private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
     final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 
     public ContactAdapter(Context context, ArrayList<Contact> items) {
         super(context, 0, items);
-        this.contacts = items;
 
     }
 
@@ -40,8 +37,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         final ContactHolder holder;
-        //myDb = new DatabaseHelper(this.getContext());
-        // Get the data item for this position
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView != null) {
             holder = (ContactHolder) convertView.getTag();
@@ -51,25 +47,68 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             convertView.setTag(holder);
         }
 
+        //get the Contact at the position.
         holder.contact = getItem(position);
 
-        // I didn't figure out how to implement ButterKnife here.
-        // Because all elements here is a property of the holder class
-
+        //get all of the layout elements
         holder.name = (TextView) convertView.findViewById(R.id.itemName);
         holder.method = (TextView) convertView.findViewById(R.id.itemMethod);
+        holder.address = (TextView) convertView.findViewById(R.id.itemAddress);
         holder.delete = (ImageButton) convertView.findViewById(R.id.delete);
 
+        //set the values for the layout attributes from the task's information
         holder.name.setText(holder.contact.getName());
         holder.method.setText(holder.contact.getMethod());
+        holder.address.setText(holder.contact.getAddress());
 
-        // create onClickListener to edit the contact info
-        holder.name.setOnClickListener(new View.OnClickListener() {
+        //create the alert dialogs so when you click on any part of the contact you can edit.
+        createEditContactAlertDialog(holder.method, holder);
+        createEditContactAlertDialog(holder.address, holder);
+        createEditContactAlertDialog(holder.name, holder);
+
+        // Create onClickListener for delete Button
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
+                Contact deleted = holder.contact;
+                remove(deleted); //remove the item from the adapter
+                mDbHelper.deleteContact(deleted);
+                notifyDataSetChanged();
+                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+            }
+        });
+        convertView.setTag(holder);
+        setupItem(holder);
+        // Return the completed view to render on screen
+        return convertView;
+    }
+
+    // set the TextView
+    private void setupItem(ContactHolder holder){
+        holder.name.setText(holder.contact.getName());
+        holder.method.setText(holder.contact.getMethod());
+    }
+
+    public static class ContactHolder {
+        TextView name;
+        TextView method;
+        TextView address;
+        ImageButton delete;
+        Contact contact;
+    }
+
+    public void createEditContactAlertDialog(View v, final ContactHolder holder) {
+        //because I want users to be able to click on any part of the contact and be able to edit, I want something I can call multiple times.
+        v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = LayoutInflater.from(getContext());
+                final LayoutInflater inflater = LayoutInflater.from(getContext());
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
+
                 //set up the spinner
                 final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
                 ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(), R.array.contact_methods_array,
@@ -109,6 +148,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                 mDbHelper.editContact(holder.contact);
                                 notifyDataSetChanged();
 
+                                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
+                                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -117,35 +160,8 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                     }
                 });
                 alertDialogBuilder.show();
+
             }
         });
-
-        
-        // Create onClickListener for delete Button
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Contact deleted = holder.contact;
-                remove(deleted); //remove the item from the adapter
-                mDbHelper.deleteContact(deleted);
-                notifyDataSetChanged();
-            }
-        });
-        convertView.setTag(holder);
-        setupItem(holder);
-        // Return the completed view to render on screen
-        return convertView;
-    }
-    // set the TextView
-    private void setupItem(ContactHolder holder){
-        holder.name.setText(holder.contact.getName());
-        holder.method.setText(holder.contact.getMethod());
-    }
-
-    public static class ContactHolder {
-        TextView name;
-        TextView method;
-        ImageButton delete;
-        Contact contact;
     }
 }
