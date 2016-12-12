@@ -28,10 +28,6 @@
         <receiver android:name=".NotificationEventReceiver" />
         <receiver android:name=".NotificationServiceStarterReceiver"/>
         <receiver android:name=".NotificationPublisher" />
-        <receiver
-            android:name=".AlarmReceiver">
-
-        </receiver>
 
         <!--This shit doesn't work. It will break things, but it might be necessary for scheduling
         multiple notifications at once, so I'll fix it later. -->

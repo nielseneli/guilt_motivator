@@ -55,13 +55,6 @@ public class HomeFragment extends Fragment {
         //spreading the butter
         ButterKnife.bind(this, view);
 
-        //alarmreceiver setup to check every ten minutes
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis() + 60000, 60000,
-                pendingIntent);
-
         //get helper and get db in write mode
         DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
 
