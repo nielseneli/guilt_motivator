@@ -9,13 +9,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by DHZ_Bill on 11/29/16.
@@ -24,7 +28,7 @@ public class NotificationIntentService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
     private static final String ACTION_START = "ACTION_START";
     private static final String ACTION_DELETE = "ACTION_DELETE";
-    private boolean isEmailSent = false;
+
 
 
     public NotificationIntentService() {
@@ -46,6 +50,9 @@ public class NotificationIntentService extends IntentService {
         return intent;
     }
 
+
+
+
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.d(getClass().getSimpleName(), "onHandleIntent, started handling a notification event");
@@ -60,6 +67,7 @@ public class NotificationIntentService extends IntentService {
         } finally {
             WakefulBroadcastReceiver.completeWakefulIntent(intent);
         }
+
     }
 
     private void processDeleteNotification(Intent intent) {
@@ -94,5 +102,6 @@ public class NotificationIntentService extends IntentService {
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(m, builder.build());
     }
+
 
 }

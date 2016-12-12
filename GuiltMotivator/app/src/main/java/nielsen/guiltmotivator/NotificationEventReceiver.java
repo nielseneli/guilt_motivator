@@ -23,7 +23,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
 
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
-    private static WeakReference<Activity> mActivityRef;
+
     //private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 60;
     @SuppressLint("NewApi")
     public static void setupAlarm(Context context) {
@@ -54,7 +54,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         Intent serviceIntent = null;
-        checkAllTasks(context);
         if (ACTION_START_NOTIFICATION_SERVICE.equals(action)) {
             Log.i(getClass().getSimpleName(), "onReceive from alarm, starting notification service");
             serviceIntent = NotificationIntentService.createIntentStartNotificationService(context);
@@ -68,44 +67,8 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
         }
     }
 
-    public static void updateActivity(Activity activity) {
-        mActivityRef = new WeakReference<>(activity);
-    }
 
-    public void checkAllTasks(Context context){
-        DatabaseHelper mDbHelper = new DatabaseHelper(context);
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        //grab arraylist of tasks from the database
-        ArrayList<Task> tasks = mDbHelper.getAllTasks();
-        Calendar cur = Calendar.getInstance();
-        for (int i = 0; i < tasks.size(); i++){
-            if (tasks.get(i).getDueDate().compareTo(cur) >= 0 && !tasks.get(i).isChecked()){
-                sendEmail(context,tasks.get(i));
-            }
-        }
-    }
 
-    private void sendEmail(Context context, Task task){
-//        Activity activity = (Activity) context;
-        //get helper and get db in write mode
-        DatabaseHelper mDbHelper = new DatabaseHelper(context);
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ArrayList<Contact> contacts = mDbHelper.getContacts(task);
-        Activity activity = mActivityRef.get();
-        final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-        final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-        final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        final String politeMsg = "polite";
-        final String profaneMsg = "profane";
-//        String msg = tone == "polite"? politeMsg : profaneMsg;
-        String msg = name + tone;
-        for (int i = 0; i < contacts.size();i++){
-            //Creating SendMail object
-            SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
-            //Executing sendmail to send email
-            sm.execute();
-        }
-    }
 
     private static long getTriggerAt(Date dueDate) {
         Calendar calendar = Calendar.getInstance();
