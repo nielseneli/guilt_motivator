@@ -88,7 +88,7 @@ public class EmailService extends Service {
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
         Calendar cur = Calendar.getInstance();
         for (int i = 0; i < tasks.size(); i++){
-            if (tasks.get(i).getDueDate().compareTo(cur) >= 0 && !tasks.get(i).isChecked()){
+            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).isChecked()){
                 sendEmail(getApplicationContext(),tasks.get(i));
             }
         }

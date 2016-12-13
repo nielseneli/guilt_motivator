@@ -21,6 +21,8 @@ import android.widget.TimePicker;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,13 +51,13 @@ public class EditTaskFragment extends Fragment {
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         tasks = mDbHelper.getAllTasks();
-        if (b != null) { //if this came with a bundle
+        if (b != null) { //if this came with a bundle, fill in the fields according to that task
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
             taskName.setText(task.getText());
-            SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
             tvDueDate.setText(sdf.format(task.getDueDate().getTime()));
-        } else {
+        } else { //just create a new task.
             task = new Task();
         }
         // set up contacts thingy
@@ -89,12 +91,7 @@ public class EditTaskFragment extends Fragment {
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
                                 if (b != null) {
-                                    ContentValues contactValues = new ContentValues();
-                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
-                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
-                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
-                                    contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
-
+                                    ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
                                     long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                                     contact.setTaskId(task.getId());
                                     contact.setLocalId(newContactRowId);
@@ -131,7 +128,7 @@ public class EditTaskFragment extends Fragment {
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
                                 task.setDueDate(inputDate);
-                                SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+                                SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
                                 tvDueDate.setText(sdf.format(inputDate.getTime()));
                                 editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
@@ -188,11 +185,7 @@ public class EditTaskFragment extends Fragment {
                         //Then make the contacts...
                         for (int i=0; i<contacts.size(); i++) {
                             Contact contact = contacts.get(i);
-                            ContentValues contactValues = new ContentValues();
-                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, contact.getName());
-                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
-                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
-                            contactValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, (int) task.getId());
+                            ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
                             long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                             contact.setTaskId(task.getId());
                             contact.setLocalId(newContactRowId);
@@ -224,5 +217,14 @@ public class EditTaskFragment extends Fragment {
             }
         }
         return task;
+    }
+
+    public ContentValues getContactVals(String name, String address, String method, int id) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, id);
+        return contentValues;
     }
 }
