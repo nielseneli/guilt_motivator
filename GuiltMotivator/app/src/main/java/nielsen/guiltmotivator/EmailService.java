@@ -105,15 +105,15 @@ public class EmailService extends Service {
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
         final String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
-        String right_pronoun = "";
+        String right_pronoun_objective;
         if (pronouns.equals("he")) {
-            right_pronoun = getResources().getString(R.string.him);
+            right_pronoun_objective = getResources().getString(R.string.him);
         } else if (pronouns.equals("she")) {
-            right_pronoun = getResources().getString(R.string.her);
-        } else if (pronouns.equals("they")) {
-            right_pronoun = getResources().getString(R.string.them);
+            right_pronoun_objective = getResources().getString(R.string.her);
+        } else { //if pronouns are they
+            right_pronoun_objective = getResources().getString(R.string.them);
         }
-        String msg = getMessage(right_pronoun, tone, name);
+        String msg = getMessage(right_pronoun_objective, tone, name);
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);

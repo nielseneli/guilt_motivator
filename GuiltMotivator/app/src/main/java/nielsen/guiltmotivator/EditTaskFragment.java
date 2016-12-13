@@ -64,6 +64,7 @@ public class EditTaskFragment extends Fragment {
         final ArrayList<Contact> contacts = mDbHelper.getContacts(task);
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
+        //alertdialog to add contacts
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +92,7 @@ public class EditTaskFragment extends Fragment {
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
                                 if (b != null) {
+                                    //if youre editing an existing task
                                     ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
                                     long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                                     contact.setTaskId(task.getId());
@@ -104,7 +106,6 @@ public class EditTaskFragment extends Fragment {
                             }
                         });
                 alertDialogBuilder.show();
-                editTaskSaveButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             }
         });
 
@@ -117,7 +118,8 @@ public class EditTaskFragment extends Fragment {
                 final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
                 final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
                 if (b != null) {
-                    datePicker.updateDate(task.getDueDate().get(Calendar.YEAR), task.getDueDate().get(Calendar.MONTH), task.getDueDate().get(Calendar.DAY_OF_MONTH));
+                    datePicker.updateDate(task.getDueDate().get(Calendar.YEAR), task.getDueDate().get(Calendar.MONTH),
+                            task.getDueDate().get(Calendar.DAY_OF_MONTH));
                     timePicker.setCurrentHour(task.getDueDate().get(Calendar.HOUR));
                     timePicker.setCurrentMinute(task.getDueDate().get(Calendar.MINUTE));
                 }
@@ -126,7 +128,8 @@ public class EditTaskFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Calendar inputDate = Calendar.getInstance();
-                                inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                                inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),
+                                        timePicker.getCurrentHour(), timePicker.getCurrentMinute());
                                 task.setDueDate(inputDate);
                                 SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
                                 tvDueDate.setText(sdf.format(inputDate.getTime()));
