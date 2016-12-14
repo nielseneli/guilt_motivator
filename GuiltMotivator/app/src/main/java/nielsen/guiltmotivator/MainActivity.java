@@ -1,8 +1,5 @@
 package nielsen.guiltmotivator;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -136,8 +133,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.rude:
                 if (v.getId() == R.id.rude) {
-                    //TODO: consider changing this toast
-                    Toast.makeText(this, "Eh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You fool", Toast.LENGTH_SHORT).show();
                     editor.putString(MainActivity.SAVED_TONE, "rude");
                     editor.apply();
                 }
