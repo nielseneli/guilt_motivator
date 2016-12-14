@@ -26,8 +26,6 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
     private ArrayList<Task> tasks;
 
-    //instantiate the database
-
     public TasksAdapter(ArrayList<Task> tasks, Context context) {
         super(context, 0, tasks);
         this.tasks = tasks;

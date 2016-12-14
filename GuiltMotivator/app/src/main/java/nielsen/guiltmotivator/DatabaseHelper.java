@@ -11,11 +11,13 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 /** Database Helper. Gets, saves and deletes entries in both the contacts table and the tasks one. **/
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
+    //create strings that represent SQL queries
     private static final String TEXT_TYPE = " TEXT";
     private static final String INT_TYPE = " INT";
     private static final String COMMA_SEP = ",";
@@ -80,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(TaskDbContract.FeedEntry._ID)));
                     // set due date from SQL to task
                     String dueDateString = cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE));
-                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.US);
                     Date dueDateDate = sdf.parse(dueDateString);
                     Calendar dueDateCalendar = Calendar.getInstance();
                     dueDateCalendar.setTime(dueDateDate);
@@ -121,6 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Contact> getContacts(Task task) {
+        //who ya gonna call? probably the people you assigned as contacts for the task.
         ArrayList<Contact> contacts = new ArrayList<>();
         int taskId = (int) task.getId();
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME

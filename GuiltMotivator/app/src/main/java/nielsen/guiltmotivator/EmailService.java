@@ -26,6 +26,7 @@ import java.util.TimerTask;
 public class EmailService extends Service {
 
     private static WeakReference<Activity> mActivityRef;
+    private String TAG = "EmailService";
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -44,6 +45,7 @@ public class EmailService extends Service {
                         try {
                             checkAllTasks();
                         } catch (Exception e) {
+                            Log.e(TAG, "error while checking tasks", e);
                         }
                     }
                 });

@@ -38,7 +38,6 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
     private Task task;
-    private ArrayList<Task> tasks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +49,7 @@ public class EditTaskFragment extends Fragment {
         final Bundle b = getArguments();
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        tasks = mDbHelper.getAllTasks();
+        ArrayList<Task> tasks = mDbHelper.getAllTasks();
         if (b != null) { //if this came with a bundle, fill in the fields according to that task
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
