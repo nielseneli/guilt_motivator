@@ -124,7 +124,6 @@ public class EmailService extends Service {
     }
 
     public String getMessage(String pronoun, String tone, String username) {
-        // TODO: This disappears into a different file, delete it from here when it's moved
         String text = "";
         if (tone.equals("polite")) {
             text = String.format(getResources().getString(R.string.polite_message),
