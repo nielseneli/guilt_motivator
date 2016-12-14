@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         // Populate the data into the template view using the data object
         holder.tvText.setText(task.getText());
         holder.checkBox.setChecked(task.isChecked());
-        SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
         holder.dueDate.setText(sdf.format(task.getDueDate().getTime()));
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         // set onClickListeners. Edit or delete task, then go into sql.
@@ -76,8 +77,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 Bundle args = new Bundle();
                 args.putLong("id", task.getId());
                 newFragment.setArguments(args);
-                if (newFragment != null)
-                    switchFragment(newFragment);
+                switchFragment(newFragment);
             }
         });
 
@@ -97,8 +97,6 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     }
 
     private void switchFragment(Fragment newFragment) {
-        if (this.getContext() == null)
-            return;
         if (this.getContext() instanceof MainActivity) {
             MainActivity feeds = (MainActivity) this.getContext();
             feeds.replaceFragment(newFragment);

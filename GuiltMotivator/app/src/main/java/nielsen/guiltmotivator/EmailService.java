@@ -21,6 +21,7 @@ import java.util.TimerTask;
 
 /**
  * Created by zlan on 12/12/16.
+ * This schedules an asynchronous task to check on whether to send emails.
  */
 public class EmailService extends Service {
 
@@ -28,13 +29,11 @@ public class EmailService extends Service {
 
     @Override
     public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO Auto-generated method stub
         final Handler handler = new Handler();
         Timer timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
@@ -56,7 +55,6 @@ public class EmailService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        // TODO Auto-generated method stub
         Intent restartService = new Intent(getApplicationContext(),
                 this.getClass());
         restartService.setPackage(getPackageName());
@@ -72,7 +70,6 @@ public class EmailService extends Service {
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
         //start a separate thread and start listening to your network object
     }
