@@ -22,11 +22,7 @@ import android.widget.Toast;
 
 /** The main activity, its got 3 whole fragments.
  *  */
-/*
- TODO: Move the add contact button to a better place
- TODO: Maybe add archive for checked off tasks
 
- */
 
 public class MainActivity extends AppCompatActivity
         implements SettingsFragment.OnFragmentInteractionListener,
