@@ -4,9 +4,11 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,6 +116,35 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
                 final EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                 final EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+
+                //set the OnEditorActionListeners.
+                nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if ( (keyEvent.getAction() == KeyEvent.ACTION_DOWN  ) &&(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) ) {
+                            // hide virtual keyboard
+                            InputMethodManager imm =
+                                    (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(nameEditText.getWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                addressEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if ( (keyEvent.getAction() == KeyEvent.ACTION_DOWN  ) &&(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) ) {
+                            // hide virtual keyboard
+                            InputMethodManager imm =
+                                    (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(addressEditText.getWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
                 nameEditText.setText(holder.contact.getName());
                 addressEditText.setText(holder.contact.getAddress());

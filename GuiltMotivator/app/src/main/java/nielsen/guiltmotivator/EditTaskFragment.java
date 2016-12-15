@@ -1,14 +1,17 @@
 package nielsen.guiltmotivator;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 public class EditTaskFragment extends Fragment {
     @BindView(R.id.addContact) ImageButton addButton;
     @BindView(R.id.contactlist) ListView contactList;
-    @BindView(R.id.taskName) TextView taskName;
+    @BindView(R.id.taskName) EditText taskName;
     @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
@@ -69,6 +72,20 @@ public class EditTaskFragment extends Fragment {
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
 
+        //make it exit out of keyboard when you hit enter
+        taskName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+               if ( (keyEvent.getAction() == KeyEvent.ACTION_DOWN  ) &&(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) ) {
+                    // hide virtual keyboard
+                    InputMethodManager imm =
+                            (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(taskName.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
         //alertDialog to change due dates (there are two because of a funky bug with linearLayouts)
         setDateOnClick(editDueDateButton, b);
         setDateOnClick(dateLinLayout, b);
