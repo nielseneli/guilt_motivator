@@ -131,6 +131,7 @@ public class EditTaskFragment extends Fragment {
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT, "false");
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
                         long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
                         task.setId(newRowId);

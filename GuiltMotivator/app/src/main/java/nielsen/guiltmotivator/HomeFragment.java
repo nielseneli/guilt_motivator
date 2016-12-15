@@ -3,6 +3,7 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,8 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
         //get helper and get db in write mode
         DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//        mDbHelper.onCreate(db);
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());

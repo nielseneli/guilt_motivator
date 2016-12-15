@@ -91,8 +91,8 @@ public class EmailService extends Service {
         for (int i = 0; i < tasks.size(); i++){
             // for each of the task in the database, check whether it pasts its due date and hasn't
             // been checked. If so, send an email to the contact.
-            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).isChecked()){
-                sendEmail(getApplicationContext(),tasks.get(i));
+            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).getSent()){
+                sendEmail(getApplicationContext(), tasks.get(i));
             }
         }
     }
@@ -131,30 +131,36 @@ public class EmailService extends Service {
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
             String msg = getMessage(right_pronoun_objective, right_pronoun_subjective,
-                    right_pronoun_possessive, right_pronoun_subj_article, tone, name, contacts.get(i).getName(), task.getText());
+                    right_pronoun_possessive, right_pronoun_subj_article, tone, name, contacts.get(i).getName(), task.getText(), task.isChecked());
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
             //Executing sendmail to send email
             sm.execute();
         }
         // update the task as checked after it's sent
-        task.toggleChecked();
+        //task.toggleChecked();
+        task.setSent(true);
         mDbHelper.editTask(task);
     }
 
     public String getMessage(String pronoun_objective, String pronoun_subjective,
                              String pronoun_possessive, String pronoun_subj_article, String tone,
-                             String username, String contact, String task) {
+                             String username, String contact, String task, Boolean isChecked) {
         // return the correct msg to be sent given the contact's tone, pronoun and name
         String text = "";
-        if (tone.equals("polite")) {
-            text = String.format(getResources().getString(R.string.polite_message),
-                    contact, username, pronoun_subjective, task, pronoun_objective);
-        } else if (tone.equals("rude")) {
-            text = String.format(getResources().getString(R.string.rude_message),
-                    contact, username, pronoun_subjective, task, pronoun_possessive, pronoun_subj_article);
-        } else if (tone.equals("profane")) {
-            text = String.format(getResources().getString(R.string.profane_message),
-                    contact, username, pronoun_subjective, task, pronoun_subj_article);
+        if (isChecked) {
+            text = String.format(getResources().getString(R.string.checked_confirmation_message),
+                    contact, username, task, pronoun_objective);
+        } else {
+            if (tone.equals("polite")) {
+                text = String.format(getResources().getString(R.string.polite_message),
+                        contact, username, pronoun_subjective, task, pronoun_objective);
+            } else if (tone.equals("rude")) {
+                text = String.format(getResources().getString(R.string.rude_message),
+                        contact, username, pronoun_subjective, task, pronoun_possessive, pronoun_subj_article);
+            } else if (tone.equals("profane")) {
+                text = String.format(getResources().getString(R.string.profane_message),
+                        contact, username, pronoun_subjective, task, pronoun_subj_article);
+            }
         }
         return text;
     }
