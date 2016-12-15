@@ -118,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED,
                 Boolean.toString(task.isChecked()));
-        args.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT, 
+        args.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT,
                 Boolean.toString(task.getSent()));
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE,
                 task.getDueDate().getTime().toString());
