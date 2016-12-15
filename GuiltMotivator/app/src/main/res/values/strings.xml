@@ -4,17 +4,15 @@
     <string name="settings">Settings</string>
     <string name="home">Home</string>
     <string name="help">Help</string>
+    <string name="email">guilt.motivator@gmail.com</string>
 
-    <string name="contact">Contact:</string>
+    <string name="due">Due:</string>
+    <string name="contacts">Contacts:</string>
     <string name="taskNameHint">Task Name</string>
-    <string name="addItem">Add an Item!</string>
     <string name="chooseTone">Set Tone</string>
     <string name="choosePronouns">Set Pronouns</string>
 
     <!--Button strings-->
-    <string name="red">Red</string>
-    <string name="blue">Blue</string>
-    <string name="green">Green</string>
     <string name="polite">Polite</string>
     <string name="rude">Rude</string>
     <string name="profane">Profane</string>
@@ -29,7 +27,10 @@
     <string name="hers">hers</string>
     <string name="they">they</string>
     <string name="them">them</string>
-    <string name="theirs">their</string>
+    <string name="theirs">theirs</string>
+    <string name="he_pronouns">he/him/his</string>
+    <string name="she_pronouns">she/her/hers</string>
+    <string name="they_pronouns">they/them/theirs</string>
 
     <!--Navigation drawer things-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -41,24 +42,19 @@
     <string name="name">Name: </string>
     <string name="address">Address: </string>
     <string name="save">Save</string>
-    <string-array name="menu_options">
-        <item>Home</item>
-        <item>Settings</item>
-        <item>Help</item>
-    </string-array>
     <string-array name="contact_methods_array">
         <item>Email</item>
     </string-array>
     <string-array name="pronouns_array">
-        <item>He/him/his</item>
-        <item>She/her/hers</item>
-        <item>They/them/theirs</item>
+        <item>@string/he_pronouns</item>
+        <item>@string/she_pronouns</item>
+        <item>@string/they_pronouns</item>
     </string-array>
 
     <!--Content descriptions for ImageButtons-->
-    <string name="cd_add">Add button</string>
-    <string name="cd_delete">Delete button</string>
-    <string name="cd_edit">Edit button</string>
+    <string name="task_icon">Task icon</string>
+    <string name="time_icon">Time icon</string>
+    <string name="contact_icon">Contact icon</string>
 
     <!--Formattable message strings-->
     <string name="polite_message">Hey, %1$s, we just wanted to let you know that %2$s said that %3$s would do \'%4$s\', and %3$s didn\'t. You should be disappointed in %5$s.</string>
