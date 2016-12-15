@@ -1,89 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
+    <!--Task name row-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_marginTop="10dp">
+
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/task"
             android:id="@+id/taskIcon"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
+            android:layout_margin="@dimen/small_margin"
             android:layout_weight="1"
-            android:contentDescription="taskIcon" />
+            android:src="@drawable/task"
+            android:contentDescription="@string/task_icon"
+            />
+
         <EditText
+            android:id="@+id/taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/taskName"
-            android:hint="what's the task?"
-            android:layout_weight="4" />
+            android:layout_weight="4"
+            android:hint="@string/taskNameHint"
+            />
+
     </LinearLayout>
 
+    <!--Due date row-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <ImageView
+            android:id="@+id/timeIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_margin="@dimen/small_margin"
             android:src="@drawable/time"
-            android:id="@+id/timeIcon"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="timeIcon" />
+            android:contentDescription="@string/time_icon"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="   Due:"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="When is it due?"
-            android:layout_marginTop="10dp"
+            android:layout_margin="@dimen/medium_margin"
             android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            />
+
+        <TextView
             android:id="@+id/tvDueDate"
-            android:layout_weight="3"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="3"
+            />
 
         <ImageButton
             android:id="@+id/editDueDate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
             android:background="@drawable/edit"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginRight="@dimen/large_margin"
+            android:layout_marginEnd="@dimen/large_margin"
+            android:layout_marginTop="@dimen/medium_margin"/>
     </LinearLayout>
 
+    <!--Contacts: row-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:orientation="horizontal">
+
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
+            android:layout_margin="@dimen/medium_margin"
             android:src="@drawable/contact"
             android:id="@+id/contactIcon"
-            android:contentDescription="contactIcon" />
+            android:contentDescription="@string/contact_icon"
+            />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Contacts:"
-            android:layout_marginLeft="15dp"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"/>
+            android:text="@string/contacts"
+            android:textSize="@dimen/text_size"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_weight="1"
+            />
+
     </LinearLayout>
 
     <ListView
@@ -99,9 +113,8 @@
         android:src="@drawable/add"
         android:id="@+id/addContact"
         android:background="@android:color/transparent"
-        android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/medium_margin"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,10 +125,10 @@
         android:paddingBottom="@dimen/activity_horizontal_margin">
 
         <Button
+            android:id="@+id/editTaskSaveButton"
             android:text="@string/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTaskSaveButton"
             style="@style/Widget.AppCompat.Button.Colored"
             android:elevation="0dp" />
 

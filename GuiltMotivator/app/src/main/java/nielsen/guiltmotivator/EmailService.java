@@ -21,22 +21,23 @@ import java.util.TimerTask;
 
 /**
  * Created by zlan on 12/12/16.
+ * This schedules an asynchronous task to check on whether to send emails.
  */
 public class EmailService extends Service {
 
     private static WeakReference<Activity> mActivityRef;
+    private String TAG = "EmailService";
 
     @Override
     public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO Auto-generated method stub
         final Handler handler = new Handler();
         Timer timer = new Timer();
+        //on starting the service, create the async task
         TimerTask doAsynchronousTask = new TimerTask() {
             @Override
             public void run() {
@@ -45,18 +46,18 @@ public class EmailService extends Service {
                         try {
                             checkAllTasks();
                         } catch (Exception e) {
+                            Log.e(TAG, "error while checking tasks", e);
                         }
                     }
                 });
             }
         };
-        timer.schedule(doAsynchronousTask, 0, 60000); //execute in every 10 ms
+        timer.schedule(doAsynchronousTask, 0, 60000); //execute in every 10 mins
         return START_STICKY;
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        // TODO Auto-generated method stub
         Intent restartService = new Intent(getApplicationContext(),
                 this.getClass());
         restartService.setPackage(getPackageName());
@@ -72,12 +73,12 @@ public class EmailService extends Service {
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
         //start a separate thread and start listening to your network object
     }
 
     public static void updateActivity(Activity activity) {
+    // helper for referring main activity
         mActivityRef = new WeakReference<>(activity);
     }
 
@@ -88,6 +89,8 @@ public class EmailService extends Service {
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
         Calendar cur = Calendar.getInstance();
         for (int i = 0; i < tasks.size(); i++){
+            // for each of the task in the database, check whether it pasts its due date and hasn't
+            // been checked. If so, send an email to the contact.
             if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).isChecked()){
                 sendEmail(getApplicationContext(),tasks.get(i));
             }
@@ -95,12 +98,12 @@ public class EmailService extends Service {
     }
 
     private void sendEmail(Context context, Task task){
-//        Activity activity = (Activity) context;
         //get helper and get db in write mode
         DatabaseHelper mDbHelper = new DatabaseHelper(context);
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Contact> contacts = mDbHelper.getContacts(task);
         Activity activity = mActivityRef.get();
+        // get user info from shared preference
         final SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
@@ -133,6 +136,7 @@ public class EmailService extends Service {
             //Executing sendmail to send email
             sm.execute();
         }
+        // update the task as checked after it's sent
         task.toggleChecked();
         mDbHelper.editTask(task);
     }
@@ -140,7 +144,7 @@ public class EmailService extends Service {
     public String getMessage(String pronoun_objective, String pronoun_subjective,
                              String pronoun_possessive, String pronoun_subj_article, String tone,
                              String username, String contact, String task) {
-        // TODO: This disappears into a different file, delete it from here when it's moved
+        // return the correct msg to be sent given the contact's tone, pronoun and name
         String text = "";
         if (tone.equals("polite")) {
             text = String.format(getResources().getString(R.string.polite_message),

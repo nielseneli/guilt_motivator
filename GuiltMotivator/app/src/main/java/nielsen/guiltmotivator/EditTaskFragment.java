@@ -38,7 +38,6 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
     private Task task;
-    private ArrayList<Task> tasks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,34 +49,36 @@ public class EditTaskFragment extends Fragment {
         final Bundle b = getArguments();
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        tasks = mDbHelper.getAllTasks();
-        if (b != null) { //if this came with a bundle, fill in the fields according to that task
+        ArrayList<Task> tasks = mDbHelper.getAllTasks();
+        if (b != null) {
+            // if this came with a bundle, fill in the fields according to that task
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
             taskName.setText(task.getText());
             SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
             tvDueDate.setText(sdf.format(task.getDueDate().getTime()));
-        } else { //just create a new task.
+        } else {
+            // just create a new task.
             task = new Task();
         }
         // set up contacts thingy
         final ArrayList<Contact> contacts = mDbHelper.getContacts(task);
         final ContactAdapter adapter = new ContactAdapter(this.getContext(), contacts);
         contactList.setAdapter(adapter);
-        //alertdialog to add contacts
+        // alertdialog to add contacts
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
-                //set up the spinner
+                // set up the spinner
                 final Spinner methodSpinner = (Spinner) dialogView.findViewById(R.id.contactMethodSpinner);
                 ArrayAdapter<CharSequence> methodAdapter = ArrayAdapter.createFromResource(getContext(),
                         R.array.contact_methods_array, android.R.layout.simple_spinner_item);
                 methodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 methodSpinner.setAdapter(methodAdapter);
-                //set up the alert dialog actions
+                // set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Add A Contact!")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -92,7 +93,7 @@ public class EditTaskFragment extends Fragment {
                                 Contact contact = new Contact(name, method, address);
                                 adapter.add(contact);
                                 if (b != null) {
-                                    //if youre editing an existing task
+                                    // if you're editing an existing task
                                     ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
                                     long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                                     contact.setTaskId(task.getId());
@@ -112,11 +113,14 @@ public class EditTaskFragment extends Fragment {
         editDueDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // it's an alert dialog
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // get that custom alert dialog
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.dialog_edit_todo, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_edit_due_date, null);
                 final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
                 final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
+                // if the task exists, make it set to the previous saved time/date
                 if (b != null) {
                     datePicker.updateDate(task.getDueDate().get(Calendar.YEAR), task.getDueDate().get(Calendar.MONTH),
                             task.getDueDate().get(Calendar.DAY_OF_MONTH));
@@ -127,6 +131,7 @@ public class EditTaskFragment extends Fragment {
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                // save the date
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),
                                         timePicker.getCurrentHour(), timePicker.getCurrentMinute());
@@ -149,8 +154,8 @@ public class EditTaskFragment extends Fragment {
             //save a thing.
             @Override
             public void onClick(View view) {
+                //make sure all the fields are filled out correctly, if not set up AlertDialog
                 Boolean showAlertDialog = false;
-
                 String missingInfo;
                 if (task.getDueDate() == null){
                     missingInfo = "a due date!";
@@ -177,12 +182,12 @@ public class EditTaskFragment extends Fragment {
                     task.setText(taskName.getText().toString());
                     if (b != null) { //if you're editing an existing task
                         mDbHelper.editTask(task);
-                    } else { //you're making a new task. Make the task first...
+                    } else { //you're making a new task.
+                        // Make the task first...
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
-                        // Insert the new row, returning the primary key value of the new row
                         long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
                         task.setId(newRowId);
                         //Then make the contacts...
@@ -195,6 +200,7 @@ public class EditTaskFragment extends Fragment {
                         }
                     }
                     startService();
+                    //then go switch back to the home fragment.
                     Fragment newFragment = new HomeFragment();
                     MainActivity main = (MainActivity) getContext();
                     if (getContext() == null)
@@ -212,6 +218,7 @@ public class EditTaskFragment extends Fragment {
     }
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
+        // get the task, if it exists already
         Task task = new Task();
         for (Task temp : tasks) {
             if (temp.getId() == id) {
