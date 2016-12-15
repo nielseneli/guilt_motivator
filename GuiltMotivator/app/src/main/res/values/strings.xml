@@ -11,6 +11,7 @@
     <string name="taskNameHint">Task Name</string>
     <string name="chooseTone">Set Tone</string>
     <string name="choosePronouns">Set Pronouns</string>
+    <string name="dueDatePrompt">When is it due?</string>
 
     <!--Button strings-->
     <string name="polite">Polite</string>

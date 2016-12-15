@@ -71,6 +71,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 final EditText editText = new EditText(getActivity());
                 editText.setText(username);
+                editText.setSingleLine();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(editText)
                         .setPositiveButton("enter", new DialogInterface.OnClickListener() {

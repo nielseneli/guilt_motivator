@@ -4,9 +4,11 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,14 +57,27 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
-                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
-                Contact deleted = holder.contact;
-                remove(deleted); //remove the item from the adapter
-                mDbHelper.deleteContact(deleted);
-                notifyDataSetChanged();
-                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                LayoutInflater inflater = LayoutInflater.from(getContext());
+                                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
+                                Contact deleted = holder.contact;
+                                remove(deleted); //remove the item from the adapter
+                                mDbHelper.deleteContact(deleted);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
             }
         });
         convertView.setTag(holder);
@@ -101,6 +116,35 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
                 final EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                 final EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+
+                //set the OnEditorActionListeners.
+                nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if ( (keyEvent.getAction() == KeyEvent.ACTION_DOWN  ) &&(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) ) {
+                            // hide virtual keyboard
+                            InputMethodManager imm =
+                                    (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(nameEditText.getWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                addressEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if ( (keyEvent.getAction() == KeyEvent.ACTION_DOWN  ) &&(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) ) {
+                            // hide virtual keyboard
+                            InputMethodManager imm =
+                                    (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(addressEditText.getWindowToken(), 0);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
                 nameEditText.setText(holder.contact.getName());
                 addressEditText.setText(holder.contact.getAddress());

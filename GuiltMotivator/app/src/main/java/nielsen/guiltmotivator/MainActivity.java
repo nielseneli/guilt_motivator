@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 /** The main activity, its got 3 whole fragments.
  *  */
+
+
 public class MainActivity extends AppCompatActivity
         implements SettingsFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener{

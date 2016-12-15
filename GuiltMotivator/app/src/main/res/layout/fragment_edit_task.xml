@@ -36,7 +36,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/dateLinLayout"
+        >
 
         <ImageView
             android:id="@+id/timeIcon"
@@ -50,6 +52,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/due"
             android:layout_margin="@dimen/medium_margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
@@ -59,6 +62,7 @@
             android:id="@+id/tvDueDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/dueDatePrompt"
             android:layout_marginTop="@dimen/medium_margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="3"
@@ -78,6 +82,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/contactLinLayout"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -95,8 +101,16 @@
             android:text="@string/contacts"
             android:textSize="@dimen/text_size"
             android:layout_marginTop="@dimen/medium_margin"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add"
+            android:id="@+id/addContact"
+            android:background="@android:color/transparent"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/medium_margin"/>
 
     </LinearLayout>
 
@@ -106,15 +120,6 @@
         android:id="@+id/contactlist"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.14" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add"
-        android:id="@+id/addContact"
-        android:background="@android:color/transparent"
-        android:layout_gravity="end"
-        android:layout_margin="@dimen/medium_margin"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +135,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:elevation="0dp" />
+            android:elevation="0dp"
+            android:layout_margin="@dimen/medium_margin"/>
 
     </LinearLayout>
 
