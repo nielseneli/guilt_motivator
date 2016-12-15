@@ -14,11 +14,11 @@
 
         <ImageView
             android:id="@+id/taskIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/task"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
+            android:layout_margin="@dimen/small_margin"
             android:layout_weight="1"
+            android:src="@drawable/task"
             android:contentDescription="@string/task_icon"
             />
 
@@ -26,8 +26,8 @@
             android:id="@+id/taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/taskNameHint"
             android:layout_weight="4"
+            android:hint="@string/taskNameHint"
             />
 
     </LinearLayout>
@@ -42,19 +42,16 @@
             android:id="@+id/timeIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_margin="@dimen/small_margin"
             android:src="@drawable/time"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_margin"
             android:contentDescription="@string/time_icon"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/due"
-            android:textSize="20sp"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/medium_margin"
+            android:textSize="@dimen/text_size"
             android:layout_weight="1"
             />
 
@@ -62,19 +59,19 @@
             android:id="@+id/tvDueDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/due"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/medium_margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="3"
             />
 
         <ImageButton
             android:id="@+id/editDueDate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
             android:background="@drawable/edit"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginRight="@dimen/large_margin"
+            android:layout_marginEnd="@dimen/large_margin"
+            android:layout_marginTop="@dimen/medium_margin"/>
     </LinearLayout>
 
     <!--Contacts: row-->
@@ -84,9 +81,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="8dp"
+            android:layout_width="@dimen/image_view"
+            android:layout_height="@dimen/image_view"
+            android:layout_margin="@dimen/medium_margin"
             android:src="@drawable/contact"
             android:id="@+id/contactIcon"
             android:contentDescription="@string/contact_icon"
@@ -96,8 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/contacts"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
+            android:textSize="@dimen/text_size"
+            android:layout_marginTop="@dimen/medium_margin"
             android:layout_weight="1"
             />
 
@@ -116,8 +113,8 @@
         android:src="@drawable/add"
         android:id="@+id/addContact"
         android:background="@android:color/transparent"
-        android:layout_gravity="right"
-        android:layout_margin="10dp"/>
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/medium_margin"/>
 
     <LinearLayout
         android:layout_width="match_parent"
