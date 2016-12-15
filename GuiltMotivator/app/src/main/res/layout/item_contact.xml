@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="@dimen/largest_margin"
     android:orientation="horizontal"
     android:weightSum="1">
 
     <TextView
+
+        android:id="@+id/itemName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="New Text"
-        android:textSize="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="0.3"
-        android:id="@+id/itemName"
+        android:textSize="@dimen/text_size"
+        android:layout_marginLeft="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_weight="0.2"
         android:scrollHorizontally="true"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        />
 
     <TextView
-        android:layout_marginLeft="20dp"
+        android:id="@+id/itemAddress"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:textSize="20dp"
-        android:layout_weight="0.6"
-        android:id="@+id/itemAddress"
-        android:text="Address"
+        android:layout_marginLeft="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:textSize="@dimen/text_size"
+        android:layout_weight="0.7"
         android:scrollHorizontally="true"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        />
 
     <ImageButton
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/image_view"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:background="@drawable/ic_delete"
         android:id="@+id/delete"
         android:layout_weight="0.1"
         />
 
-    <!--android:layout_gravity="end"-->
 </LinearLayout>

@@ -3,14 +3,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingTop="@dimen/medium_margin"
+    android:paddingBottom="@dimen/medium_margin">
 
     <CheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:id="@+id/checkBox"
+        android:layout_margin="@dimen/small_margin"
         />
 
     <LinearLayout
@@ -20,11 +20,11 @@
         android:layout_weight="0.45">
 
         <TextView
+            android:id="@+id/tvText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvText"
             android:textSize="@dimen/text_size"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_margin="@dimen/small_margin"
             android:textStyle="bold"
             />
 
@@ -33,31 +33,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size"
-            android:layout_margin="@dimen/text_margin"
+            android:layout_margin="@dimen/small_margin"
             />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="0.05">
+<!--<<<<<<< HEAD-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_weight="0.05">-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:textSize="@dimen/text_size"
-            android:layout_margin="@dimen/text_margin"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="5dp"-->
+            <!--android:textSize="@dimen/text_size"-->
+            <!--android:layout_margin="@dimen/text_margin"-->
+            <!--/>-->
 
-        <ImageButton
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/ic_delete"
-            android:layout_marginRight="0dp"
-            android:id="@+id/deleteButton"
-            />
-    </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:background="@drawable/ic_delete"-->
+            <!--android:layout_marginRight="0dp"-->
+            <!--android:id="@+id/deleteButton"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+<!--=======-->
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="@dimen/image_view"
+        android:layout_height="@dimen/image_view"
+        android:background="@drawable/ic_delete"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        />
 
 </LinearLayout>

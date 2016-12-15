@@ -53,13 +53,15 @@ public class EditTaskFragment extends Fragment {
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
-        if (b != null) { //if this came with a bundle, fill in the fields according to that task
+        if (b != null) {
+            // if this came with a bundle, fill in the fields according to that task
             Long id = b.getLong("id");
             task = getTaskById(tasks, id);
             taskName.setText(task.getText());
             SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
             tvDueDate.setText(sdf.format(task.getDueDate().getTime()));
-        } else { //just create a new task.
+        } else {
+            // just create a new task.
             task = new Task();
         }
         // set up contacts thingy
@@ -75,13 +77,11 @@ public class EditTaskFragment extends Fragment {
         setContactOnClick(addButton, adapter, b);
         setContactOnClick(contactLinLayout, adapter, b);
 
-
-
         editTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             //save a thing.
             @Override
             public void onClick(View view) {
-                //make sure you have enough information
+                //make sure all the fields are filled out correctly, if not set up AlertDialog
                 Boolean showAlertDialog = false;
                 String missingInfo;
                 if (task.getDueDate() == null){
@@ -109,12 +109,12 @@ public class EditTaskFragment extends Fragment {
                     task.setText(taskName.getText().toString());
                     if (b != null) { //if you're editing an existing task
                         mDbHelper.editTask(task);
-                    } else { //you're making a new task. Make the task first...
+                    } else { //you're making a new task.
+                        // Make the task first...
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
-                        // Insert the new row, returning the primary key value of the new row
                         long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
                         task.setId(newRowId);
                         //Then make the contacts...
@@ -127,6 +127,7 @@ public class EditTaskFragment extends Fragment {
                         }
                     }
 //                    startService();
+                    //then go switch back to the home fragment.
                     Fragment newFragment = new HomeFragment();
                     MainActivity main = (MainActivity) getContext();
                     if (getContext() == null)
@@ -144,6 +145,7 @@ public class EditTaskFragment extends Fragment {
     }
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
+        // get the task, if it exists already
         Task task = new Task();
         for (Task temp : tasks) {
             if (temp.getId() == id) {
@@ -221,7 +223,7 @@ public class EditTaskFragment extends Fragment {
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.dialog_edit_todo, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_edit_due_date, null);
                 final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
                 final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
                 if (b != null) {
