@@ -57,13 +57,15 @@ public class SettingsFragment extends Fragment {
         he.setText(he_pronouns);
         she.setText(she_pronouns);
         they.setText(they_pronouns);
+        // get the sharedPrefs
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
         final String username = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        // get user name thing
+        // get username thing
         final TextView userName = (TextView) view.findViewById(R.id.userName);
         userName.setText(username);
+        // make the username editable and saved in sharedPrefs
         userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
