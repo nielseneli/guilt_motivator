@@ -39,15 +39,16 @@ public class MainActivity extends AppCompatActivity
         Intent mServiceIntent = new Intent(this, EmailService.class);
         this.startService(mServiceIntent);
 
+        // we got a toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // woo! navigation drawer
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        // if the drawer is open, pressing back closes it
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         //noinspection SimplifiableIfStatement
+        // using the navigation drawer to switch fragments
         if (id == R.id.nav_settings) {
             Fragment settingsFragment = new SettingsFragment();
             fragmentTransaction.replace(R.id.fragmentcontainer, settingsFragment);
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
 
+        // whoa! navigation drawer to opening a site!
         if (id == R.id.nav_help) {
             Uri uri = Uri.parse("https://github.com/nielsenlouise/guilt_motivator/blob/master/README.md");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -112,8 +116,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void replaceFragment(Fragment fragment) {
-        FragmentManager manager;                                            //initializes manager as FragmentManager
-        FragmentTransaction transaction;                                    //initializes transaction as FragmentTransaction
+        FragmentManager manager;                    //initializes manager as FragmentManager
+        FragmentTransaction transaction;            //initializes transaction as FragmentTransaction
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragmentcontainer, fragment);
@@ -123,7 +127,9 @@ public class MainActivity extends AppCompatActivity
     public void onRadioButtonClicked(View v) {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
+        // all the radio buttons
         switch(v.getId()) {
+            // if tone, make a snarky comment/toast and put in sharedPrefs
             case R.id.polite:
                 if (v.getId() == R.id.polite) {
                     Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity
                     editor.apply();
                 }
 
+            // if pronouns, just put in sharedPrefs
             case R.id.he:
                 if (v.getId() == R.id.he) {
                     editor.putString(MainActivity.SAVED_PRONOUNS, "he");
