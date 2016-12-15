@@ -126,7 +126,7 @@ public class EditTaskFragment extends Fragment {
                             contact.setLocalId(newContactRowId);
                         }
                     }
-                    startService();
+//                    startService();
                     Fragment newFragment = new HomeFragment();
                     MainActivity main = (MainActivity) getContext();
                     if (getContext() == null)
