@@ -1,8 +1,10 @@
 package nielsen.guiltmotivator;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +64,21 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tasks.remove(position);
-                mDbHelper.deleteTask(task);
-                notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                tasks.remove(position);
+                                mDbHelper.deleteTask(task);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        }).show();
             }
         });
 
@@ -78,7 +92,16 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                 switchFragment(newFragment);
             }
         });
-
+        holder.dueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment newFragment = new EditTaskFragment();
+                Bundle args = new Bundle();
+                args.putLong("id", task.getId());
+                newFragment.setArguments(args);
+                switchFragment(newFragment);
+            }
+        });
         // Return the completed view to render on screen
         return convertView;
     }

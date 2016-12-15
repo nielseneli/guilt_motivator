@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class EditTaskFragment extends Fragment {
     @BindView(R.id.tvDueDate) TextView tvDueDate;
     @BindView(R.id.editTaskSaveButton) Button editTaskSaveButton;
     @BindView(R.id.editDueDate) ImageButton editDueDateButton;
+    @BindView(R.id.dateLinLayout) LinearLayout dateLinLayout;
     private Task task;
 
     @Override
@@ -108,7 +110,7 @@ public class EditTaskFragment extends Fragment {
             }
         });
 
-        editDueDateButton.setOnClickListener(new View.OnClickListener() {
+        dateLinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -148,8 +150,8 @@ public class EditTaskFragment extends Fragment {
             //save a thing.
             @Override
             public void onClick(View view) {
+                //make sure you have enough information
                 Boolean showAlertDialog = false;
-
                 String missingInfo;
                 if (task.getDueDate() == null){
                     missingInfo = "a due date!";
