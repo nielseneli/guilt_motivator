@@ -113,7 +113,7 @@ public class EditTaskFragment extends Fragment {
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.dialog_edit_todo, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_edit_due_date, null);
                 final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
                 final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
                 if (b != null) {
