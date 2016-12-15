@@ -53,12 +53,12 @@ public class HomeFragment extends Fragment {
         name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
         if (name.equals("none")) {
             //user doesn't have a name saved. Open an alertDialog.
-            // TODO: comment this shit
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Welcome to Guilt Motivator!")
                     .setMessage("Please enter your name.");
             LayoutInflater dialogInflater = getActivity().getLayoutInflater();
             final View dialogView = dialogInflater.inflate(R.layout.dialog_set_name_pronouns, null);
+            // make a drop down menu, woo
             final Spinner pronounsSpinner = (Spinner) dialogView.findViewById(R.id.pronounsSpinner);
             final ArrayAdapter<CharSequence> pronounsAdapter = ArrayAdapter.createFromResource(getContext(),
                     R.array.pronouns_array, android.R.layout.simple_spinner_item);
@@ -69,8 +69,10 @@ public class HomeFragment extends Fragment {
                     .setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            // get name
                             EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextName);
                             String textInput = nameEditText.getText().toString();
+                            // get pronouns
                             String pronouns = pronounsSpinner.getItemAtPosition(
                                     pronounsSpinner.getSelectedItemPosition()).toString();
                             String pronoun = "";
@@ -81,7 +83,7 @@ public class HomeFragment extends Fragment {
                             } else if (pronouns.equals("They/them/theirs")) {
                                 pronoun = "they";
                             }
-
+                            // add the name and pronouns to sharedPrefs
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(MainActivity.SAVED_NAME, textInput);
                             editor.apply();
