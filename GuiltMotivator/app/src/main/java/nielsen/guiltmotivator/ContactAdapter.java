@@ -55,14 +55,27 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
-                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
-                Contact deleted = holder.contact;
-                remove(deleted); //remove the item from the adapter
-                mDbHelper.deleteContact(deleted);
-                notifyDataSetChanged();
-                editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                LayoutInflater inflater = LayoutInflater.from(getContext());
+                                View editTaskView = inflater.inflate(R.layout.fragment_edit_task, null);
+                                Button editTaskSaveButton = (Button) editTaskView.findViewById(R.id.editTaskSaveButton);
+                                Contact deleted = holder.contact;
+                                remove(deleted); //remove the item from the adapter
+                                mDbHelper.deleteContact(deleted);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
             }
         });
         convertView.setTag(holder);

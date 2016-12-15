@@ -58,8 +58,8 @@
 
         <ImageButton
             android:id="@+id/editDueDate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/edit"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"/>
@@ -68,6 +68,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/contactLinLayout"
         android:orientation="horizontal"
         android:layout_margin="5dp">
         <ImageView
@@ -85,6 +86,16 @@
             android:textSize="20dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add"
+            android:id="@+id/addContact"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <ListView
@@ -93,16 +104,6 @@
         android:id="@+id/contactlist"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.14" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add"
-        android:id="@+id/addContact"
-        android:background="@android:color/transparent"
-        android:layout_gravity="right"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
