@@ -35,19 +35,16 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-
         // get radiogroup/buttons about tone
         RadioGroup radio_group_tone = (RadioGroup) view.findViewById(R.id.radio_group_tone);
         RadioButton polite = (RadioButton) view.findViewById(R.id.polite);
         RadioButton rude = (RadioButton) view.findViewById(R.id.rude);
         RadioButton profane = (RadioButton) view.findViewById(R.id.profane);
-
         // get radiogroup/buttons about pronouns
         RadioGroup radio_group_pronouns = (RadioGroup) view.findViewById(R.id.radio_group_pronouns);
         RadioButton he = (RadioButton) view.findViewById(R.id.he);
         RadioButton she = (RadioButton) view.findViewById(R.id.she);
         RadioButton they = (RadioButton) view.findViewById(R.id.they);
-
         // get the text for the pronouns buttons
         Resources res = getResources();
         String he_pronouns = String.format(res.getString(R.string.pronouns_string),
@@ -56,17 +53,14 @@ public class SettingsFragment extends Fragment {
                 res.getString(R.string.she), res.getString(R.string.her), res.getString(R.string.hers));
         String they_pronouns = String.format(res.getString(R.string.pronouns_string),
                 res.getString(R.string.they), res.getString(R.string.them), res.getString(R.string.theirs));
-
         // set the text for the pronouns buttons
         he.setText(he_pronouns);
         she.setText(she_pronouns);
         they.setText(they_pronouns);
-
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
         final String username = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-
         // get user name thing
         final TextView userName = (TextView) view.findViewById(R.id.userName);
         userName.setText(username);
@@ -75,7 +69,6 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 final EditText editText = new EditText(getActivity());
                 editText.setText(username);
-                Log.d("asdf", username);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(editText)
                         .setPositiveButton("enter", new DialogInterface.OnClickListener() {
@@ -110,16 +103,6 @@ public class SettingsFragment extends Fragment {
         }
 
         return view;
-    }
-    public void onCreate() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onSettingsFragmentInteraction(uri);
-        }
     }
 
     @Override

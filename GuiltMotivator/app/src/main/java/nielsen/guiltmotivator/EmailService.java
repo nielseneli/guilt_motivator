@@ -35,7 +35,6 @@ public class EmailService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // TODO Auto-generated method stub
-        Log.d("lol","service is working");
         final Handler handler = new Handler();
         Timer timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
@@ -44,7 +43,6 @@ public class EmailService extends Service {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            Log.d("lollol","hahahaha");
                             checkAllTasks();
                         } catch (Exception e) {
                         }
@@ -84,14 +82,13 @@ public class EmailService extends Service {
     }
 
     public void checkAllTasks(){
-        Log.d("haha","got here");
         DatabaseHelper mDbHelper = new DatabaseHelper(getApplicationContext());
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         //grab arraylist of tasks from the database
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
         Calendar cur = Calendar.getInstance();
         for (int i = 0; i < tasks.size(); i++){
-            if (tasks.get(i).getDueDate().compareTo(cur) >= 0 && !tasks.get(i).isChecked()){
+            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).isChecked()){
                 sendEmail(getApplicationContext(),tasks.get(i));
             }
         }
@@ -108,19 +105,30 @@ public class EmailService extends Service {
         final String tone = sharedPref.getString(MainActivity.SAVED_TONE, "polite");
         final String name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
         final String pronouns = sharedPref.getString(MainActivity.SAVED_PRONOUNS, "they");
-
-        String right_pronoun = "";
+        String right_pronoun_objective;
+        String right_pronoun_subjective;
+        String right_pronoun_possessive;
+        String right_pronoun_subj_article;
         if (pronouns.equals("he")) {
-            right_pronoun = getResources().getString(R.string.him);
+            right_pronoun_objective = getResources().getString(R.string.him);
+            right_pronoun_subjective = getResources().getString(R.string.he);
+            right_pronoun_possessive = getResources().getString(R.string.his);
+            right_pronoun_subj_article = right_pronoun_subjective + " is";
         } else if (pronouns.equals("she")) {
-            right_pronoun = getResources().getString(R.string.her);
-        } else if (pronouns.equals("they")) {
-            right_pronoun = getResources().getString(R.string.them);
+            right_pronoun_objective = getResources().getString(R.string.her);
+            right_pronoun_subjective = getResources().getString(R.string.she);
+            right_pronoun_possessive = getResources().getString(R.string.her);
+            right_pronoun_subj_article = right_pronoun_subjective + " is";
+        } else { //if pronouns are they
+            right_pronoun_objective = getResources().getString(R.string.them);
+            right_pronoun_subjective = getResources().getString(R.string.they);
+            right_pronoun_possessive = getResources().getString(R.string.theirs);
+            right_pronoun_subj_article = right_pronoun_subjective + " are";
         }
-
-        String msg = getMessage(right_pronoun, tone, name);
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
+            String msg = getMessage(right_pronoun_objective, right_pronoun_subjective,
+                    right_pronoun_possessive, right_pronoun_subj_article, tone, name, contacts.get(i).getName(), task.getText());
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
             //Executing sendmail to send email
             sm.execute();
@@ -129,18 +137,20 @@ public class EmailService extends Service {
         mDbHelper.editTask(task);
     }
 
-    public String getMessage(String pronoun, String tone, String username) {
+    public String getMessage(String pronoun_objective, String pronoun_subjective,
+                             String pronoun_possessive, String pronoun_subj_article, String tone,
+                             String username, String contact, String task) {
         // TODO: This disappears into a different file, delete it from here when it's moved
         String text = "";
         if (tone.equals("polite")) {
             text = String.format(getResources().getString(R.string.polite_message),
-                    username, pronoun);
+                    contact, username, pronoun_subjective, task, pronoun_objective);
         } else if (tone.equals("rude")) {
             text = String.format(getResources().getString(R.string.rude_message),
-                    username);
+                    contact, username, pronoun_subjective, task, pronoun_possessive, pronoun_subj_article);
         } else if (tone.equals("profane")) {
             text = String.format(getResources().getString(R.string.profane_message),
-                    username, pronoun);
+                    contact, username, pronoun_subjective, task, pronoun_subj_article);
         }
         return text;
     }

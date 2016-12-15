@@ -16,7 +16,6 @@ import java.util.Calendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-
     private static final String TEXT_TYPE = " TEXT";
     private static final String INT_TYPE = " INT";
     private static final String COMMA_SEP = ",";
@@ -26,7 +25,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TaskDbContract.FeedEntry.COLUMN_NAME_TASK + TEXT_TYPE + COMMA_SEP +
                     TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED + TEXT_TYPE + COMMA_SEP +
                     TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE + TEXT_TYPE + " )";
-
     private static final String CONTACTS_TABLE_CREATE_ENTRIES =
             "CREATE TABLE " + ContactDbContract.FeedEntry.TABLE_NAME + " (" +
                     ContactDbContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
@@ -34,13 +32,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS + TEXT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD + TEXT_TYPE + " )";
-
     private static final String TASKS_TABLE_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TaskDbContract.FeedEntry.TABLE_NAME;
-
     private static final String CONTACTS_TABLE_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ContactDbContract.FeedEntry.TABLE_NAME;
-
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "FeedReader.db";
@@ -52,7 +47,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TASKS_TABLE_DELETE_ENTRIES);
         db.execSQL(CONTACTS_TABLE_DELETE_ENTRIES);
-
         db.execSQL(TASKS_TABLE_CREATE_ENTRIES);
         db.execSQL(CONTACTS_TABLE_CREATE_ENTRIES);
     }
@@ -70,14 +64,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Task> getAllTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         //https://github.com/codepath/android_guides/wiki/Local-Databases-with-SQLiteOpenHelper
-
         // SELECT * FROM POSTS
         String POSTS_SELECT_QUERY =
                 "SELECT * FROM " + TaskDbContract.FeedEntry.TABLE_NAME;
-
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
-
         // get information and turn it into the things we want
         try {
             if (cursor.moveToFirst()) {
@@ -87,7 +78,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     newTask.setText(cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_TASK)));
                     newTask.setChecked(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED))));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(TaskDbContract.FeedEntry._ID)));
-
                     // set due date from SQL to task
                     String dueDateString = cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE));
                     SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
@@ -95,7 +85,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Calendar dueDateCalendar = Calendar.getInstance();
                     dueDateCalendar.setTime(dueDateDate);
                     newTask.setDueDate(dueDateCalendar);
-
                     // add task to arraylist tasks
                     tasks.add(newTask);
                 } while(cursor.moveToNext());
@@ -132,16 +121,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Contact> getContacts(Task task) {
-
         ArrayList<Contact> contacts = new ArrayList<>();
-
         int taskId = (int) task.getId();
         String GET_CONTACTS_QUERY = "SELECT * FROM " + ContactDbContract.FeedEntry.TABLE_NAME
         + " WHERE " + ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + "=" + taskId + ";";
-
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(GET_CONTACTS_QUERY, null);
-
         try {
             if (cursor.moveToFirst()) {
                 do {

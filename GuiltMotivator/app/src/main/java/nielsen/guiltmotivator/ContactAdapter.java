@@ -3,9 +3,7 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,50 +17,40 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * This is the adapter for contacts. It lives in the EditTaskFragment and contains the name, contact method and address of each contact.
+ * This is the adapter for contacts. It lives in the EditTaskFragment and contains the name and address of each contact.
  *
  */
 public class ContactAdapter extends ArrayAdapter<Contact> {
 
     private DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
-    final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
 
     public ContactAdapter(Context context, ArrayList<Contact> items) {
         super(context, 0, items);
-
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         final ContactHolder holder;
-
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView != null) {
             holder = (ContactHolder) convertView.getTag();
         } else {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_contact, parent, false);
             holder = new ContactHolder();
             convertView.setTag(holder);
         }
-
         //get the Contact at the position.
         holder.contact = getItem(position);
-
         //get all of the layout elements
         holder.name = (TextView) convertView.findViewById(R.id.itemName);
         holder.address = (TextView) convertView.findViewById(R.id.itemAddress);
         holder.delete = (ImageButton) convertView.findViewById(R.id.delete);
-
         //set the values for the layout attributes from the task's information
         holder.name.setText(holder.contact.getName());
         holder.address.setText(holder.contact.getAddress());
-
         //create the alert dialogs so when you click on any part of the contact you can edit.
         createEditContactAlertDialog(holder.address, holder);
         createEditContactAlertDialog(holder.name, holder);
-
         // Create onClickListener for delete Button
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,11 +138,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //nuthin
+                        //nothing
                     }
                 });
                 alertDialogBuilder.show();
-
             }
         });
     }

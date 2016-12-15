@@ -13,7 +13,6 @@ public class Task {
     private Calendar dueDate;
 
     public Task() {
-
     }
 
     public Task(String text) {

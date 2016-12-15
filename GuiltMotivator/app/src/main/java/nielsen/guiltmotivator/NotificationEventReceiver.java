@@ -1,17 +1,12 @@
 package nielsen.guiltmotivator;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,27 +19,19 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
 
-    //private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 60;
     @SuppressLint("NewApi")
     public static void setupAlarm(Context context) {
         //get helper and get db in write mode
         DatabaseHelper mDbHelper = new DatabaseHelper(context);
-
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         //grab arraylist of tasks from the database
         ArrayList<Task> tasks = mDbHelper.getAllTasks();
-
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
         for(int i = 0; i < tasks.size(); i++) {
             PendingIntent alarmIntent = getStartPendingIntent(context,i);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,
                     getTriggerAt(tasks.get(i).getDueDate().getTime()),
-                    // NOTIFICATIONS_INTERVAL_IN_HOURS,
                     alarmIntent);
-
             intentArray.add(alarmIntent);
         }
     }
@@ -60,7 +47,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
             Log.i(getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete");
             serviceIntent = NotificationIntentService.createIntentDeleteNotification(context);
         }
-
         if (serviceIntent != null) {
             startWakefulService(context, serviceIntent);
         }
@@ -69,7 +55,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver{
     private static long getTriggerAt(Date dueDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dueDate);
-        //calendar.add(Calendar.MINUTE, NOTIFICATIONS_INTERVAL_IN_HOURS);
         return calendar.getTimeInMillis();
     }
 
