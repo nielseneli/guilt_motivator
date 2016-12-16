@@ -65,8 +65,10 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                // Android Studio doesn't warn you about these AlertDialog strings, but these are
+                // also user-facing, so make sure to use strings.xml!
+                builder.setMessage(R.string.areYouSure)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 tasks.remove(position);
@@ -74,7 +76,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
                                 notifyDataSetChanged();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }
