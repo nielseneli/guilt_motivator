@@ -1,6 +1,5 @@
 package nielsen.guiltmotivator;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -28,8 +27,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     private String subject;
     private String message;
 
-    //Progressdialog to show while sending email
-    private ProgressDialog progressDialog;
+    //This was never used, so delete it!
 
     //Class Constructor
     public SendMail(Context context, String email, String subject, String message){
