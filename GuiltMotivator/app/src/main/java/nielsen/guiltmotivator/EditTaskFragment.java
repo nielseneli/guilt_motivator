@@ -156,6 +156,8 @@ public class EditTaskFragment extends Fragment {
         return v;
     }
 
+    // Apparently this is unused? I don't think it's overwriting anything in the superclass, so I
+    // think this could be removed.
     public void startService() {
         NotificationEventReceiver.setupAlarm(getContext());
     }
@@ -185,6 +187,8 @@ public class EditTaskFragment extends Fragment {
         //I don't know why, but when I set a listener on the whole linear layout, it allows me to
         //click on everything but the button itself. I can get around this with a second onclicklistener,
         //but I don't wanna write it twice so here we are.
+
+        //interesting. no user-facing bugs as a result of this, so I guess it's fine?
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

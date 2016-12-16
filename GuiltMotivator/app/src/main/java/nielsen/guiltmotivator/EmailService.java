@@ -112,21 +112,25 @@ public class EmailService extends Service {
         String right_pronoun_subjective;
         String right_pronoun_possessive;
         String right_pronoun_subj_article;
-        if (pronouns.equals("he")) {
-            right_pronoun_objective = getResources().getString(R.string.him);
-            right_pronoun_subjective = getResources().getString(R.string.he);
-            right_pronoun_possessive = getResources().getString(R.string.his);
-            right_pronoun_subj_article = right_pronoun_subjective + " is";
-        } else if (pronouns.equals("she")) {
-            right_pronoun_objective = getResources().getString(R.string.her);
-            right_pronoun_subjective = getResources().getString(R.string.she);
-            right_pronoun_possessive = getResources().getString(R.string.her);
-            right_pronoun_subj_article = right_pronoun_subjective + " is";
-        } else { //if pronouns are they
-            right_pronoun_objective = getResources().getString(R.string.them);
-            right_pronoun_subjective = getResources().getString(R.string.they);
-            right_pronoun_possessive = getResources().getString(R.string.theirs);
-            right_pronoun_subj_article = right_pronoun_subjective + " are";
+        switch (pronouns) {
+            case "he":
+                right_pronoun_objective = getResources().getString(R.string.him);
+                right_pronoun_subjective = getResources().getString(R.string.he);
+                right_pronoun_possessive = getResources().getString(R.string.his);
+                right_pronoun_subj_article = right_pronoun_subjective + " is";
+                break;
+            case "she":
+                right_pronoun_objective = getResources().getString(R.string.her);
+                right_pronoun_subjective = getResources().getString(R.string.she);
+                right_pronoun_possessive = getResources().getString(R.string.her);
+                right_pronoun_subj_article = right_pronoun_subjective + " is";
+                break;
+            default:  //if pronouns are they
+                right_pronoun_objective = getResources().getString(R.string.them);
+                right_pronoun_subjective = getResources().getString(R.string.they);
+                right_pronoun_possessive = getResources().getString(R.string.theirs);
+                right_pronoun_subj_article = right_pronoun_subjective + " are";
+                break;
         }
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
@@ -146,15 +150,19 @@ public class EmailService extends Service {
                              String username, String contact, String task) {
         // return the correct msg to be sent given the contact's tone, pronoun and name
         String text = "";
-        if (tone.equals("polite")) {
-            text = String.format(getResources().getString(R.string.polite_message),
-                    contact, username, pronoun_subjective, task, pronoun_objective);
-        } else if (tone.equals("rude")) {
-            text = String.format(getResources().getString(R.string.rude_message),
-                    contact, username, pronoun_subjective, task, pronoun_possessive, pronoun_subj_article);
-        } else if (tone.equals("profane")) {
-            text = String.format(getResources().getString(R.string.profane_message),
-                    contact, username, pronoun_subjective, task, pronoun_subj_article);
+        switch (tone) {
+            case "polite":
+                text = String.format(getResources().getString(R.string.polite_message),
+                        contact, username, pronoun_subjective, task, pronoun_objective);
+                break;
+            case "rude":
+                text = String.format(getResources().getString(R.string.rude_message),
+                        contact, username, pronoun_subjective, task, pronoun_possessive, pronoun_subj_article);
+                break;
+            case "profane":
+                text = String.format(getResources().getString(R.string.profane_message),
+                        contact, username, pronoun_subjective, task, pronoun_subj_article);
+                break;
         }
         return text;
     }
