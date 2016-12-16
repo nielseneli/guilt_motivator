@@ -31,7 +31,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.add_button)
     FloatingActionButton addButton;
 
-    private String name;
+    private String name;  // There's no need for this variable to be up here. It's only accessed
+                          // in the onCreateView method, so it can exist only in that method.
 
     public HomeFragment() {
     }
@@ -50,8 +51,11 @@ public class HomeFragment extends Fragment {
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        if (name.equals("none")) {
+
+        // Be careful about using real Strings as default values. If a user's name is 'none', then this
+        // if statement end up executing. I believe using "null" is better.
+        name = sharedPref.getString(MainActivity.SAVED_NAME, null);
+        if (name == null) {
             //user doesn't have a name saved. Open an alertDialog.
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Welcome to Guilt Motivator!")
@@ -76,12 +80,19 @@ public class HomeFragment extends Fragment {
                             String pronouns = pronounsSpinner.getItemAtPosition(
                                     pronounsSpinner.getSelectedItemPosition()).toString();
                             String pronoun = "";
-                            if (pronouns.equals("He/him/his")) {
-                                pronoun = "he";
-                            } else if (pronouns.equals("She/her/hers")) {
-                                pronoun = "she";
-                            } else if (pronouns.equals("They/them/theirs")) {
-                                pronoun = "they";
+                            // not sure if you guys know about this, but Java has switch statements,
+                            // which are really good for replacing long if-else chains!
+                            // Look how pretty this is :)
+                            switch (pronouns) {
+                                case "He/him/his":
+                                    pronoun = "he";
+                                    break;
+                                case "She/her/hers":
+                                    pronoun = "she";
+                                    break;
+                                case "They/them/theirs":
+                                    pronoun = "they";
+                                    break;
                             }
                             // add the name and pronouns to sharedPrefs
                             SharedPreferences.Editor editor = sharedPref.edit();
