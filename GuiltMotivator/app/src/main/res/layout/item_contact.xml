@@ -5,6 +5,8 @@
     android:orientation="horizontal"
     android:weightSum="1">
 
+    <!--Same thing with margins and spacing. In general it is nice to leave -->
+    <!--out space between app elements to make things look more clean-->
     <TextView
 
         android:id="@+id/itemName"

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--In the app, this looks good. I like the layout of all tasks. But at the same time,-->
+    <!--try not to use Linear Layout within each other. In such cases, it is better -->
+    <!--practice to use relative layout-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
