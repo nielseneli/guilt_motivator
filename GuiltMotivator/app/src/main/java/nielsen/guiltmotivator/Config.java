@@ -7,4 +7,4 @@ package nielsen.guiltmotivator;
 public class Config {
     public static final String EMAIL ="guilt.motivator@gmail.com";
     public static final String PASSWORD ="mobileproto16";
-}a 
+}
