@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -138,7 +142,7 @@ public class EditTaskFragment extends Fragment {
                         //Then make the contacts...
                         for (int i=0; i<contacts.size(); i++) {
                             Contact contact = contacts.get(i);
-                            ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
+                            ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId(), contact.getTone());
                             long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                             contact.setTaskId(task.getId());
                             contact.setLocalId(newContactRowId);
@@ -173,11 +177,12 @@ public class EditTaskFragment extends Fragment {
         return task;
     }
 
-    public ContentValues getContactVals(String name, String address, String method, int id) {
+    public ContentValues getContactVals(String name, String address, String method, int id, String tone) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TONE, tone);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, id);
         return contentValues;
     }
@@ -207,17 +212,38 @@ public class EditTaskFragment extends Fragment {
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                //get the views
                                 EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                                 EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+                                RadioGroup toneGroup = (RadioGroup) dialogView.findViewById(R.id.radioGroupContactTone);
+                                RadioButton politeButton = (RadioButton) dialogView.findViewById(R.id.politeButtonContact);
+                                RadioButton rudeButton = (RadioButton) dialogView.findViewById(R.id.rudeButtonContact);
+                                RadioButton profaneButton = (RadioButton) dialogView.findViewById(R.id.profaneButtonContact);
+                                //get stuff from them
                                 String name = nameEditText.getText().toString();
                                 String address = addressEditText.getText().toString();
                                 String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition())
                                         .toString();
+                                int radioId = toneGroup.getCheckedRadioButtonId();
+                                RadioButton radioButton = (RadioButton) dialogView.findViewById(radioId);
+                                String tone = "";
+                                switch(radioId){
+                                    case R.id.politeButtonContact:
+                                        tone = "polite";
+                                        break;
+                                    case R.id.rudeButtonContact:
+                                        tone = "rude";
+                                        break;
+                                    case R.id.profaneButtonContact:
+                                        tone = "profane";
+                                        break;
+                                }
                                 Contact contact = new Contact(name, method, address);
+                                contact.setTone(tone);
                                 adapter.add(contact);
                                 if (b != null) {
                                     //if youre editing an existing task
-                                    ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
+                                    ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId(), contact.getTone());
                                     long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                                     contact.setTaskId(task.getId());
                                     contact.setLocalId(newContactRowId);

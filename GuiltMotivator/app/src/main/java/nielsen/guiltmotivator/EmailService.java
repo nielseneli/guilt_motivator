@@ -131,7 +131,7 @@ public class EmailService extends Service {
         for (int i = 0; i < contacts.size();i++){
             //Creating SendMail object
             String msg = getMessage(right_pronoun_objective, right_pronoun_subjective,
-                    right_pronoun_possessive, right_pronoun_subj_article, tone, name, contacts.get(i).getName(), task.getText(), task.isChecked());
+                    right_pronoun_possessive, right_pronoun_subj_article, contacts.get(i).getTone(), name, contacts.get(i).getName(), task.getText(), task.isChecked());
             SendMail sm = new SendMail(context, contacts.get(i).getAddress(), "From Guilt Motivator", msg);
             //Executing sendmail to send email
             sm.execute();

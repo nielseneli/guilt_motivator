@@ -34,7 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + INT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS + TEXT_TYPE + COMMA_SEP +
-                    ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD + TEXT_TYPE + " )";
+                    ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD + TEXT_TYPE + COMMA_SEP +
+                    ContactDbContract.FeedEntry.COLUMN_NAME_TONE + TEXT_TYPE + " )";
     private static final String TASKS_TABLE_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TaskDbContract.FeedEntry.TABLE_NAME;
     private static final String CONTACTS_TABLE_DELETE_ENTRIES =
@@ -140,8 +141,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String contactName = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME));
                     String method = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD));
                     String address = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS));
+                    String tone = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_TONE));
 
                     Contact newContact = new Contact(contactName, method, address);
+                    newContact.setTone(tone);
                     newContact.setTaskId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID)));
                     newContact.setLocalId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry._ID)));
                     contacts.add(newContact);
@@ -166,6 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, contact.getTaskId());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_TONE, contact.getTone());
 
         return db.update(ContactDbContract.FeedEntry.TABLE_NAME, args,
                 ContactDbContract.FeedEntry._ID + "=" + contact.getLocalId(), null) > 0;
