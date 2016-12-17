@@ -132,25 +132,25 @@ public class MainActivity extends AppCompatActivity
         // all the radio buttons
         switch(v.getId()) {
             // if tone, make a snarky comment/toast and put in sharedPrefs
-            case R.id.polite:
-                if (v.getId() == R.id.polite) {
+            case R.id.politeButtonContact:
+                if (v.getId() == R.id.politeButtonContact) {
                     Toast.makeText(this, "Jolly good", Toast.LENGTH_SHORT).show();
-                    editor.putString(MainActivity.SAVED_TONE, "polite");
-                    editor.apply();
+//                    editor.putString(MainActivity.SAVED_TONE, "polite");
+//                    editor.apply();
                 }
 
-            case R.id.rude:
-                if (v.getId() == R.id.rude) {
+            case R.id.rudeButtonContact:
+                if (v.getId() == R.id.rudeButtonContact) {
                     Toast.makeText(this, "You fool", Toast.LENGTH_SHORT).show();
-                    editor.putString(MainActivity.SAVED_TONE, "rude");
-                    editor.apply();
+//                    editor.putString(MainActivity.SAVED_TONE, "rude");
+//                    editor.apply();
                 }
 
-            case R.id.profane:
-                if (v.getId() == R.id.profane) {
+            case R.id.profaneButtonContact:
+                if (v.getId() == R.id.profaneButtonContact) {
                     Toast.makeText(this, "Fuck you", Toast.LENGTH_SHORT).show();
-                    editor.putString(MainActivity.SAVED_TONE, "profane");
-                    editor.apply();
+//                    editor.putString(MainActivity.SAVED_TONE, "profane");
+//                    editor.apply();
                 }
 
             // if pronouns, just put in sharedPrefs

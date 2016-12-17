@@ -32,8 +32,6 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.add_button)
     FloatingActionButton addButton;
 
-    private String name;
-
     public HomeFragment() {
     }
 
@@ -53,8 +51,8 @@ public class HomeFragment extends Fragment {
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        if (name.equals("none")) {
+        String name = sharedPref.getString(MainActivity.SAVED_NAME, null);
+        if (name == null) {
             //user doesn't have a name saved. Open an alertDialog.
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Welcome to Guilt Motivator!")

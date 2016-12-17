@@ -43,6 +43,10 @@
     <string name="name">Name: </string>
     <string name="address">Address: </string>
     <string name="save">Save</string>
+    <string name="areYouSure">Are you sure?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="okay">Okay</string>
     <string-array name="contact_methods_array">
         <item>Email</item>
     </string-array>

@@ -120,7 +120,7 @@ public class EditTaskFragment extends Fragment {
                 if (showAlertDialog) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("You haven't selected " + missingInfo)
-                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                 }
@@ -159,10 +159,6 @@ public class EditTaskFragment extends Fragment {
             }
         });
         return v;
-    }
-
-    public void startService() {
-        NotificationEventReceiver.setupAlarm(getContext());
     }
 
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
@@ -208,7 +204,7 @@ public class EditTaskFragment extends Fragment {
                 //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Add A Contact!")
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //get the views
@@ -245,7 +241,7 @@ public class EditTaskFragment extends Fragment {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }
@@ -274,7 +270,7 @@ public class EditTaskFragment extends Fragment {
                     timePicker.setCurrentMinute(task.getDueDate().get(Calendar.MINUTE));
                 }
                 builder.setView(dialogView)
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // save the date
@@ -286,7 +282,7 @@ public class EditTaskFragment extends Fragment {
                                 tvDueDate.setText(sdf.format(inputDate.getTime()));
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }

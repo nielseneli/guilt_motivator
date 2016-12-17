@@ -60,8 +60,8 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Are you sure?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.areYouSure)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -73,7 +73,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                 notifyDataSetChanged();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -207,7 +207,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                 editTaskSaveButton.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
 
                             }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //nothing

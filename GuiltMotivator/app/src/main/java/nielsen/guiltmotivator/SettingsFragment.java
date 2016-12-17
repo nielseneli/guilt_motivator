@@ -35,11 +35,6 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_settings, container, false);
-        // get radiogroup/buttons about tone
-        RadioGroup radio_group_tone = (RadioGroup) view.findViewById(R.id.radio_group_tone);
-        RadioButton polite = (RadioButton) view.findViewById(R.id.polite);
-        RadioButton rude = (RadioButton) view.findViewById(R.id.rude);
-        RadioButton profane = (RadioButton) view.findViewById(R.id.profane);
         // get radiogroup/buttons about pronouns
         RadioGroup radio_group_pronouns = (RadioGroup) view.findViewById(R.id.radio_group_pronouns);
         RadioButton he = (RadioButton) view.findViewById(R.id.he);
@@ -87,15 +82,6 @@ public class SettingsFragment extends Fragment {
                         .show();
             }
         });
-
-        // set the radio buttons to be appropriately checked!
-        if (tone.equals("polite")) {
-            radio_group_tone.check(polite.getId());
-        } else if (tone.equals("rude")) {
-            radio_group_tone.check(rude.getId());
-        } else if (tone.equals("profane")) {
-            radio_group_tone.check(profane.getId());
-        }
 
         if (pronouns.equals("he")) {
             radio_group_pronouns.check(he.getId());
