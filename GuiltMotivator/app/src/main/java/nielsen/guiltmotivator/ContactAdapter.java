@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -116,6 +118,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
                 final EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                 final EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+                final RadioGroup toneGroup = (RadioGroup) dialogView.findViewById(R.id.radioGroupContactTone);
+                RadioButton polite = (RadioButton) dialogView.findViewById(R.id.politeButtonContact);
+                RadioButton rude = (RadioButton) dialogView.findViewById(R.id.rudeButtonContact);
+                RadioButton profane = (RadioButton) dialogView.findViewById(R.id.profaneButtonContact);
 
                 //set the OnEditorActionListeners.
                 nameEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -149,6 +155,14 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                 nameEditText.setText(holder.contact.getName());
                 addressEditText.setText(holder.contact.getAddress());
 
+                if (holder.contact.getTone().equals("polite")) {
+                    toneGroup.check(polite.getId());
+                } else if (holder.contact.getTone().equals("rude")) {
+                    toneGroup.check(rude.getId());
+                } else if (holder.contact.getTone().equals("profane")){
+                    toneGroup.check(profane.getId());
+                }
+
                 //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Edit Contact!")
@@ -171,6 +185,20 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
                                     holder.contact.setAddress(address);
                                 }
 
+                                int radioId = toneGroup.getCheckedRadioButtonId();
+                                String tone = "";
+                                switch(radioId){
+                                    case R.id.politeButtonContact:
+                                        tone = "polite";
+                                        break;
+                                    case R.id.rudeButtonContact:
+                                        tone = "rude";
+                                        break;
+                                    case R.id.profaneButtonContact:
+                                        tone = "profane";
+                                        break;
+                                }
+                                holder.contact.setTone(tone);
                                 mDbHelper.editContact(holder.contact);
                                 notifyDataSetChanged();
 

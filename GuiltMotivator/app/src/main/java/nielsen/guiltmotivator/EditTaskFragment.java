@@ -196,7 +196,6 @@ public class EditTaskFragment extends Fragment {
             public void onClick(View view) {
                 final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
                 final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
@@ -216,16 +215,12 @@ public class EditTaskFragment extends Fragment {
                                 EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                                 EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
                                 RadioGroup toneGroup = (RadioGroup) dialogView.findViewById(R.id.radioGroupContactTone);
-                                RadioButton politeButton = (RadioButton) dialogView.findViewById(R.id.politeButtonContact);
-                                RadioButton rudeButton = (RadioButton) dialogView.findViewById(R.id.rudeButtonContact);
-                                RadioButton profaneButton = (RadioButton) dialogView.findViewById(R.id.profaneButtonContact);
                                 //get stuff from them
                                 String name = nameEditText.getText().toString();
                                 String address = addressEditText.getText().toString();
                                 String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition())
                                         .toString();
                                 int radioId = toneGroup.getCheckedRadioButtonId();
-                                RadioButton radioButton = (RadioButton) dialogView.findViewById(radioId);
                                 String tone = "";
                                 switch(radioId){
                                     case R.id.politeButtonContact:
