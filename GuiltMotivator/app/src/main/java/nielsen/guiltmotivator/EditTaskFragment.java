@@ -256,14 +256,17 @@ public class EditTaskFragment extends Fragment {
     }
 
     public void setDateOnClick(View v, final Bundle b) {
+        //created for the same reason as setContactOnClick, but it's the date one.
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //get that custom alert dialog
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_edit_due_date, null);
                 final TimePicker timePicker = (TimePicker) dialogView.findViewById(R.id.editTimePicker1);
                 final DatePicker datePicker = (DatePicker) dialogView.findViewById(R.id.editDatePicker1);
+                // if the task exists, make it set to the previous saved time/date
                 if (b != null) {
                     datePicker.updateDate(task.getDueDate().get(Calendar.YEAR), task.getDueDate().get(Calendar.MONTH),
                             task.getDueDate().get(Calendar.DAY_OF_MONTH));
@@ -274,6 +277,7 @@ public class EditTaskFragment extends Fragment {
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                // save the date
                                 Calendar inputDate = Calendar.getInstance();
                                 inputDate.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),
                                         timePicker.getCurrentHour(), timePicker.getCurrentMinute());
