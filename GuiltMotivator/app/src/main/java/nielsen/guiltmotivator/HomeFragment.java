@@ -79,11 +79,11 @@ public class HomeFragment extends Fragment {
                             String pronouns = pronounsSpinner.getItemAtPosition(
                                     pronounsSpinner.getSelectedItemPosition()).toString();
                             String pronoun = "";
-                            if (pronouns.equals("He/him/his")) {
+                            if (pronouns.equals("he/him/his")) {
                                 pronoun = "he";
-                            } else if (pronouns.equals("She/her/hers")) {
+                            } else if (pronouns.equals("she/her/hers")) {
                                 pronoun = "she";
-                            } else if (pronouns.equals("They/them/theirs")) {
+                            } else if (pronouns.equals("they/them/theirs")) {
                                 pronoun = "they";
                             }
                             // add the name and pronouns to sharedPrefs

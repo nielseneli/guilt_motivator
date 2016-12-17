@@ -91,7 +91,7 @@ public class EmailService extends Service {
         for (int i = 0; i < tasks.size(); i++){
             // for each of the task in the database, check whether it pasts its due date and hasn't
             // been checked. If so, send an email to the contact.
-            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).getSent()){
+            if (tasks.get(i).getDueDate().compareTo(cur) <= 0 && !tasks.get(i).getSent() && !tasks.get(i).isChecked()){
                 sendEmail(getApplicationContext(), tasks.get(i));
             }
         }
