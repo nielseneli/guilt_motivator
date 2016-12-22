@@ -26,14 +26,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TaskDbContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
                     TaskDbContract.FeedEntry.COLUMN_NAME_TASK + TEXT_TYPE + COMMA_SEP +
                     TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED + TEXT_TYPE + COMMA_SEP +
-                    TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE + TEXT_TYPE + " )";
+                    TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE + TEXT_TYPE + COMMA_SEP +
+                    TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT + TEXT_TYPE + " )";
     private static final String CONTACTS_TABLE_CREATE_ENTRIES =
             "CREATE TABLE " + ContactDbContract.FeedEntry.TABLE_NAME + " (" +
                     ContactDbContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
                     ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID + INT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
                     ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS + TEXT_TYPE + COMMA_SEP +
-                    ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD + TEXT_TYPE + " )";
+                    ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD + TEXT_TYPE + COMMA_SEP +
+                    ContactDbContract.FeedEntry.COLUMN_NAME_TONE + TEXT_TYPE + " )";
     private static final String TASKS_TABLE_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TaskDbContract.FeedEntry.TABLE_NAME;
     private static final String CONTACTS_TABLE_DELETE_ENTRIES =
@@ -79,6 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // set text, whether it's checked, and id from SQL to task
                     newTask.setText(cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_TASK)));
                     newTask.setChecked(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED))));
+                    newTask.setSent(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT))));
                     newTask.setId(cursor.getLong(cursor.getColumnIndex(TaskDbContract.FeedEntry._ID)));
                     // set due date from SQL to task
                     String dueDateString = cursor.getString(cursor.getColumnIndex(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE));
@@ -116,6 +119,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, task.getText());
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED,
                 Boolean.toString(task.isChecked()));
+        args.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT,
+                Boolean.toString(task.getSent()));
         args.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE,
                 task.getDueDate().getTime().toString());
         return db.update(TaskDbContract.FeedEntry.TABLE_NAME, args,
@@ -136,8 +141,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String contactName = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME));
                     String method = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD));
                     String address = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS));
+                    String tone = cursor.getString(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_TONE));
 
                     Contact newContact = new Contact(contactName, method, address);
+                    newContact.setTone(tone);
                     newContact.setTaskId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID)));
                     newContact.setLocalId(cursor.getLong(cursor.getColumnIndex(ContactDbContract.FeedEntry._ID)));
                     contacts.add(newContact);
@@ -162,6 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, contact.getMethod());
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, contact.getAddress());
         args.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, contact.getTaskId());
+        args.put(ContactDbContract.FeedEntry.COLUMN_NAME_TONE, contact.getTone());
 
         return db.update(ContactDbContract.FeedEntry.TABLE_NAME, args,
                 ContactDbContract.FeedEntry._ID + "=" + contact.getLocalId(), null) > 0;

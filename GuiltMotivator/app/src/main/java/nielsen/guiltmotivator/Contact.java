@@ -10,6 +10,7 @@ public class Contact {
     private String address;
     private long taskId;
     private long localId;
+    private String tone;
 
     public Contact(String name, String method, String address){
         this.name = name;
@@ -57,5 +58,11 @@ public class Contact {
         return localId;
     }
 
+    public void setTone(String tone) {
+        this.tone = tone;
+    }
 
+    public String getTone() {
+        return tone;
+    }
 }

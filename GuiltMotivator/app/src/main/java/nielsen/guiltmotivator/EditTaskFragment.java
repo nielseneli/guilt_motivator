@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -116,7 +120,7 @@ public class EditTaskFragment extends Fragment {
                 if (showAlertDialog) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("You haven't selected " + missingInfo)
-                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                 }
@@ -131,13 +135,14 @@ public class EditTaskFragment extends Fragment {
                         ContentValues taskValues = new ContentValues();
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_TASK, taskName.getText().toString());
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISCHECKED, "false");
+                        taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_ISSENT, "false");
                         taskValues.put(TaskDbContract.FeedEntry.COLUMN_NAME_DUEDATE, task.getDueDate().getTime().toString());
                         long newRowId = db.insert(TaskDbContract.FeedEntry.TABLE_NAME, null, taskValues);
                         task.setId(newRowId);
                         //Then make the contacts...
                         for (int i=0; i<contacts.size(); i++) {
                             Contact contact = contacts.get(i);
-                            ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
+                            ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId(), contact.getTone());
                             long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                             contact.setTaskId(task.getId());
                             contact.setLocalId(newContactRowId);
@@ -156,10 +161,6 @@ public class EditTaskFragment extends Fragment {
         return v;
     }
 
-    public void startService() {
-        NotificationEventReceiver.setupAlarm(getContext());
-    }
-
     public Task getTaskById(ArrayList<Task> tasks, Long id) {
         // get the task, if it exists already
         Task task = new Task();
@@ -172,11 +173,12 @@ public class EditTaskFragment extends Fragment {
         return task;
     }
 
-    public ContentValues getContactVals(String name, String address, String method, int id) {
+    public ContentValues getContactVals(String name, String address, String method, int id, String tone) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_NAME, name);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_ADDRESS, address);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_CONTACT_METHOD, method);
+        contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TONE, tone);
         contentValues.put(ContactDbContract.FeedEntry.COLUMN_NAME_TASK_ID, id);
         return contentValues;
     }
@@ -190,7 +192,6 @@ public class EditTaskFragment extends Fragment {
             public void onClick(View view) {
                 final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
                 final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_create_contact, null);
@@ -203,27 +204,44 @@ public class EditTaskFragment extends Fragment {
                 //set up the alert dialog actions
                 alertDialogBuilder.setView(dialogView)
                         .setTitle("Add A Contact!")
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                //get the views
                                 EditText nameEditText = (EditText) dialogView.findViewById(R.id.editTextContactName);
                                 EditText addressEditText = (EditText) dialogView.findViewById(R.id.editTextContactAddress);
+                                RadioGroup toneGroup = (RadioGroup) dialogView.findViewById(R.id.radioGroupContactTone);
+                                //get stuff from them
                                 String name = nameEditText.getText().toString();
                                 String address = addressEditText.getText().toString();
                                 String method = methodSpinner.getItemAtPosition(methodSpinner.getSelectedItemPosition())
                                         .toString();
+                                int radioId = toneGroup.getCheckedRadioButtonId();
+                                String tone = "";
+                                switch(radioId){
+                                    case R.id.politeButtonContact:
+                                        tone = "polite";
+                                        break;
+                                    case R.id.rudeButtonContact:
+                                        tone = "rude";
+                                        break;
+                                    case R.id.profaneButtonContact:
+                                        tone = "profane";
+                                        break;
+                                }
                                 Contact contact = new Contact(name, method, address);
+                                contact.setTone(tone);
                                 adapter.add(contact);
                                 if (b != null) {
                                     //if youre editing an existing task
-                                    ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId());
+                                    ContentValues contactValues = getContactVals(contact.getName(), contact.getAddress(), contact.getMethod(), (int) task.getId(), contact.getTone());
                                     long newContactRowId = db.insert(ContactDbContract.FeedEntry.TABLE_NAME, null, contactValues);
                                     contact.setTaskId(task.getId());
                                     contact.setLocalId(newContactRowId);
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }
@@ -252,7 +270,7 @@ public class EditTaskFragment extends Fragment {
                     timePicker.setCurrentMinute(task.getDueDate().get(Calendar.MINUTE));
                 }
                 builder.setView(dialogView)
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // save the date
@@ -264,7 +282,7 @@ public class EditTaskFragment extends Fragment {
                                 tvDueDate.setText(sdf.format(inputDate.getTime()));
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }

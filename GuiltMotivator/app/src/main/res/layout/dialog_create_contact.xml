@@ -43,4 +43,37 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"/>
 
+    <TextView
+        android:text="@string/chooseTone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroupContactTone">
+
+        <RadioButton
+            android:text="@string/polite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/politeButtonContact"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/rude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rudeButtonContact"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/profane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profaneButtonContact"
+            android:layout_weight="1" />
+    </RadioGroup>
+
 </LinearLayout>

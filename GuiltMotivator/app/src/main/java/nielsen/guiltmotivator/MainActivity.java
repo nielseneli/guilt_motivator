@@ -74,8 +74,12 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         // if the drawer is open, pressing back closes it
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        HomeFragment homeFragment = new HomeFragment();
+        Fragment f = this.getSupportFragmentManager().findFragmentById(R.id.fragmentcontainer);
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if(f instanceof HomeFragment) {
+            //stay where u r
         } else {
             super.onBackPressed();
         }

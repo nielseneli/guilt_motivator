@@ -17,5 +17,6 @@ public class ContactDbContract{
         public static final String COLUMN_NAME_CONTACT_NAME = "contactName";
         public static final String COLUMN_NAME_CONTACT_ADDRESS = "contactAddress";
         public static final String COLUMN_NAME_CONTACT_METHOD = "contactMethod";
+        public static final String COLUMN_NAME_TONE = "tone";
     }
 }

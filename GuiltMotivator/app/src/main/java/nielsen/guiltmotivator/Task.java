@@ -11,6 +11,7 @@ public class Task {
     private long id;
     private boolean isChecked;
     private Calendar dueDate;
+    private boolean isSent;
 
     public Task() {
     }
@@ -55,5 +56,13 @@ public class Task {
 
     public void setDueDate(Calendar dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public void setSent(boolean isSent) {
+        this.isSent= isSent;
+    }
+
+    public boolean getSent() {
+        return isSent;
     }
 }

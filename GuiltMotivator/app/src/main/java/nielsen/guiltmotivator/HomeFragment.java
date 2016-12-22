@@ -3,6 +3,7 @@ package nielsen.guiltmotivator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -31,8 +32,6 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.add_button)
     FloatingActionButton addButton;
 
-    private String name;
-
     public HomeFragment() {
     }
 
@@ -45,13 +44,15 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
         //get helper and get db in write mode
         DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//        mDbHelper.onCreate(db);
         //grab arraylist of tasks from the database
         ArrayList<Task> list = mDbHelper.getAllTasks();
         final TasksAdapter tasksAdapter = new TasksAdapter(list, getContext());
         listView.setAdapter(tasksAdapter);
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        name = sharedPref.getString(MainActivity.SAVED_NAME, "none");
-        if (name.equals("none")) {
+        String name = sharedPref.getString(MainActivity.SAVED_NAME, null);
+        if (name == null) {
             //user doesn't have a name saved. Open an alertDialog.
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Welcome to Guilt Motivator!")
@@ -76,11 +77,11 @@ public class HomeFragment extends Fragment {
                             String pronouns = pronounsSpinner.getItemAtPosition(
                                     pronounsSpinner.getSelectedItemPosition()).toString();
                             String pronoun = "";
-                            if (pronouns.equals("He/him/his")) {
+                            if (pronouns.equals("he/him/his")) {
                                 pronoun = "he";
-                            } else if (pronouns.equals("She/her/hers")) {
+                            } else if (pronouns.equals("she/her/hers")) {
                                 pronoun = "she";
-                            } else if (pronouns.equals("They/them/theirs")) {
+                            } else if (pronouns.equals("they/them/theirs")) {
                                 pronoun = "they";
                             }
                             // add the name and pronouns to sharedPrefs

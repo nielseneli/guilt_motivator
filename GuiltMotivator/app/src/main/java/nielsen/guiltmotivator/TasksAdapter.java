@@ -2,6 +2,7 @@ package nielsen.guiltmotivator;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -51,6 +52,9 @@ public class TasksAdapter extends ArrayAdapter<Task> {
         holder.checkBox.setChecked(task.isChecked());
         SimpleDateFormat sdf = new SimpleDateFormat("EE,  MMM d HH:mm", Locale.US);
         holder.dueDate.setText(sdf.format(task.getDueDate().getTime()));
+        if (task.getSent()) {
+            holder.tvText.setPaintFlags(holder.tvText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
         final DatabaseHelper mDbHelper = new DatabaseHelper(getContext());
         // set onClickListeners. Edit or delete task, then go into sql.
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +86,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
             }
         });
 
-        //set an onclick listener to the textview, which opens up the EditTaskFragment.
+        //set an onclick listener to the textView, which opens up the EditTaskFragment.
         holder.tvText.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment newFragment = new EditTaskFragment();

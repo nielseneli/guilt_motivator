@@ -17,5 +17,6 @@ public final class TaskDbContract {
         public static final String COLUMN_NAME_TASK = "task";
         public static final String COLUMN_NAME_ISCHECKED = "isChecked";
         public static final String COLUMN_NAME_DUEDATE = "dueDate";
+        public static final String COLUMN_NAME_ISSENT = "isMessageSent";
     }
 }

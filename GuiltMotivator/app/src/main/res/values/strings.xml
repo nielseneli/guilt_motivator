@@ -43,6 +43,10 @@
     <string name="name">Name: </string>
     <string name="address">Address: </string>
     <string name="save">Save</string>
+    <string name="areYouSure">Are you sure?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="okay">Okay</string>
     <string-array name="contact_methods_array">
         <item>Email</item>
     </string-array>
@@ -61,5 +65,5 @@
     <string name="polite_message">Hey, %1$s, we just wanted to let you know that %2$s said that %3$s would do \'%4$s\', and %3$s didn\'t. You should be disappointed in %5$s.</string>
     <string name="rude_message">Hey, %1$s. We\'re sorry to inform you that %2$s said that %3$s would do \'%4$s\', but %3$s failed at it just like at everything else in %5$s life. It\'s really a pity that %6$s wasting so much air.</string>
     <string name="profane_message">Hey, %1$s. We\'re just checking in to let you know what a fuckup %2$s is. %3$s said %3$s would do \'%4$s\', but %3$s didn\'t, because %5$s a piece of shit. </string>
-
+    <string name="checked_confirmation_message">Hey, %1$s, we here at Guilt Motivator want to let you know that %2$s has successfully completed a task, \'%3$s\'. You should bring it up with %4$s next time you see %4$s! </string>
 </resources>
