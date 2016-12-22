@@ -19,4 +19,5 @@
 
     <!--Button and other view sizes-->
     <dimen name="image_view">30dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "615813347045",
+    "project_id": "guilt-motivator"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615813347045:android:722211310e6d81d6",
+        "android_client_info": {
+          "package_name": "nielsen.guiltmotivator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615813347045-96sevh3or2ct7n2kl826sq5mstn2b2i7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nielsen.guiltmotivator",
+            "certificate_hash": "C6307009DF73742512102DC852E046BD6FE37404"
+          }
+        },
+        {
+          "client_id": "615813347045-de02ubft9geep39vaqo2ft8r3os8fuf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-Pn0RN__w8Xco1I24aop-ruReaILUJG0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

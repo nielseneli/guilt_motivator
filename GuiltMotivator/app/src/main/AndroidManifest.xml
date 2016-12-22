@@ -6,6 +6,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,12 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".MainActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <service
@@ -28,18 +34,30 @@
         <service
             android:name=".EmailService"
             android:enabled="true"
-            android:label="Email Service"/>
+            android:label="Email Service" />
+
         <receiver android:name=".NotificationEventReceiver" />
-        <receiver android:name=".NotificationServiceStarterReceiver"/>
+        <receiver android:name=".NotificationServiceStarterReceiver" />
         <receiver android:name=".NotificationPublisher" />
 
-        <!--This shit doesn't work. It will break things, but it might be necessary for scheduling
-        multiple notifications at once, so I'll fix it later. -->
-        <!--<receiver android:name=".NotificationPublisher" android:process=":remote">-->
-            <!--<intent-filter>-->
-                <!--<data android:scheme="timer:" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!--
+        This shit doesn't work. It will break things, but it might be necessary for scheduling
+        multiple notifications at once, so I'll fix it later.
+        -->
+        <!-- <receiver android:name=".NotificationPublisher" android:process=":remote"> -->
+        <!-- <intent-filter> -->
+        <!-- <data android:scheme="timer:" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
