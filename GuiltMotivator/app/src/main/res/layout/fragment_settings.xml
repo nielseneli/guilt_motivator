@@ -5,11 +5,53 @@
     android:layout_height="match_parent"
     tools:context="nielsen.guiltmotivator.SettingsFragment">
 
+    <TextView
+        android:text="@string/chooseTone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/choosePolitenessTitle"
+        android:layout_margin="@dimen/medium_margin"
+        android:textSize="@dimen/text_size"
+        />
+
+    <RadioGroup
+        android:id="@+id/radio_group_tone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/choosePolitenessTitle">
+
+        <RadioButton
+            android:id="@+id/polite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/polite"
+            android:onClick="onRadioButtonClicked"
+            />
+
+        <RadioButton
+            android:id="@+id/rude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rude"
+            android:onClick="onRadioButtonClicked"
+            />
+
+        <RadioButton
+            android:id="@+id/profane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profane"
+            android:onClick="onRadioButtonClicked"
+            />
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/radio_group_tone"
         android:layout_margin="@dimen/medium_margin"
         android:textSize="@dimen/text_size"
         />
