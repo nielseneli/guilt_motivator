@@ -40,15 +40,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mStatusTextView = (TextView) findViewById(R.id.status);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -104,10 +95,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             GoogleSignInAccount acct = result.getSignInAccount();
             Log.d(TAG, acct.getEmail());
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+            changeActivity(true);
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            changeActivity(false);
         }
     }
 
@@ -117,6 +108,18 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
+
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        }
+    }
+
+    public void changeActivity(boolean signedIn) {
+        if (signedIn) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            mStatusTextView.setText("you must sign in to continue.");
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);

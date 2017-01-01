@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * Created by zlan on 11/28/16.
+ *
  */
 public class SendMail extends AsyncTask<Void,Void,Void> {
 

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     public static final String SAVED_TONE = "saved_tone";
     public static final String SAVED_NAME = "saved_name";
     public static final String SAVED_PRONOUNS = "saved_pronouns";
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        first_time_check();
 
         if (findViewById(R.id.fragmentcontainer) != null) {
 
@@ -189,6 +192,22 @@ public class MainActivity extends AppCompatActivity
 
     public void onStop() {
         super.onStop();
+    }
+
+    private boolean first_time_check() {
+        SharedPreferences mPreferences = this.getPreferences(Context.MODE_PRIVATE);
+
+        Boolean prev = mPreferences.getBoolean("prev", false);
+
+        if((!prev)){
+            Log.d(TAG, "new user");
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean("prev", true);
+            editor.commit();
+            Intent i = new Intent(this, SignInActivity.class);
+            startActivity(i);
+        }
+        return false;
     }
 
 }
